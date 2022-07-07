@@ -51,7 +51,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Auction save(Auction auction) {
-        //lấy current logged in user để làm user tạo bài đấu giá
+        //lấy current logged in user trong spring secutiry làm user tạo bài đấu giá
         UserDetailsImpl
                 userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = new User(userDetails.getId());
