@@ -1,5 +1,6 @@
 package com.ghtk.onlinebiddingproject.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class ReportResultDto {
     @NotBlank(message = "thiếu thông tin kết quả (REJECTED/ACCEPTED)!")
     private ReportResultConstants result;
 
+    @JsonIgnore
     @NotNull(message = "thiếu thông tin phiếu báo cáo!")
     private ReportDto report;
 

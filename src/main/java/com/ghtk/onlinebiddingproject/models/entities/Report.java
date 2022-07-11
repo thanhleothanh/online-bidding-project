@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -35,9 +36,15 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "user_reported_id", referencedColumnName = "profile_id", nullable = false)
     private User userReported;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auction_id", nullable = true)
     private Auction auction;
+
+    @OneToMany(mappedBy = "report")
+    private List<ReportImage> reportImages;
+
+    @OneToOne(mappedBy = "report")
+    private ReportResult reportResult;
 
     @PrePersist
     public void prePersist() {
