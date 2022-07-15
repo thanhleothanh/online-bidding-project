@@ -48,7 +48,8 @@ public class AdminAuctionController {
      * có thể lọc theo thuộc tính
      * phân trang
      * */
-    @GetMapping("/")
+
+    @GetMapping("")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> getForAdmin(
             @And({
@@ -105,6 +106,6 @@ public class AdminAuctionController {
         auctionService.adminDeleteById(id);
 
         CommonResponse response = new CommonResponse(true, "Deleted auction!", null, null);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 }

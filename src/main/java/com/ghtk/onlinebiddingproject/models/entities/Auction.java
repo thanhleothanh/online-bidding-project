@@ -2,10 +2,7 @@ package com.ghtk.onlinebiddingproject.models.entities;
 
 
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -67,5 +64,9 @@ public class Auction extends BaseEntity {
     @PrePersist
     public void prePersist() {
         this.status = AuctionStatusConstants.valueOf("DRAFT");
+    }
+
+    public Auction(Integer id) {
+        this.id = id;
     }
 }

@@ -18,6 +18,10 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer>, JpaS
 
 
     /*
+     * Timer Event running
+     * */
+
+    /*
      * cancel all pending auctions when time_start comes but still no admin approve
      */
 //    CREATE EVENT IF NOT EXISTS cancelAuction

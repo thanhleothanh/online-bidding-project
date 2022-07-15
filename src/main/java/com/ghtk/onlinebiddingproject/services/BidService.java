@@ -11,5 +11,5 @@ public interface BidService {
 
     Bid getHighestBidByAuctionId(Integer id);
 
-    Bid save(Integer auctionId, BidRequestDto bidDto, Bid bid);
+    Bid saveBid(Integer auctionId, BidRequestDto bidDto, Bid bid);
 }

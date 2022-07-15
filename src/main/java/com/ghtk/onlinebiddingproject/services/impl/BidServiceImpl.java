@@ -29,7 +29,9 @@ public class BidServiceImpl implements BidService {
     @Autowired
     private AuctionRepository auctionRepository;
     @Autowired
-    private AuctionServiceImpl auctionService;
+    private AuctionUserServiceImpl auctionUserService;
+    @Autowired
+    private WebSocketServiceImpl webSocketService;
 
 
     @Override
@@ -44,7 +46,7 @@ public class BidServiceImpl implements BidService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
-    public Bid save(Integer auctionId, BidRequestDto bidDto, Bid bid) {
+    public Bid saveBid(Integer auctionId, BidRequestDto bidDto, Bid bid) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
 
@@ -70,6 +72,7 @@ public class BidServiceImpl implements BidService {
 
         auction.setHighestPrice(bidDto.getPrice());
         auctionRepository.save(auction);
+        auctionUserService.saveInterestUser(auctionId);
         bid.setUser(currentUser);
         bid.setAuction(auction);
         return bidRepository.save(bid);

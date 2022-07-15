@@ -1,11 +1,7 @@
 package com.ghtk.onlinebiddingproject.utils.converters;
 
-import com.ghtk.onlinebiddingproject.models.dtos.AuctionDto;
-import com.ghtk.onlinebiddingproject.models.dtos.ItemImageDto;
-import com.ghtk.onlinebiddingproject.models.entities.Auction;
-import com.ghtk.onlinebiddingproject.models.entities.Bid;
-import com.ghtk.onlinebiddingproject.models.entities.Item;
-import com.ghtk.onlinebiddingproject.models.entities.ItemImage;
+import com.ghtk.onlinebiddingproject.models.dtos.*;
+import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.BidRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.ItemRequestDto;
@@ -32,12 +28,27 @@ public class DtoToEntityConverter {
         return modelMapper.map(itemDto, Item.class);
     }
 
+    public Report convertToEntity(ReportDto reportDto) throws ParseException {
+        return modelMapper.map(reportDto, Report.class);
+    }
+
+    public ReportResult convertToEntity(ReportResultDto reportResultDto) throws ParseException {
+        return modelMapper.map(reportResultDto, ReportResult.class);
+    }
 
     public ItemImage convertToEntity(ItemImageDto itemImageDto) throws ParseException {
         return modelMapper.map(itemImageDto, ItemImage.class);
     }
 
+    public ReportImage convertToEntity(ReportImageDto reportImageDto) throws ParseException {
+        return modelMapper.map(reportImageDto, ReportImage.class);
+    }
+
     public Bid convertToEntity(BidRequestDto bidDto) throws ParseException {
+        return modelMapper.map(bidDto, Bid.class);
+    }
+
+    public Bid convertToEntity(BidDto bidDto) throws ParseException {
         return modelMapper.map(bidDto, Bid.class);
     }
 

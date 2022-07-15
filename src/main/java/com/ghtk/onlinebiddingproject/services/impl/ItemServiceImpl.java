@@ -1,12 +1,15 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
+import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import com.ghtk.onlinebiddingproject.models.entities.Item;
 import com.ghtk.onlinebiddingproject.models.entities.ItemImage;
 import com.ghtk.onlinebiddingproject.repositories.ItemImageRepository;
 import com.ghtk.onlinebiddingproject.repositories.ItemRepository;
 import com.ghtk.onlinebiddingproject.services.ItemService;
+import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +22,6 @@ public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     @Autowired
     private ItemImageRepository itemImageRepository;
-
-    @Override
-    public Item getById(Integer id) {
-        return itemRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy item với id này!"));
-    }
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
@@ -40,15 +37,18 @@ public class ItemServiceImpl implements ItemService {
         return newItem;
     }
 
+    /*
+     * Item Image
+     * */
     @Override
-    public Item put(Item item) {
-        return itemRepository.save(item);
-    }
-
-    @Override
-    public void deleteById(Integer id) {
+    public ItemImage saveItemImage(Integer id, ItemImage itemImage) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy item với id này!"));
-        itemRepository.delete(item);
+        Auction auction = item.getAuction();
+        boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
+        if (isPostedByCurrentUser) {
+            itemImage.setItem(item);
+            return itemImageRepository.save(itemImage);
+        } else throw new AccessDeniedException("Không có quyền thêm ảnh vào sản phẩm này!");
     }
 }

@@ -1,17 +1,16 @@
 package com.ghtk.onlinebiddingproject.models.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuctionUserDto {
     private Integer id;
-
-    @JsonIgnore
-    @NotNull(message = "thiếu thông tin bài đấu giá!")
-    private AuctionDto auction;
 
     @NotNull(message = "thiếu thông tin user")
     private UserDto user;

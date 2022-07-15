@@ -28,4 +28,9 @@ public class AuctionUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "profile_id", nullable = false)
     private User user;
+
+    public AuctionUser(Auction auction, User user) {
+        this.auction = auction;
+        this.user = user;
+    }
 }

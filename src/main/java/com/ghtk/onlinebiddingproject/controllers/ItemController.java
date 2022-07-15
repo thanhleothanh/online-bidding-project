@@ -6,7 +6,6 @@ import com.ghtk.onlinebiddingproject.models.entities.Item;
 import com.ghtk.onlinebiddingproject.models.entities.ItemImage;
 import com.ghtk.onlinebiddingproject.models.requests.ItemRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
-import com.ghtk.onlinebiddingproject.services.impl.ItemImageServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.ItemServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
@@ -25,8 +24,6 @@ public class ItemController {
 
     @Autowired
     private ItemServiceImpl itemService;
-    @Autowired
-    private ItemImageServiceImpl itemImageService;
     @Autowired
     private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
@@ -47,7 +44,7 @@ public class ItemController {
     public ResponseEntity<CommonResponse> postItemImage(@PathVariable Integer id, @Validated @RequestBody ItemImageDto itemImageDto) {
         ItemImage itemImage = dtoToEntityConverter.convertToEntity(itemImageDto);
 
-        ItemImageDto dtoResponse = entityToDtoConverter.convertToDto(itemImageService.save(id, itemImage));
+        ItemImageDto dtoResponse = entityToDtoConverter.convertToDto(itemService.saveItemImage(id, itemImage));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

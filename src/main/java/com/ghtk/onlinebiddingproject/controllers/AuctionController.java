@@ -8,9 +8,13 @@ import com.ghtk.onlinebiddingproject.models.entities.Bid;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.BidRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
+import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponseDto;
+import com.ghtk.onlinebiddingproject.models.responses.AuctionTopTrendingDto;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.AuctionServiceImpl;
+import com.ghtk.onlinebiddingproject.services.impl.AuctionUserServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.BidServiceImpl;
+import com.ghtk.onlinebiddingproject.services.impl.WebSocketServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
@@ -19,6 +23,7 @@ import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.GreaterThan;
 import net.kaczmarzyk.spring.data.jpa.domain.LessThan;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -42,7 +47,11 @@ import java.util.List;
 @RequestMapping(path = "api/v1/auctions")
 public class AuctionController {
     @Autowired
+    private WebSocketServiceImpl webSocketService;
+    @Autowired
     private AuctionServiceImpl auctionService;
+    @Autowired
+    private AuctionUserServiceImpl auctionUserService;
     @Autowired
     private BidServiceImpl bidService;
     @Autowired
@@ -57,10 +66,13 @@ public class AuctionController {
      * có thể sort theo price, time
      * phân trang
      * */
+
     @GetMapping("")
     public ResponseEntity<CommonResponse> get(
+            @Join(path = "category", alias = "c")
             @And({
                     @Spec(path = "status", params = "status", spec = Equal.class, constVal = "OPENING"),
+                    @Spec(path = "c.id", params = "categoryId", spec = Equal.class),
                     @Spec(path = "priceStart", params = "priceStartGt", spec = GreaterThan.class),
                     @Spec(path = "priceStart", params = "priceStartLt", spec = LessThan.class),
                     @Spec(path = "timeStart", params = "timeStartGt", spec = GreaterThan.class),
@@ -71,16 +83,28 @@ public class AuctionController {
             Sort sort,
             @RequestHeader HttpHeaders headers) {
         AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, sort);
+        List<AuctionDto> auctionDto = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
 
-        List<AuctionDto> dtoResponse = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
+        AuctionPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
+        dtoResponse.setAuctions(auctionDto);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);
+    }
+
+    @GetMapping("/topTrending")
+    public ResponseEntity<CommonResponse> getTopTrending() {
+        List<AuctionTopTrendingDto> auctionsDto = auctionService.getTopTrending();
+
+//        List<AuctionDto> dtoResponse = entityToDtoConverter.convertToListAuctionDto(auctions);
+        CommonResponse response = new CommonResponse(true, "Success", auctionsDto, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /*
      * Get auctions api cho current user
      * có thể lọc theo status
      * */
+
     @GetMapping("/myAuctions")
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> getMyAuctions(@RequestParam(name = "status", required = false) AuctionStatusConstants status) {
@@ -92,7 +116,7 @@ public class AuctionController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> getById(@PathVariable(value = "id") Integer id) {
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.getById(id));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
@@ -135,7 +159,7 @@ public class AuctionController {
         auctionService.deleteById(id);
 
         CommonResponse response = new CommonResponse(true, "Deleted auction!", null, null);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 
     /*
@@ -145,8 +169,8 @@ public class AuctionController {
     @GetMapping("/{id}/bids")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> getBidsByAuctionId(@PathVariable(value = "id") Integer id) {
+        auctionService.getById(id);
         List<Bid> bids = bidService.getBidsByAuctionId(id);
-
         List<BidDto> dtoResponse = entityToDtoConverter.convertToListBidDto(bids);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -154,15 +178,33 @@ public class AuctionController {
 
     @PostMapping("/{id}/bids")
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<CommonResponse> save(@PathVariable(value = "id") Integer id, @Validated @RequestBody BidRequestDto bidDto) {
+    public ResponseEntity<CommonResponse> saveBid(@PathVariable(value = "id") Integer id, @Validated @RequestBody BidRequestDto bidDto) {
         Bid bid = dtoToEntityConverter.convertToEntity(bidDto);
-
-        BidDto dtoResponse = entityToDtoConverter.convertToBidDto(bidService.save(id, bidDto, bid));
+        BidDto dtoResponse = entityToDtoConverter.convertToBidDto(bidService.saveBid(id, bidDto, bid));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+        webSocketService.sendBid(id, response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     /*
      * Interested Users
      * */
+
+    @PostMapping("/{id}/interested")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<CommonResponse> saveInterestedUser(@PathVariable(value = "id") Integer id) {
+
+        auctionUserService.saveInterestUser(id);
+        CommonResponse response = new CommonResponse(true, "Success", null, null);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}/interested")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<CommonResponse> removeInterestedUser(@PathVariable(value = "id") Integer id) {
+
+        auctionUserService.removeInterestUser(id);
+        CommonResponse response = new CommonResponse(true, "Success", null, null);
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    }
 }
