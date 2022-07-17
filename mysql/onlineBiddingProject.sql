@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 11, 2022 at 09:57 AM
+-- Generation Time: Jul 17, 2022 at 10:52 PM
 -- Server version: 8.0.29-0ubuntu0.22.04.2
 -- PHP Version: 8.1.2
 
@@ -66,11 +66,15 @@ CREATE TABLE `auction` (
 INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, `time_start`, `time_end`, `price_start`, `price_step`, `highest_price`, `created_at`, `updated_at`) VALUES
 (22, 6, NULL, 'bai dau gia test', 4, '2022-07-09 09:50:50', '2022-07-09 12:39:50', 100000, 1000, 1000000, '2022-07-08 15:26:30', '2022-07-09 12:48:36'),
 (23, 6, NULL, 'bai dau gia test 2 DRAFT', 4, '2022-07-09 09:50:50', '2022-07-09 12:39:50', 100000, 1000, 100000001, '2022-07-08 15:39:55', '2022-07-09 12:50:23'),
-(24, 6, 1, 'bai dau gia test 3 DRAFT', -1, '2022-07-09 09:50:50', '2022-07-23 09:39:50', 100000, 1000, 0, '2022-07-08 16:02:17', '2022-07-08 18:28:02'),
-(26, 8, 1, 'bai dau gia test 3 DRAFT', 4, '2022-07-09 18:22:00', '2022-07-09 18:23:00', 100000, 1000, 101000, '2022-07-09 09:19:39', '2022-07-09 18:22:41'),
-(28, 8, 1, 'bai dau gia moi', 4, '2022-07-09 13:54:50', '2022-07-09 13:57:50', 100000, 1000, 1000000, '2022-07-09 13:51:45', '2022-07-09 13:57:27'),
-(32, 6, 1, 'bai dau gia moi', 0, '2022-07-09 14:53:50', '2022-07-09 14:58:50', 100000, 1000, 0, '2022-07-09 14:08:04', '2022-07-09 14:08:04'),
-(33, 6, 2, 'bai dau gia category1', 3, '2022-07-10 22:55:00', '2022-07-11 14:58:50', 100000, 1000, 0, '2022-07-10 22:47:43', '2022-07-10 22:50:04');
+(24, 6, 1, 'bai dau gia test 3 DRAFT', 4, '2022-07-13 09:50:50', '2022-07-16 09:39:50', 100000, 1000, 0, '2022-07-08 16:02:17', '2022-07-08 18:28:02'),
+(26, 8, 1, 'bai dau gia test 3 DRAFT', 4, '2022-07-09 18:22:00', '2022-07-13 18:23:00', 100000, 1000, 101000, '2022-07-09 09:19:39', '2022-07-09 18:22:41'),
+(28, 8, 1, 'bai dau gia moi', 4, '2022-07-09 13:54:50', '2022-07-17 00:19:00', 100000, 1000, 1000000, '2022-07-09 13:51:45', '2022-07-09 13:57:27'),
+(32, 6, 1, 'bai dau gia moi', 4, '2022-07-12 09:53:00', '2022-07-16 15:58:50', 100000, 1000, 330000, '2022-07-09 14:08:04', '2022-07-15 09:51:24'),
+(33, 6, 2, 'bai dau gia category1', 4, '2022-07-10 22:55:00', '2022-07-17 00:18:50', 100000, 1000, 0, '2022-07-10 22:47:43', '2022-07-10 22:50:04'),
+(34, 8, 1, 'bai dau gia category1', 3, '2022-07-12 19:50:00', '2022-07-20 19:53:00', 100000, 1000, 1000000, '2022-07-12 18:12:32', '2022-07-17 16:53:40'),
+(37, 9, 1, 'bai dau gia category1', 4, '2022-07-15 22:32:00', '2022-07-16 22:31:00', 100000, 100000, 4000000, '2022-07-15 22:29:55', '2022-07-16 19:53:57'),
+(39, 8, 2, 'bai dau gia test', 0, '2022-07-17 10:53:00', '2022-07-18 10:53:01', 100000, 100000, 0, '2022-07-17 10:39:06', '2022-07-17 10:39:06'),
+(42, 8, 2, 'bai dau gia test', 1, '2022-07-18 10:53:00', '2022-07-19 10:53:01', 100000, 100000, 0, '2022-07-17 16:30:28', '2022-07-17 22:38:21');
 
 -- --------------------------------------------------------
 
@@ -89,7 +93,11 @@ CREATE TABLE `auction_user` (
 --
 
 INSERT INTO `auction_user` (`id`, `user_id`, `auction_id`) VALUES
-(1, 6, 26);
+(1, 6, 26),
+(6, 6, 34),
+(5, 6, 37),
+(2, 8, 32),
+(4, 8, 37);
 
 -- --------------------------------------------------------
 
@@ -123,7 +131,63 @@ INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `update
 (18, 9, 28, 101000, '2022-07-09 13:56:11', '2022-07-09 13:56:11'),
 (19, 6, 28, 1000000, '2022-07-09 13:57:27', '2022-07-09 13:57:27'),
 (20, 6, 26, 100000, '2022-07-09 18:22:06', '2022-07-09 18:22:06'),
-(21, 6, 26, 101000, '2022-07-09 18:22:41', '2022-07-09 18:22:41');
+(21, 6, 26, 101000, '2022-07-09 18:22:41', '2022-07-09 18:22:41'),
+(22, 8, 32, 200000, '2022-07-12 12:57:32', '2022-07-12 12:57:32'),
+(23, 8, 32, 220000, '2022-07-12 13:42:03', '2022-07-12 13:42:03'),
+(24, 8, 32, 230000, '2022-07-12 13:55:06', '2022-07-12 13:55:06'),
+(25, 8, 32, 240000, '2022-07-12 13:58:27', '2022-07-12 13:58:27'),
+(26, 8, 32, 241111, '2022-07-12 13:58:42', '2022-07-12 13:58:42'),
+(27, 8, 32, 242222, '2022-07-12 13:59:22', '2022-07-12 13:59:22'),
+(28, 8, 32, 243333, '2022-07-12 14:28:58', '2022-07-12 14:28:58'),
+(29, 8, 32, 244444, '2022-07-12 15:08:13', '2022-07-12 15:08:13'),
+(30, 8, 32, 245555, '2022-07-12 15:08:34', '2022-07-12 15:08:34'),
+(31, 8, 32, 246666, '2022-07-12 15:30:23', '2022-07-12 15:30:23'),
+(32, 8, 32, 247777, '2022-07-12 15:30:54', '2022-07-12 15:30:54'),
+(33, 8, 32, 248888, '2022-07-12 18:05:58', '2022-07-12 18:05:58'),
+(34, 8, 32, 249999, '2022-07-12 18:06:17', '2022-07-12 18:06:17'),
+(35, 8, 32, 310000, '2022-07-12 18:06:47', '2022-07-12 18:06:47'),
+(36, 8, 32, 320000, '2022-07-12 18:06:57', '2022-07-12 18:06:57'),
+(37, 8, 32, 330000, '2022-07-15 09:51:24', '2022-07-15 09:51:24'),
+(44, 8, 37, 100000, '2022-07-16 12:26:11', '2022-07-16 12:26:11'),
+(45, 8, 37, 200000, '2022-07-16 12:33:20', '2022-07-16 12:33:20'),
+(46, 8, 37, 300000, '2022-07-16 12:35:53', '2022-07-16 12:35:53'),
+(47, 8, 37, 400000, '2022-07-16 12:50:40', '2022-07-16 12:50:40'),
+(48, 8, 37, 500000, '2022-07-16 12:57:45', '2022-07-16 12:57:45'),
+(49, 8, 37, 600000, '2022-07-16 13:49:06', '2022-07-16 13:49:06'),
+(50, 8, 37, 700000, '2022-07-16 13:52:22', '2022-07-16 13:52:22'),
+(51, 8, 37, 800000, '2022-07-16 13:57:34', '2022-07-16 13:57:34'),
+(52, 8, 37, 900000, '2022-07-16 16:28:23', '2022-07-16 16:28:23'),
+(53, 8, 37, 1000000, '2022-07-16 17:05:14', '2022-07-16 17:05:14'),
+(54, 8, 37, 1100000, '2022-07-16 19:10:57', '2022-07-16 19:10:57'),
+(55, 8, 37, 1200000, '2022-07-16 19:12:41', '2022-07-16 19:12:41'),
+(56, 8, 37, 1300000, '2022-07-16 19:15:54', '2022-07-16 19:15:54'),
+(57, 8, 37, 1400000, '2022-07-16 19:17:10', '2022-07-16 19:17:10'),
+(58, 8, 37, 1500000, '2022-07-16 19:17:57', '2022-07-16 19:17:57'),
+(59, 8, 37, 1600000, '2022-07-16 19:20:21', '2022-07-16 19:20:21'),
+(60, 8, 37, 1700000, '2022-07-16 19:21:25', '2022-07-16 19:21:25'),
+(61, 8, 37, 1800000, '2022-07-16 19:21:33', '2022-07-16 19:21:33'),
+(62, 8, 37, 1900000, '2022-07-16 19:22:03', '2022-07-16 19:22:03'),
+(63, 8, 37, 2000000, '2022-07-16 19:22:09', '2022-07-16 19:22:09'),
+(64, 6, 37, 2100000, '2022-07-16 19:22:36', '2022-07-16 19:22:36'),
+(65, 6, 37, 2200000, '2022-07-16 19:22:48', '2022-07-16 19:22:48'),
+(66, 8, 37, 2300000, '2022-07-16 19:23:59', '2022-07-16 19:23:59'),
+(67, 8, 37, 2400000, '2022-07-16 19:24:28', '2022-07-16 19:24:28'),
+(68, 6, 37, 2500000, '2022-07-16 19:24:46', '2022-07-16 19:24:46'),
+(69, 6, 37, 2600000, '2022-07-16 19:25:34', '2022-07-16 19:25:34'),
+(70, 8, 37, 3000000, '2022-07-16 19:32:21', '2022-07-16 19:32:21'),
+(71, 8, 37, 3100000, '2022-07-16 19:32:33', '2022-07-16 19:32:33'),
+(72, 8, 37, 3200000, '2022-07-16 19:35:42', '2022-07-16 19:35:42'),
+(73, 8, 37, 4000000, '2022-07-16 19:53:57', '2022-07-16 19:53:57'),
+(79, 6, 34, 100000, '2022-07-17 13:23:08', '2022-07-17 13:23:08'),
+(80, 6, 34, 110000, '2022-07-17 13:46:21', '2022-07-17 13:46:21'),
+(81, 6, 34, 111999, '2022-07-17 13:46:34', '2022-07-17 13:46:34'),
+(82, 6, 34, 120000, '2022-07-17 13:54:39', '2022-07-17 13:54:39'),
+(83, 6, 34, 121000, '2022-07-17 13:54:49', '2022-07-17 13:54:49'),
+(84, 6, 34, 122000, '2022-07-17 15:57:02', '2022-07-17 15:57:02'),
+(85, 6, 34, 123000, '2022-07-17 15:57:09', '2022-07-17 15:57:09'),
+(86, 6, 34, 124000, '2022-07-17 16:53:19', '2022-07-17 16:53:19'),
+(87, 6, 34, 200000, '2022-07-17 16:53:25', '2022-07-17 16:53:25'),
+(88, 6, 34, 1000000, '2022-07-17 16:53:40', '2022-07-17 16:53:40');
 
 -- --------------------------------------------------------
 
@@ -178,7 +242,12 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 (15, 'ban phim leopold', 'leopold', 1, 24, '2022-07-08 17:35:02', '2022-07-08 17:35:02'),
 (18, 'ban phim filco', 'filco', 1, 23, '2022-07-08 17:43:40', '2022-07-08 17:43:40'),
 (20, 'ban phim filco', 'filco filco leopold', 1, 28, '2022-07-09 13:52:07', '2022-07-09 13:52:07'),
-(21, 'ban phim filco leopold', 'filco filco leopold', 1, 33, '2022-07-10 22:48:16', '2022-07-10 22:48:16');
+(21, 'ban phim filco leopold', 'filco filco leopold', 1, 33, '2022-07-10 22:48:16', '2022-07-10 22:48:16'),
+(22, 'ban phim filco leopold', 'filco filco leopold', 1, 32, '2022-07-12 09:49:32', '2022-07-12 09:49:32'),
+(23, 'ban phim filco leopold', 'filco filco leopold', 1, 34, '2022-07-12 18:21:26', '2022-07-12 18:21:26'),
+(27, 'ban phim filco leopold', 'filco filco leopold', 1, 37, '2022-07-15 22:32:20', '2022-07-15 22:32:20'),
+(30, 'ban phim filco leopold', 'filco filco leopold', 1, 39, '2022-07-17 10:41:10', '2022-07-17 10:41:10'),
+(32, 'ban phim filco leopold', 'filco filco leopold', 0, 42, '2022-07-17 16:30:28', '2022-07-17 16:30:28');
 
 -- --------------------------------------------------------
 
@@ -202,7 +271,13 @@ INSERT INTO `item_image` (`id`, `image_url`, `item_id`) VALUES
 (3, 'imageurll', 13),
 (4, 'imageurll', 15),
 (5, '1231', 15),
-(6, '1231', 21);
+(6, '1231', 21),
+(7, 'https://scontent.fhan5-5.fna.fbcdn.net/v/t39.30808-6/293873371_10209508117096478_8798337006566660327_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=lTcN4a505D8AX-_ZsqJ&_nc_ht=scontent.fhan5-5.fna&oh=00_AT-K1pzuaGB9L9aDyuMPZNPqAfawnVy6YppwCleGcG4hZg&oe=62D69A88', 22),
+(8, 'https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/293800619_10209508121016576_4918951137685775306_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=faWOE84UvYgAX8B_kSj&_nc_ht=scontent.fhan5-11.fna&oh=00_AT_hCql-oqfoF2NmOReDm-fURLqnwdTYV9DkHyD0Jj3Idg&oe=62D6219E', 22),
+(9, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 30),
+(10, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 30),
+(13, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 32),
+(14, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 32);
 
 -- --------------------------------------------------------
 
@@ -321,7 +396,8 @@ CREATE TABLE `review_result` (
 --
 
 INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_at`, `updated_at`) VALUES
-(1, 11, 33, 1, '2022-07-10 22:50:04', '2022-07-10 22:50:04');
+(1, 11, 33, 1, '2022-07-10 22:50:04', '2022-07-10 22:50:04'),
+(2, 11, 32, 1, '2022-07-12 09:52:33', '2022-07-12 09:52:33');
 
 -- --------------------------------------------------------
 
@@ -382,8 +458,9 @@ CREATE TABLE `winner` (
 INSERT INTO `winner` (`id`, `bid_id`, `auction_id`) VALUES
 (9, 14, 22),
 (10, 16, 23),
-(12, 19, 28),
-(13, 21, 26);
+(670, 37, 32),
+(671, 73, 37),
+(672, 19, 28);
 
 --
 -- Indexes for dumped tables
@@ -509,19 +586,19 @@ ALTER TABLE `winner`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `auction_user`
 --
 ALTER TABLE `auction_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -533,13 +610,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `item_image`
 --
 ALTER TABLE `item_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `profile`
@@ -569,7 +646,7 @@ ALTER TABLE `report_result`
 -- AUTO_INCREMENT for table `review_result`
 --
 ALTER TABLE `review_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -581,7 +658,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `winner`
 --
 ALTER TABLE `winner`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=673;
 
 --
 -- Constraints for dumped tables
@@ -677,7 +754,15 @@ DELIMITER $$
 --
 -- Events
 --
-CREATE DEFINER=`root`@`localhost` EVENT `endAuctionAndInsertWinner` ON SCHEDULE EVERY 9 SECOND STARTS '2022-07-09 13:43:49' ENDS '2022-09-09 13:43:49' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+CREATE DEFINER=`root`@`localhost` EVENT `cancelAuction` ON SCHEDULE EVERY 1 MINUTE STARTS '2022-07-09 11:37:01' ENDS '2022-09-09 11:37:01' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE auction
+				SET auction.status = -1
+				WHERE now()> auction.time_start and auction.status=1$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `openAuction` ON SCHEDULE EVERY 1 MINUTE STARTS '2022-07-09 11:40:01' ENDS '2022-09-09 11:40:01' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE auction
+				SET auction.status = 3
+				WHERE now()> auction.time_start and auction.status=2$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `endAuctionAndInsertWinner` ON SCHEDULE EVERY 1 MINUTE STARTS '2022-07-09 13:43:01' ENDS '2022-09-09 13:43:01' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
             INSERT INTO `winner`(`bid_id`, `auction_id`) select A.bid_id, A.auction_id from (
 					select b.id as bid_id, a.id as auction_id  from bid b join auction a on b.auction_id = a.id 
 					where now() > a.time_end and a.status=3 and (auction_id, price) IN (
@@ -688,14 +773,6 @@ CREATE DEFINER=`root`@`localhost` EVENT `endAuctionAndInsertWinner` ON SCHEDULE 
 				SET auction.status = 4
 				WHERE NOW() > auction.time_end AND auction.status = 3;
 END$$
-
-CREATE DEFINER=`root`@`localhost` EVENT `openAuction` ON SCHEDULE EVERY 9 SECOND STARTS '2022-07-09 11:40:29' ENDS '2022-09-09 11:40:29' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE auction
-				SET auction.status = 3
-				WHERE now()> auction.time_start and auction.status=2$$
-
-CREATE DEFINER=`root`@`localhost` EVENT `cancelAuction` ON SCHEDULE EVERY 9 SECOND STARTS '2022-07-09 11:37:29' ENDS '2022-09-09 11:37:29' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE auction
-				SET auction.status = -1
-				WHERE now()> auction.time_start and auction.status=1$$
 
 DELIMITER ;
 COMMIT;
