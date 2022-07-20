@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService {
 
-    UserAuthResponse login(UserLogin loginRequest);
+    UserAuthResponse login(UserLogin loginRequest, HttpServletRequest request);
 
-    UserAuthResponse signUp(UserSignup signupRequest , final HttpServletRequest request);
+    UserAuthResponse signUp(UserSignup signupRequest, final HttpServletRequest request);
 
     void changeMyPassword(UserChangePassword userChangePassword);
 
@@ -26,5 +26,5 @@ public interface AuthService {
 
     String validateVerificationToken(String token);
 
-    VerificationToken garenateNewVerification(String oldToken);
+    VerificationToken garenateNewVerification(VerificationToken verificationToken);
 }

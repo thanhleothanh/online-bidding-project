@@ -1,15 +1,10 @@
 package com.ghtk.onlinebiddingproject.models.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -26,7 +21,7 @@ public class VerificationToken {
     @Column(name = "token", nullable = false)
     private String token;
 
-    @Column(name = "expiration_time", nullable = false, updatable = false)
+    @Column(name = "expiration_time", nullable = false)
     private LocalDateTime expirationTime;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -35,7 +30,7 @@ public class VerificationToken {
 
     @PrePersist
     public void prePersist() {
-        this.expirationTime = LocalDateTime.now().plusMinutes(10).truncatedTo(ChronoUnit.SECONDS);
+        this.expirationTime = LocalDateTime.now().plusMinutes(10L).truncatedTo(ChronoUnit.SECONDS);
     }
 
     public VerificationToken(Profile profile, String token) {

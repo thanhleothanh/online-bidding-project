@@ -1,13 +1,10 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
 import com.ghtk.onlinebiddingproject.models.dtos.ProfileDto;
 import com.ghtk.onlinebiddingproject.models.entities.Profile;
-import com.ghtk.onlinebiddingproject.models.entities.VerificationToken;
 import com.ghtk.onlinebiddingproject.models.requests.UserChangeProfile;
 import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
-import com.ghtk.onlinebiddingproject.repositories.VerificationTokenRepositories;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.ProfileService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
@@ -15,15 +12,9 @@ import com.ghtk.onlinebiddingproject.utils.DtoToEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
-
-    @Autowired
-    private VerificationTokenRepositories verificationTokenRepositories;
-
     @Autowired
     private ProfileRepository profileRepository;
 
@@ -58,11 +49,5 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setStatus(profileDto.getStatus());
         return profileRepository.save(profile);
     }
-
-
-
-
-
-
 }
 

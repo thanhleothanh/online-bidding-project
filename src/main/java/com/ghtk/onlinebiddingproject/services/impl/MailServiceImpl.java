@@ -18,19 +18,16 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 public class MailServiceImpl implements MailService {
    @Autowired
-   JavaMailSender mailSender;
+   private JavaMailSender mailSender;
    @Autowired
-    SpringTemplateEngine templateEngine;
+   private SpringTemplateEngine templateEngine;
 
     @Override
     public void sendMail(DataMailDto dataMail, String templateName) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-
         MimeMessageHelper helper = new MimeMessageHelper(message, true,"utf-8");
-
         Context context = new Context();
         context.setVariables(dataMail.getProps());
-
         String html = templateEngine.process(templateName,context);
 
         helper.setTo(dataMail.getTo());

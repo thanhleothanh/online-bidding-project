@@ -17,25 +17,22 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-public class SignupCompleteEventListener implements ApplicationListener<SignupCompleteEvent>
-{
+public class SignupCompleteEventListener implements ApplicationListener<SignupCompleteEvent> {
 
     @Autowired
     private AuthServiceImpl authService;
+
     @Override
     public void onApplicationEvent(SignupCompleteEvent event) {
-            // Create the verification Token for  ther profile with link
+        // Create the verification Token for  ther profile with link
         Profile profile = event.getProfile();
         String token = UUID.randomUUID().toString();
-        authService.saveVerificationTokenForProfile(token , profile);
-            // Send Mail to user
+        authService.saveVerificationTokenForProfile(token, profile);
+        // Send Mail to user
         String url = event.getApplicationEventURL()
                 + "verificationSignup?token="
                 + token;
-        // sendVerificationEmail()
-        log.info("CLick the link to verify your account {}",
-                url);
-        authService.sendMailVerification(profile,url);
+        authService.sendMailVerification(profile, url);
 
     }
 }

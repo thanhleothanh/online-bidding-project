@@ -29,7 +29,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
-            if (!jwt.isBlank() && jwtUtils.validateJwtToken(jwt)) {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
                 if (userDetails.getStatus().equals(UserStatusConstants.BANNED)) {

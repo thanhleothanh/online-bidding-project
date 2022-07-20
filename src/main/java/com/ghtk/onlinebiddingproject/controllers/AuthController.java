@@ -31,10 +31,9 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> loginUser(@Validated @RequestBody UserLogin loginRequest) {
-        UserAuthResponse userLoginResponse = authService.login(loginRequest);
+    public ResponseEntity<CommonResponse> loginUser(@Validated @RequestBody UserLogin loginRequest ,HttpServletRequest request) {
+        UserAuthResponse userLoginResponse = authService.login(loginRequest , request);
         ResponseCookie jwtCookie = authService.generateJwtCookie();
-
         CommonResponse commonResponse = new CommonResponse(true, "Đăng nhập thành công!", userLoginResponse, null);
         return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(commonResponse);
@@ -67,20 +66,20 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
         }
         CommonResponse commonResponse = new CommonResponse(false, "Bad User", "xác thực email thất bại" , null);
-        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);
     }
 
 
-    @GetMapping("/resendVerifyToken")
-    public ResponseEntity<CommonResponse> resendVerificationToken(@RequestParam("token") String oldToken , HttpServletRequest request)
-    {
-        VerificationToken verificationToken = authService.garenateNewVerification(oldToken);
-        Profile profile = profileRepository.findById(verificationToken.getProfile().getId())
-                .orElseThrow(() -> new NotFoundException("không tìm thấy profile"));
-            authService.resendVerificationMail(profile,authService.applicationUrl(request),verificationToken);
-        CommonResponse commonResponse = new CommonResponse(true, "Resend token success", "Đã gửi lại môt mã token khác cho bạn" , null);
-        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
-    }
+//    @GetMapping("/resendVerifyToken")
+//    public ResponseEntity<CommonResponse> resendVerificationToken(@RequestParam("token") String oldToken , HttpServletRequest request)
+//    {
+//        VerificationToken verificationToken = authService.garenateNewVerification(oldToken);
+//        Profile profile = profileRepository.findById(verificationToken.getProfile().getId())
+//                .orElseThrow(() -> new NotFoundException("không tìm thấy profile"));
+//            authService.resendVerificationMail(profile,authService.applicationUrl(request),verificationToken);
+//        CommonResponse commonResponse = new CommonResponse(true, "Resend token success", "Đã gửi lại môt mã token khác cho bạn" , null);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+//    }
 
 
 
