@@ -95,8 +95,8 @@ public class AuctionServiceImpl implements AuctionService {
             throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
         if (LocalDateTime.now().isAfter(auctionDto.getTimeEnd()))
             throw new BadRequestException("Thời gian kết thúc đấu giá không hợp lệ!");
-        if (ChronoUnit.MINUTES.between(auctionDto.getTimeStart(), auctionDto.getTimeEnd()) > 1440)
-            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 24 tiếng!");
+        if (ChronoUnit.MINUTES.between(auctionDto.getTimeStart(), auctionDto.getTimeEnd()) > 2881)
+            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 48 tiếng!");
 
         auction.setHighestPrice(0.0);
         Auction newAuction = auctionRepository.save(auction);
@@ -121,6 +121,8 @@ public class AuctionServiceImpl implements AuctionService {
 
         if (!isPostedByCurrentUser)
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
+        if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING))
+            throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
         if (newStatus != null)
             throw new BadRequestException("Không thể tự ý thay đổi trạng thái bài đấu giá!");
         if (newTimeEnd.isBefore(newTimeStart))
@@ -129,12 +131,12 @@ public class AuctionServiceImpl implements AuctionService {
             throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
         if (LocalDateTime.now().isAfter(newTimeEnd))
             throw new BadRequestException("Thời gian kết thúc đấu giá không hợp lệ!");
-        if (ChronoUnit.MINUTES.between(newTimeStart, newTimeEnd) > 1440)
-            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 24 tiếng!");
-        if (currentStatus.equals(AuctionStatusConstants.DRAFT) || currentStatus.equals(AuctionStatusConstants.PENDING)) {
-            DtoToEntityUtils.copyNonNullProperties(auctionDto, auction);
-            return auctionRepository.save(auction);
-        } else throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
+        if (ChronoUnit.MINUTES.between(newTimeStart, newTimeEnd) > 2881)
+            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 48 tiếng!");
+
+        DtoToEntityUtils.copyNonNullProperties(auctionDto, auction);
+        if (auctionDto.getCategory() != null) auction.setCategory(new Category(auctionDto.getCategory().getId()));
+        return auctionRepository.save(auction);
     }
 
     @Override

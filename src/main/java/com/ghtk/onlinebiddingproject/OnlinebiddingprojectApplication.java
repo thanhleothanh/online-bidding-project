@@ -1,5 +1,7 @@
 package com.ghtk.onlinebiddingproject;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.ghtk.onlinebiddingproject.models.dtos.AuctionDto;
 import com.ghtk.onlinebiddingproject.models.dtos.BidDto;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
@@ -30,7 +32,17 @@ public class OnlinebiddingprojectApplication {
         return modelMapper;
     }
 
+    @Bean
+    public Cloudinary cloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "metanoia",
+                "api_key", "899938948262375",
+                "api_secret", "28mQ7ymH9cjf1lW5o1lN09gEsc4",
+                "secure", true));
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(OnlinebiddingprojectApplication.class, args);
+
     }
 }

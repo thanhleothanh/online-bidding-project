@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 17, 2022 at 10:52 PM
+-- Generation Time: Jul 18, 2022 at 05:54 PM
 -- Server version: 8.0.29-0ubuntu0.22.04.2
 -- PHP Version: 8.1.2
 
@@ -73,8 +73,9 @@ INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, 
 (33, 6, 2, 'bai dau gia category1', 4, '2022-07-10 22:55:00', '2022-07-17 00:18:50', 100000, 1000, 0, '2022-07-10 22:47:43', '2022-07-10 22:50:04'),
 (34, 8, 1, 'bai dau gia category1', 3, '2022-07-12 19:50:00', '2022-07-20 19:53:00', 100000, 1000, 1000000, '2022-07-12 18:12:32', '2022-07-17 16:53:40'),
 (37, 9, 1, 'bai dau gia category1', 4, '2022-07-15 22:32:00', '2022-07-16 22:31:00', 100000, 100000, 4000000, '2022-07-15 22:29:55', '2022-07-16 19:53:57'),
-(39, 8, 2, 'bai dau gia test', 0, '2022-07-17 10:53:00', '2022-07-18 10:53:01', 100000, 100000, 0, '2022-07-17 10:39:06', '2022-07-17 10:39:06'),
-(42, 8, 2, 'bai dau gia test', 1, '2022-07-18 10:53:00', '2022-07-19 10:53:01', 100000, 100000, 0, '2022-07-17 16:30:28', '2022-07-17 22:38:21');
+(39, 8, 10, 'bai dau gia 1', 0, '2022-07-19 10:53:00', '2022-07-19 10:53:00', 1000000, 100000, 0, '2022-07-17 10:39:06', '2022-07-18 14:22:05'),
+(42, 8, 2, 'bai dau gia test', -1, '2022-07-18 10:53:00', '2022-07-19 10:53:01', 100000, 100000, 0, '2022-07-17 16:30:28', '2022-07-17 22:38:21'),
+(52, 9, 11, 'asd', 0, '2022-07-19 17:45:00', '2022-07-20 17:45:00', 123123, 123, 0, '2022-07-18 17:45:32', '2022-07-18 17:45:32');
 
 -- --------------------------------------------------------
 
@@ -246,8 +247,9 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 (22, 'ban phim filco leopold', 'filco filco leopold', 1, 32, '2022-07-12 09:49:32', '2022-07-12 09:49:32'),
 (23, 'ban phim filco leopold', 'filco filco leopold', 1, 34, '2022-07-12 18:21:26', '2022-07-12 18:21:26'),
 (27, 'ban phim filco leopold', 'filco filco leopold', 1, 37, '2022-07-15 22:32:20', '2022-07-15 22:32:20'),
-(30, 'ban phim filco leopold', 'filco filco leopold', 1, 39, '2022-07-17 10:41:10', '2022-07-17 10:41:10'),
-(32, 'ban phim filco leopold', 'filco filco leopold', 0, 42, '2022-07-17 16:30:28', '2022-07-17 16:30:28');
+(30, 'leopold', 'leopold', 2, 39, '2022-07-17 10:41:10', '2022-07-18 13:58:24'),
+(32, 'ban phim filco leopold', 'filco filco leopold', 0, 42, '2022-07-17 16:30:28', '2022-07-17 16:30:28'),
+(42, 'asd', 'asd', 1, 52, '2022-07-18 17:45:32', '2022-07-18 17:45:32');
 
 -- --------------------------------------------------------
 
@@ -258,6 +260,7 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 CREATE TABLE `item_image` (
   `id` int NOT NULL,
   `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `public_id` varchar(1000) DEFAULT NULL,
   `item_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -265,19 +268,20 @@ CREATE TABLE `item_image` (
 -- Dumping data for table `item_image`
 --
 
-INSERT INTO `item_image` (`id`, `image_url`, `item_id`) VALUES
-(1, 'imageurl', 13),
-(2, 'imageurll', 13),
-(3, 'imageurll', 13),
-(4, 'imageurll', 15),
-(5, '1231', 15),
-(6, '1231', 21),
-(7, 'https://scontent.fhan5-5.fna.fbcdn.net/v/t39.30808-6/293873371_10209508117096478_8798337006566660327_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=lTcN4a505D8AX-_ZsqJ&_nc_ht=scontent.fhan5-5.fna&oh=00_AT-K1pzuaGB9L9aDyuMPZNPqAfawnVy6YppwCleGcG4hZg&oe=62D69A88', 22),
-(8, 'https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/293800619_10209508121016576_4918951137685775306_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=faWOE84UvYgAX8B_kSj&_nc_ht=scontent.fhan5-11.fna&oh=00_AT_hCql-oqfoF2NmOReDm-fURLqnwdTYV9DkHyD0Jj3Idg&oe=62D6219E', 22),
-(9, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 30),
-(10, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 30),
-(13, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 32),
-(14, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', 32);
+INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
+(1, 'imageurl', NULL, 13),
+(2, 'imageurll', NULL, 13),
+(3, 'imageurll', NULL, 13),
+(4, 'imageurll', NULL, 15),
+(5, '1231', NULL, 15),
+(6, '1231', NULL, 21),
+(7, 'https://scontent.fhan5-5.fna.fbcdn.net/v/t39.30808-6/293873371_10209508117096478_8798337006566660327_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=lTcN4a505D8AX-_ZsqJ&_nc_ht=scontent.fhan5-5.fna&oh=00_AT-K1pzuaGB9L9aDyuMPZNPqAfawnVy6YppwCleGcG4hZg&oe=62D69A88', NULL, 22),
+(8, 'https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/293800619_10209508121016576_4918951137685775306_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=faWOE84UvYgAX8B_kSj&_nc_ht=scontent.fhan5-11.fna&oh=00_AT_hCql-oqfoF2NmOReDm-fURLqnwdTYV9DkHyD0Jj3Idg&oe=62D6219E', NULL, 22),
+(9, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', NULL, 30),
+(10, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', NULL, 30),
+(13, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', NULL, 32),
+(14, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/293313076_1480051099131980_4706168332655760610_n.jpg?stp=dst-jpg_p720x720&_nc_cat=106&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=e9BjlXX_trUAX9TFRr-&_nc_ht=scontent.fhan15-1.fna&oh=00_AT-itj6mSntl2cHRo4x1mgbgMR5YOHzS31y6PaLxQNG4oQ&oe=62D95B2B', NULL, 32),
+(15, 'https://res.cloudinary.com/metanoia/image/upload/v1658141129/onlinebiddingproject/xlpwuyuo3rfy48wfzrms.jpg', 'onlinebiddingproject/xlpwuyuo3rfy48wfzrms', 42);
 
 -- --------------------------------------------------------
 
@@ -342,17 +346,18 @@ INSERT INTO `report` (`id`, `user_reporter_id`, `user_reported_id`, `auction_id`
 CREATE TABLE `report_image` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `public_id` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `report_image`
 --
 
-INSERT INTO `report_image` (`id`, `report_id`, `image_url`) VALUES
-(1, 1, 'adu.jpg'),
-(2, 1, 'adu2.jpg'),
-(3, 1, '1231');
+INSERT INTO `report_image` (`id`, `report_id`, `image_url`, `public_id`) VALUES
+(1, 1, 'adu.jpg', NULL),
+(2, 1, 'adu2.jpg', NULL),
+(3, 1, '1231', NULL);
 
 -- --------------------------------------------------------
 
@@ -438,6 +443,19 @@ INSERT INTO `user` (`profile_id`) VALUES
 (9),
 (10),
 (12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verification_token`
+--
+
+CREATE TABLE `verification_token` (
+  `id` int NOT NULL,
+  `expiration_time` datetime NOT NULL,
+  `token` varchar(1000) NOT NULL,
+  `profile_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -571,6 +589,13 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `user_id` (`profile_id`);
 
 --
+-- Indexes for table `verification_token`
+--
+ALTER TABLE `verification_token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `verification_token_ibfk_1` (`profile_id`);
+
+--
 -- Indexes for table `winner`
 --
 ALTER TABLE `winner`
@@ -586,7 +611,7 @@ ALTER TABLE `winner`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `auction_user`
@@ -610,13 +635,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `item_image`
 --
 ALTER TABLE `item_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `profile`
@@ -653,6 +678,12 @@ ALTER TABLE `review_result`
 --
 ALTER TABLE `role`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `verification_token`
+--
+ALTER TABLE `verification_token`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `winner`
@@ -742,6 +773,12 @@ ALTER TABLE `review_result`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `verification_token`
+--
+ALTER TABLE `verification_token`
+  ADD CONSTRAINT `verification_token_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `winner`

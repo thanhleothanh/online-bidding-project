@@ -29,7 +29,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -81,7 +80,7 @@ public class AuctionController {
             }) Specification<Auction> spec,
             Sort sort,
             @RequestHeader HttpHeaders headers) {
-        AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, sort);
+        AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
         List<AuctionDto> auctionDto = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
 
         AuctionPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
@@ -136,7 +135,7 @@ public class AuctionController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<CommonResponse> put(@PathVariable("id") int id, @Validated @RequestBody AuctionRequestDto auctionDto) {
+    public ResponseEntity<CommonResponse> put(@PathVariable("id") int id, @Valid @RequestBody AuctionRequestDto auctionDto) {
         Auction auction = auctionService.getById(id);
 
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.put(auctionDto, auction));
@@ -158,7 +157,6 @@ public class AuctionController {
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> delete(@PathVariable Integer id) {
         auctionService.deleteById(id);
-
         CommonResponse response = new CommonResponse(true, "Deleted auction!", null, null);
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
@@ -179,7 +177,7 @@ public class AuctionController {
 
     @PostMapping("/{id}/bids")
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<CommonResponse> saveBid(@PathVariable(value = "id") Integer id, @Validated @RequestBody BidRequestDto bidDto) {
+    public ResponseEntity<CommonResponse> saveBid(@PathVariable(value = "id") Integer id, @Valid @RequestBody BidRequestDto bidDto) {
         Bid bid = dtoToEntityConverter.convertToEntity(bidDto);
         BidDto dtoResponse = entityToDtoConverter.convertToBidDto(bidService.saveBid(id, bidDto, bid));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);

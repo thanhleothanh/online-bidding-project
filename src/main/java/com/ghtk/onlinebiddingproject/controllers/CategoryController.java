@@ -4,7 +4,6 @@ import com.ghtk.onlinebiddingproject.models.dtos.CategoryDto;
 import com.ghtk.onlinebiddingproject.models.entities.Category;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.CategoryServiceImpl;
-import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,6 @@ public class CategoryController {
 
     @Autowired
     private CategoryServiceImpl categoryService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
     private EntityToDtoConverter entityToDtoConverter;
 

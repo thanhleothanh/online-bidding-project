@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -32,6 +31,5 @@ public class AuctionRequestDto {
     private AuctionStatusConstants status;
 
     @Valid
-    @NotNull(message = "Chưa có thông tin sản phẩm đấu giá!")
     private ItemRequestDto item;
 }

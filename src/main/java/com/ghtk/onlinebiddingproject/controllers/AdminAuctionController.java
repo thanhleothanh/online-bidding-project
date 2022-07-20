@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.models.dtos.AuctionDto;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
+import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponseDto;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.AuctionServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.BidServiceImpl;
@@ -23,9 +24,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -63,9 +64,11 @@ public class AdminAuctionController {
             }) Specification<Auction> spec,
             Sort sort,
             @RequestHeader HttpHeaders headers) {
-        AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, sort);
+        AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<AuctionDto> auctionDto = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
 
-        List<AuctionDto> dtoResponse = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
+        AuctionPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
+        dtoResponse.setAuctions(auctionDto);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);
     }
@@ -80,7 +83,7 @@ public class AdminAuctionController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<CommonResponse> adminPut(@PathVariable("id") int id, @Validated @RequestBody AuctionRequestDto auctionDto) {
+    public ResponseEntity<CommonResponse> adminPut(@PathVariable("id") int id, @Valid @RequestBody AuctionRequestDto auctionDto) {
         Auction auction = auctionService.adminGetById(id);
 
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.adminPut(auctionDto, auction));
