@@ -21,7 +21,8 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         logger.error("Unauthorized error: {}", e.getMessage());
         CommonResponse errorResponse = new CommonResponse(false, "Unauthorized!", null, null);
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(httpServletResponse.getOutputStream(), errorResponse);
+//        final ObjectMapper mapper = new ObjectMapper();
+//        mapper.writeValue(httpServletResponse.getOutputStream(), errorResponse);
+        System.out.println("unauthorized");
     }
 }

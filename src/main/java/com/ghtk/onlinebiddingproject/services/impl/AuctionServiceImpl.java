@@ -1,13 +1,16 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
+import com.ghtk.onlinebiddingproject.constants.ReviewResultConstants;
+import com.ghtk.onlinebiddingproject.daos.AuctionDao;
 import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
-import com.ghtk.onlinebiddingproject.models.entities.Auction;
-import com.ghtk.onlinebiddingproject.models.entities.User;
+import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
+import com.ghtk.onlinebiddingproject.models.responses.AuctionTopTrendingDto;
 import com.ghtk.onlinebiddingproject.repositories.AuctionRepository;
+import com.ghtk.onlinebiddingproject.repositories.ReviewResultRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.AuctionService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
@@ -25,12 +28,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
+    @Autowired
+    private ItemServiceImpl itemService;
+    @Autowired
+    private AuctionDao auctionDao;
+    @Autowired
+    private ReviewResultRepository reviewResultRepository;
 
     @Override
     public AuctionPagingResponse get(Specification<Auction> spec, HttpHeaders headers, Sort sort) {
@@ -43,16 +53,21 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    public List<AuctionTopTrendingDto> getTopTrending() {
+        return auctionDao.getTopTrending();
+    }
+
+    @Override
     public List<Auction> getMyAuctions(AuctionStatusConstants status) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (status != null)
-            return auctionRepository.findByUser_IdAndStatus(userDetails.getId(), status);
-        return auctionRepository.findByUser_Id(userDetails.getId());
+            return auctionRepository.findByUser_IdAndStatus(userDetails.getId(), status, Sort.by(Sort.Direction.DESC, "createdAt"));
+        return auctionRepository.findByUser_Id(userDetails.getId(), Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     @Override
     public List<Auction> getAuctionsByUserId(Integer userId) {
-        return auctionRepository.findByUser_IdAndStatusNotIn(userId, List.of(AuctionStatusConstants.DRAFT), Sort.by(Sort.Direction.DESC, "createdAt"));
+        return auctionRepository.findByUser_IdAndStatusNotIn(userId, List.of(AuctionStatusConstants.DRAFT, AuctionStatusConstants.PENDING), Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     @Override
@@ -61,32 +76,38 @@ public class AuctionServiceImpl implements AuctionService {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
 
-        if (!auction.getStatus().equals(AuctionStatusConstants.DRAFT) || isPostedByCurrentUser)
+        if ((!auction.getStatus().equals(AuctionStatusConstants.PENDING) && !auction.getStatus().equals(AuctionStatusConstants.DRAFT)) || isPostedByCurrentUser)
             return auction;
         else throw new AccessDeniedException("Không thể lấy thông tin của bài đấu giá vào lúc này!");
     }
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
-    public Auction save(AuctionRequestDto auctionDto, Auction auction) {
+    public Auction save(AuctionRequestDto auctionDto, Auction auction, Item item) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
         User user = new User(userDetails.getId());
         auction.setUser(user);
 
-        if (userDetails.isSuspended())
-            throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
         if (auctionDto.getTimeEnd().isBefore(auctionDto.getTimeStart()))
             throw new BadRequestException("Thời gian bắt đầu và kết thúc đấu giá không hợp lệ!");
         if (LocalDateTime.now().isAfter(auctionDto.getTimeStart()))
             throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
         if (LocalDateTime.now().isAfter(auctionDto.getTimeEnd()))
             throw new BadRequestException("Thời gian kết thúc đấu giá không hợp lệ!");
+        if (ChronoUnit.MINUTES.between(auctionDto.getTimeStart(), auctionDto.getTimeEnd()) > 1440)
+            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 24 tiếng!");
 
         auction.setHighestPrice(0.0);
-        return auctionRepository.save(auction);
+        Auction newAuction = auctionRepository.save(auction);
+        item.setAuction(newAuction);
+        Item newItem = itemService.save(item);
+        newAuction.setItem(newItem);
+        return newAuction;
     }
 
     @Override
+    @Transactional(rollbackFor = {SQLException.class})
     public Auction put(AuctionRequestDto auctionDto, Auction auction) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
@@ -95,19 +116,33 @@ public class AuctionServiceImpl implements AuctionService {
         AuctionStatusConstants currentStatus = auction.getStatus();
         AuctionStatusConstants newStatus = auctionDto.getStatus();
 
+        LocalDateTime newTimeStart = auctionDto.getTimeStart() != null ? auctionDto.getTimeStart() : auction.getTimeStart();
+        LocalDateTime newTimeEnd = auctionDto.getTimeEnd() != null ? auctionDto.getTimeEnd() : auction.getTimeEnd();
+
         if (!isPostedByCurrentUser)
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
         if (newStatus != null)
             throw new BadRequestException("Không thể tự ý thay đổi trạng thái bài đấu giá!");
-        if (currentStatus.equals(AuctionStatusConstants.DRAFT)) {
+        if (newTimeEnd.isBefore(newTimeStart))
+            throw new BadRequestException("Thời gian bắt đầu và kết thúc đấu giá không hợp lệ!");
+        if (LocalDateTime.now().isAfter(newTimeStart))
+            throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
+        if (LocalDateTime.now().isAfter(newTimeEnd))
+            throw new BadRequestException("Thời gian kết thúc đấu giá không hợp lệ!");
+        if (ChronoUnit.MINUTES.between(newTimeStart, newTimeEnd) > 1440)
+            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 24 tiếng!");
+        if (currentStatus.equals(AuctionStatusConstants.DRAFT) || currentStatus.equals(AuctionStatusConstants.PENDING)) {
             DtoToEntityUtils.copyNonNullProperties(auctionDto, auction);
             return auctionRepository.save(auction);
-        } else throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang đấu giá!");
+        } else throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
     }
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
     public Auction submitPending(Auction auction) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
         AuctionStatusConstants currentStatus = auction.getStatus();
 
@@ -115,6 +150,8 @@ public class AuctionServiceImpl implements AuctionService {
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
         if (!currentStatus.equals(AuctionStatusConstants.DRAFT))
             throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang đấu giá!");
+        if (LocalDateTime.now().isAfter(auction.getTimeEnd()) || LocalDateTime.now().isAfter(auction.getTimeStart()))
+            throw new BadRequestException("Thời gian bắt đầu hoặc thời gian kết thúc của bài đấu giá không hợp lệ!");
         if (auction.getItem() != null) {
             auction.setStatus(AuctionStatusConstants.PENDING);
             return auctionRepository.save(auction);
@@ -122,6 +159,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    @Transactional(rollbackFor = {SQLException.class})
     public void deleteById(Integer id) {
         Auction auction = getById(id);
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
@@ -154,6 +192,11 @@ public class AuctionServiceImpl implements AuctionService {
     public Auction adminReviewSubmit(Auction auction) {
         AuctionStatusConstants currentStatus = auction.getStatus();
         if (currentStatus.equals(AuctionStatusConstants.PENDING)) {
+            UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+            Admin admin = new Admin(userDetails.getId());
+            ReviewResult reviewResult = new ReviewResult(ReviewResultConstants.ACCEPTED, auction, admin);
+            reviewResultRepository.save(reviewResult);
+
             auction.setStatus(AuctionStatusConstants.QUEUED);
             return auctionRepository.save(auction);
         }
@@ -165,12 +208,6 @@ public class AuctionServiceImpl implements AuctionService {
         Auction auction = getById(id);
         auctionRepository.delete(auction);
     }
-
-
-    /*
-     * Interested User
-     * */
-
 
     /**
      * helper methods
