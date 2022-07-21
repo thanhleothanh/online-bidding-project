@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userChangePassword.getCurrentPassword()));
-        if (!userChangePassword.getNewPassword().equals(userChangePassword.getNewPasswordConfirm())) {
+        if (!userChangePassword.getNewPassword().equals(userChangePassword.getConfirmedNewPassword())) {
             throw new BadRequestException("Xác nhận lại mật khẩu mới!");
         }
         Profile profile = profileRepository.findById(userDetails.getId()).get();

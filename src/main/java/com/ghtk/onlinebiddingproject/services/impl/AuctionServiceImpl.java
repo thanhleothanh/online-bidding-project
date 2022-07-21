@@ -76,7 +76,7 @@ public class AuctionServiceImpl implements AuctionService {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
 
-        if ((!auction.getStatus().equals(AuctionStatusConstants.PENDING) && !auction.getStatus().equals(AuctionStatusConstants.DRAFT)) || isPostedByCurrentUser)
+        if (((auction.getStatus().equals(AuctionStatusConstants.PENDING) || auction.getStatus().equals(AuctionStatusConstants.DRAFT)) && isPostedByCurrentUser) || auction.getStatus().equals(AuctionStatusConstants.OPENING))
             return auction;
         else throw new AccessDeniedException("Không thể lấy thông tin của bài đấu giá vào lúc này!");
     }
@@ -191,16 +191,29 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
-    public Auction adminReviewSubmit(Auction auction) {
+    public Auction adminReviewSubmit(AuctionRequestDto auctionRequestDto, Auction auction) {
         AuctionStatusConstants currentStatus = auction.getStatus();
         if (currentStatus.equals(AuctionStatusConstants.PENDING)) {
             UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
             Admin admin = new Admin(userDetails.getId());
+
             ReviewResult reviewResult = new ReviewResult(ReviewResultConstants.ACCEPTED, auction, admin);
             reviewResultRepository.save(reviewResult);
-
             auction.setStatus(AuctionStatusConstants.QUEUED);
             return auctionRepository.save(auction);
+
+//            if (newStatus != null && newStatus.equals(AuctionStatusConstants.QUEUED)) {
+//                ReviewResult reviewResult = new ReviewResult(ReviewResultConstants.ACCEPTED, auction, admin);
+//                reviewResultRepository.save(reviewResult);
+//                auction.setStatus(AuctionStatusConstants.QUEUED);
+//                return auctionRepository.save(auction);
+//            }
+//            if (newStatus != null && newStatus.equals(AuctionStatusConstants.CANCELED)) {
+//                ReviewResult reviewResult = new ReviewResult(ReviewResultConstants.REJECTED, auction, admin);
+//                reviewResultRepository.save(reviewResult);
+//                auction.setStatus(AuctionStatusConstants.CANCELED);
+//                return auctionRepository.save(auction);
+//            }
         }
         throw new BadRequestException("Chưa thể duyệt bài đấu giá này vào lúc này!");
     }

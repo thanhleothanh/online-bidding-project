@@ -40,7 +40,7 @@ public interface AuctionService {
 
     Auction adminPut(AuctionRequestDto auctionDto, Auction auction);
 
-    Auction adminReviewSubmit(Auction auction);
+    Auction adminReviewSubmit(AuctionRequestDto auctionRequestDto, Auction auction);
 
     void adminDeleteById(Integer id);
 

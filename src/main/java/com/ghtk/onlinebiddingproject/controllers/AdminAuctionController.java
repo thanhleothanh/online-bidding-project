@@ -8,9 +8,8 @@ import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponseDto;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.AuctionServiceImpl;
-import com.ghtk.onlinebiddingproject.services.impl.BidServiceImpl;
+import com.ghtk.onlinebiddingproject.services.impl.JobSchedulerServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
-import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.GreaterThan;
@@ -35,11 +34,9 @@ public class AdminAuctionController {
     @Autowired
     private AuctionServiceImpl auctionService;
     @Autowired
-    private BidServiceImpl bidService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
-    @Autowired
     private EntityToDtoConverter entityToDtoConverter;
+    @Autowired
+    private JobSchedulerServiceImpl jobSchedulerService;
 
     /*
      * Get auctions api cho admin
@@ -93,10 +90,13 @@ public class AdminAuctionController {
 
     @PutMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<CommonResponse> adminReviewSubmit(@PathVariable("id") int id) {
+    public ResponseEntity<CommonResponse> adminReviewSubmit(@PathVariable("id") int id, @RequestBody @Valid AuctionRequestDto auctionRequestDto) {
         Auction auction = auctionService.adminGetById(id);
+        Auction approvedAuction = auctionService.adminReviewSubmit(auctionRequestDto, auction);
 
-        AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.adminReviewSubmit(auction));
+        jobSchedulerService.startAuctionScheduler(approvedAuction); //scheduling a job to automatically open the auction when timeStart comes!
+        jobSchedulerService.endAuctionScheduler(approvedAuction); //scheduling a job to automatically end the auction when timeEnd comes!
+        AuctionDto dtoResponse = entityToDtoConverter.convertToDto(approvedAuction);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -105,7 +105,6 @@ public class AdminAuctionController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> adminDeleteById(@PathVariable Integer id) {
         auctionService.adminDeleteById(id);
-
         CommonResponse response = new CommonResponse(true, "Deleted auction!", null, null);
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }

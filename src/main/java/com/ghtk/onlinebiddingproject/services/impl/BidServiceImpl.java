@@ -53,8 +53,7 @@ public class BidServiceImpl implements BidService {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
 
-        User currentUser = userRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy user với id này!"));
+        User currentUser = new User(userDetails.getId());
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
 
@@ -67,8 +66,8 @@ public class BidServiceImpl implements BidService {
             throw new BadRequestException("Giá mới phải cao hơn giá khởi điểm và giá hiện tại!");
         if (bidDto.getPrice() < auction.getHighestPrice() + auction.getPriceStep())
             throw new BadRequestException("Giá mới phải cao hơn giá cao nhất hiện tại + bước giá!");
-        if (bidDto.getPrice() > (currentHighestPrice * 5))
-            throw new BadRequestException("Giá mới không được hơn gấp 5 giá cao nhất hiện tại");
+        if (bidDto.getPrice() > (currentHighestPrice * 3))
+            throw new BadRequestException("Giá mới không được hơn gấp 3 giá cao nhất hiện tại");
 
         auction.setHighestPrice(bidDto.getPrice());
         auctionRepository.save(auction);

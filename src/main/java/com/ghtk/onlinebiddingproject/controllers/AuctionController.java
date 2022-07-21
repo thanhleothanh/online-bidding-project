@@ -45,8 +45,6 @@ public class AuctionController {
     @Autowired
     private WebSocketServiceImpl webSocketService;
     @Autowired
-    private ItemServiceImpl itemService;
-    @Autowired
     private AuctionServiceImpl auctionService;
     @Autowired
     private AuctionUserServiceImpl auctionUserService;
@@ -56,6 +54,8 @@ public class AuctionController {
     private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
     private EntityToDtoConverter entityToDtoConverter;
+    @Autowired
+    private JobSchedulerServiceImpl jobSchedulerService;
 
     /*
      * Get auctions api cho Home Screen
@@ -93,7 +93,6 @@ public class AuctionController {
     public ResponseEntity<CommonResponse> getTopTrending() {
         List<AuctionTopTrendingDto> auctionsDto = auctionService.getTopTrending();
 
-//        List<AuctionDto> dtoResponse = entityToDtoConverter.convertToListAuctionDto(auctions);
         CommonResponse response = new CommonResponse(true, "Success", auctionsDto, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -147,8 +146,10 @@ public class AuctionController {
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> submitPending(@PathVariable("id") int id) {
         Auction auction = auctionService.getById(id);
+        Auction submittedAuction = auctionService.submitPending(auction);
+        jobSchedulerService.cancelAuctionScheduler(submittedAuction); //scheduling a job to automatically cancel auction if no admin approve when timeStart comes!
 
-        AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.submitPending(auction));
+        AuctionDto dtoResponse = entityToDtoConverter.convertToDto(submittedAuction);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
