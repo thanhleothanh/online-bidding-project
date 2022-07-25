@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
@@ -33,9 +34,6 @@ public class BidServiceImpl implements BidService {
     private AuctionRepository auctionRepository;
     @Autowired
     private AuctionUserServiceImpl auctionUserService;
-    @Autowired
-    private WebSocketServiceImpl webSocketService;
-
 
     @Override
     public List<Bid> getBidsByAuctionId(Integer auctionId) {
@@ -48,12 +46,13 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
-    @Transactional(rollbackFor = {SQLException.class})
+    @Transactional(rollbackFor = {SQLException.class}, isolation = Isolation.READ_UNCOMMITTED)
     public Bid saveBid(Integer auctionId, BidRequestDto bidDto, Bid bid) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
 
-        User currentUser = new User(userDetails.getId());
+        User currentUser = userRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user này!"));
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
 

@@ -26,7 +26,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/admin/auctions")
@@ -47,7 +46,7 @@ public class AdminAuctionController {
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<CommonResponse> getForAdmin(
+    public ResponseEntity<CommonResponse> adminGetAuctions(
             @And({
                     @Spec(path = "status", params = "status", spec = Equal.class),
                     @Spec(path = "priceStart", params = "priceStartGt", spec = GreaterThan.class),
@@ -62,10 +61,8 @@ public class AdminAuctionController {
             Sort sort,
             @RequestHeader HttpHeaders headers) {
         AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
-        List<AuctionDto> auctionDto = entityToDtoConverter.convertToListAuctionDto(pagingResponse.getAuctions());
 
         AuctionPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
-        dtoResponse.setAuctions(auctionDto);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);
     }

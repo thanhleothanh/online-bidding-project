@@ -47,8 +47,8 @@ public class AuctionServiceImpl implements AuctionService {
         if (PaginationUtils.isPaginationRequested(headers)) {
             return helperGet(spec, PaginationUtils.buildPageRequest(headers, sort));
         } else {
-            List<Auction> productEntities = helperGet(spec, sort);
-            return new AuctionPagingResponse(productEntities.size(), 0, 0, 0, productEntities);
+            List<Auction> auctionEntities = helperGet(spec, sort);
+            return new AuctionPagingResponse(auctionEntities.size(), 0, 0, 0, auctionEntities);
         }
     }
 
@@ -220,8 +220,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public void adminDeleteById(Integer id) {
-        Auction auction = getById(id);
-        auctionRepository.delete(auction);
+        auctionRepository.deleteById(id);
     }
 
     /**
@@ -233,7 +232,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     public AuctionPagingResponse helperGet(Specification<Auction> spec, Pageable pageable) {
         Page<Auction> page = auctionRepository.findAll(spec, pageable);
-        List<Auction> productEntities = page.getContent();
-        return new AuctionPagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(), productEntities);
+        List<Auction> auctionEntities = page.getContent();
+        return new AuctionPagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(), auctionEntities);
     }
 }
