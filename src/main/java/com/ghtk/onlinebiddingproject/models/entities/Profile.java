@@ -43,17 +43,20 @@ public class Profile extends BaseEntity {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-
     @PrePersist
     public void prePersist() {
         this.status = UserStatusConstants.valueOf("INACTIVE");
     }
 
-    public Profile(String username, String password, String name, String email , Role role) {
+    public Profile(String username, String password, String name, String email, Role role) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.role = role;
+    }
+
+    public Profile(Integer id) {
+        this.id = id;
     }
 }
