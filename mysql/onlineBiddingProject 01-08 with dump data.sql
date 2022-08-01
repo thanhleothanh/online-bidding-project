@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2022 at 12:52 AM
+-- Generation Time: Aug 01, 2022 at 03:21 PM
 -- Server version: 8.0.29-0ubuntu0.22.04.2
 -- PHP Version: 8.1.2
 
@@ -64,17 +64,11 @@ CREATE TABLE `auction` (
 --
 
 INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, `time_start`, `time_end`, `price_start`, `price_step`, `highest_price`, `created_at`, `updated_at`) VALUES
-(64, 6, 3, 'asd', 4, '2022-07-22 22:17:00', '2022-07-23 22:15:00', 123123, 123, 500000, '2022-07-22 22:15:21', '2022-07-22 23:42:30'),
-(66, 6, 3, 'asdf', -1, '2022-07-23 23:42:00', '2022-07-23 23:46:00', 12344, 1234, 0, '2022-07-23 23:39:35', '2022-07-23 23:41:12'),
-(67, 6, 2, 'asd', -1, '2022-07-23 23:44:00', '2022-07-24 23:43:00', 123, 123, 0, '2022-07-23 23:42:23', '2022-07-23 23:42:47'),
-(71, 8, 4, 'asd', 4, '2022-07-25 17:27:00', '2022-07-26 17:23:00', 123123, 213, 123123, '2022-07-25 17:23:36', '2022-07-25 18:06:11'),
-(73, 9, 2, 'asd', -1, '2022-07-27 17:21:00', '2022-07-28 17:19:00', 123123, 123123, 0, '2022-07-27 17:20:13', '2022-07-27 17:20:31'),
-(75, 9, 2, 'asd', 4, '2022-07-27 17:36:00', '2022-07-27 17:37:00', 100000, 50000, 123000, '2022-07-27 17:34:41', '2022-07-27 17:36:33'),
-(79, 6, 3, 'asd', -1, '2022-07-29 22:56:00', '2022-07-30 22:55:00', 100000, 50000, 0, '2022-07-29 22:55:37', '2022-07-29 22:55:40'),
-(83, 6, 1, 'a', 4, '2022-07-30 00:30:00', '2022-07-30 00:31:00', 100000, 50000, 200000, '2022-07-30 00:28:50', '2022-07-30 00:30:26'),
-(84, 8, 1, 'a', -1, '2022-07-30 00:43:00', '2022-07-30 00:44:00', 100000, 50000, 0, '2022-07-30 00:42:14', '2022-07-30 00:42:17'),
-(85, 8, 1, 'a', -1, '2022-07-30 00:46:00', '2022-07-30 00:47:00', 100000, 50000, 0, '2022-07-30 00:45:17', '2022-07-30 00:45:20'),
-(86, 9, 1, 'a', 4, '2022-07-30 00:48:00', '2022-07-30 00:49:00', 100000, 50000, 100000, '2022-07-30 00:47:20', '2022-07-30 00:48:35');
+(92, 6, 1, 'nue keyboard auction', 3, '2022-08-01 14:40:00', '2022-08-24 14:36:00', 100000, 50000, 0, '2022-08-01 14:37:22', '2022-08-01 14:38:14'),
+(93, 8, 1, 'TGR Police auction', 3, '2022-08-01 14:43:00', '2022-08-23 14:40:00', 100000, 500000, 0, '2022-08-01 14:41:25', '2022-08-01 14:41:51'),
+(94, 9, 4, 'Kikuichimonji auction', 3, '2022-08-01 14:48:00', '2022-08-20 14:45:00', 1000000, 500000, 0, '2022-08-01 14:46:28', '2022-08-01 14:47:06'),
+(95, 6, 8, 'Noxary vulcan pro auction', 3, '2022-08-01 14:56:00', '2022-08-28 14:53:00', 1000000, 500000, 1500000, '2022-08-01 14:54:04', '2022-08-01 15:07:49'),
+(96, 13, 9, 'Keycult No. 2 auction', 3, '2022-08-01 15:01:00', '2022-08-26 14:58:00', 1000000, 1000000, 1000000, '2022-08-01 14:59:59', '2022-08-01 15:01:26');
 
 -- --------------------------------------------------------
 
@@ -93,12 +87,8 @@ CREATE TABLE `auction_user` (
 --
 
 INSERT INTO `auction_user` (`id`, `user_id`, `auction_id`) VALUES
-(14, 6, 71),
-(19, 6, 75),
-(13, 8, 64),
-(25, 8, 83),
-(27, 8, 86),
-(26, 9, 83);
+(29, 6, 96),
+(30, 13, 95);
 
 -- --------------------------------------------------------
 
@@ -120,16 +110,9 @@ CREATE TABLE `bid` (
 --
 
 INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `updated_at`) VALUES
-(97, 8, 64, 123123, '2022-07-22 22:22:55', '2022-07-22 22:22:55'),
-(98, 8, 64, 123321, '2022-07-22 22:23:01', '2022-07-22 22:23:01'),
-(99, 8, 64, 300000, '2022-07-22 23:42:10', '2022-07-22 23:42:10'),
-(100, 8, 64, 500000, '2022-07-22 23:42:30', '2022-07-22 23:42:30'),
-(101, 6, 71, 123123, '2022-07-25 18:06:11', '2022-07-25 18:06:11'),
-(113, 6, 75, 123000, '2022-07-27 17:36:33', '2022-07-27 17:36:33'),
-(120, 8, 83, 100000, '2022-07-30 00:30:13', '2022-07-30 00:30:13'),
-(121, 8, 83, 150000, '2022-07-30 00:30:18', '2022-07-30 00:30:18'),
-(122, 9, 83, 200000, '2022-07-30 00:30:27', '2022-07-30 00:30:27'),
-(123, 8, 86, 100000, '2022-07-30 00:48:35', '2022-07-30 00:48:35');
+(130, 6, 96, 1000000, '2022-08-01 15:01:26', '2022-08-01 15:01:26'),
+(131, 13, 95, 1000000, '2022-08-01 15:02:11', '2022-08-01 15:02:11'),
+(132, 13, 95, 1500000, '2022-08-01 15:07:49', '2022-08-01 15:07:49');
 
 -- --------------------------------------------------------
 
@@ -180,17 +163,11 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `created_at`, `updated_at`) VALUES
-(54, 'asd', 'asd', 1, 64, '2022-07-22 22:15:21', '2022-07-22 22:15:21'),
-(56, 'asdf', 'asdf', 1, 66, '2022-07-23 23:39:35', '2022-07-23 23:39:35'),
-(57, 'asd', 'asd', 1, 67, '2022-07-23 23:42:23', '2022-07-23 23:42:23'),
-(61, 'asd', 'asd', 1, 71, '2022-07-25 17:23:36', '2022-07-25 17:23:36'),
-(63, 'asd', 'asd', 1, 73, '2022-07-27 17:20:13', '2022-07-27 17:20:13'),
-(65, 'a', 'a', 1, 75, '2022-07-27 17:34:41', '2022-07-27 17:34:41'),
-(69, 'a', 'a', 1, 79, '2022-07-29 22:55:37', '2022-07-29 22:55:37'),
-(73, 'a', 'a', 1, 83, '2022-07-30 00:28:50', '2022-07-30 00:28:50'),
-(74, 'a', 'a', 1, 84, '2022-07-30 00:42:14', '2022-07-30 00:42:14'),
-(75, 'a', 'a', 1, 85, '2022-07-30 00:45:17', '2022-07-30 00:45:17'),
-(76, 'a', 'a', 1, 86, '2022-07-30 00:47:20', '2022-07-30 00:47:20');
+(82, 'nue keyboard by kbye of Studio Kestra, custom commission for harsha.', 'Mint green cerakoted aluminum case with brass accent.  Lubed (205g0) TX clip-in stabilizers.  Lubed (205g0) H1 switches, with 68g springs and Deskey films, mounted on PCB.', 1, 92, '2022-08-01 14:37:22', '2022-08-01 14:37:22'),
+(83, 'Polycarbonate Alice (Police)', 'Design by TGR  Polycarbonate case with copper weight.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches - with 65g springs and TX films - mounted on a copper full plate.', 1, 93, '2022-08-01 14:41:25', '2022-08-01 14:41:25'),
+(84, 'Kikuichimonji keyboard', 'Design by bisoromi, run by AEBoards  Silver-anodized aluminum case.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed Boba LT switches, with 62g springs - mounted on an aluminum full plate.', 1, 94, '2022-08-01 14:46:28', '2022-08-01 14:46:28'),
+(85, 'Vulcan Pro Design by Noxary.', '\"Hyper Red\"-anodized aluminum case.  Clipped and lubed (205g0) Cherry clip-in stabilizers.  Lubed (205g0) Gateron Ink Red switches, with 62g springs and TX films - mounted on an aluminum full plate.  Vulcan PCB by ai03 (QMK/VIA).', 1, 95, '2022-08-01 14:54:04', '2022-08-01 14:54:04'),
+(86, 'Keycult No. 2', 'Silver-anodized aluminum case with sandblasted stainless steel bottom. 5.5 degree angle.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches, with 63.5g springs - mounted on an aluminum full plate.', 1, 96, '2022-08-01 14:59:59', '2022-08-01 14:59:59');
 
 -- --------------------------------------------------------
 
@@ -210,7 +187,25 @@ CREATE TABLE `item_image` (
 --
 
 INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
-(36, 'https://res.cloudinary.com/metanoia/image/upload/v1658917208/onlinebiddingproject/oxdytkzyeasz8bots07h.jpg', 'onlinebiddingproject/oxdytkzyeasz8bots07h', 63);
+(41, 'https://res.cloudinary.com/metanoia/image/upload/v1659339437/onlinebiddingproject/s3jp7oqwmrtpijj7lifw.jpg', 'onlinebiddingproject/s3jp7oqwmrtpijj7lifw', 82),
+(42, 'https://res.cloudinary.com/metanoia/image/upload/v1659339433/onlinebiddingproject/jlypg0tlb4gglm6xbuhx.jpg', 'onlinebiddingproject/jlypg0tlb4gglm6xbuhx', 82),
+(43, 'https://res.cloudinary.com/metanoia/image/upload/v1659339428/onlinebiddingproject/og2lxi9pjuq6rwjejast.jpg', 'onlinebiddingproject/og2lxi9pjuq6rwjejast', 82),
+(44, 'https://res.cloudinary.com/metanoia/image/upload/v1659339424/onlinebiddingproject/swrf8zzqfzygt6gltzt6.jpg', 'onlinebiddingproject/swrf8zzqfzygt6gltzt6', 82),
+(45, 'https://res.cloudinary.com/metanoia/image/upload/v1659339681/onlinebiddingproject/xqxlfofmvthycr4w1wa0.jpg', 'onlinebiddingproject/xqxlfofmvthycr4w1wa0', 83),
+(46, 'https://res.cloudinary.com/metanoia/image/upload/v1659339677/onlinebiddingproject/bxxvkawa8ttelcaxgnrq.jpg', 'onlinebiddingproject/bxxvkawa8ttelcaxgnrq', 83),
+(47, 'https://res.cloudinary.com/metanoia/image/upload/v1659339674/onlinebiddingproject/cxoilyhq07sz6lcfijge.jpg', 'onlinebiddingproject/cxoilyhq07sz6lcfijge', 83),
+(48, 'https://res.cloudinary.com/metanoia/image/upload/v1659339670/onlinebiddingproject/koo8008m99txsibgykvn.jpg', 'onlinebiddingproject/koo8008m99txsibgykvn', 83),
+(49, 'https://res.cloudinary.com/metanoia/image/upload/v1659339982/onlinebiddingproject/ddwcfyuk8g2vkada298g.jpg', 'onlinebiddingproject/ddwcfyuk8g2vkada298g', 84),
+(50, 'https://res.cloudinary.com/metanoia/image/upload/v1659339976/onlinebiddingproject/nht8tdvmqdgtlleulamm.jpg', 'onlinebiddingproject/nht8tdvmqdgtlleulamm', 84),
+(51, 'https://res.cloudinary.com/metanoia/image/upload/v1659339973/onlinebiddingproject/m6qx4x9fhwalbstybjda.jpg', 'onlinebiddingproject/m6qx4x9fhwalbstybjda', 84),
+(52, 'https://res.cloudinary.com/metanoia/image/upload/v1659340438/onlinebiddingproject/s1bha9z3wfkv7tpfb9yr.jpg', 'onlinebiddingproject/s1bha9z3wfkv7tpfb9yr', 85),
+(53, 'https://res.cloudinary.com/metanoia/image/upload/v1659340434/onlinebiddingproject/otyeipgl7hvxaxagh4q3.jpg', 'onlinebiddingproject/otyeipgl7hvxaxagh4q3', 85),
+(54, 'https://res.cloudinary.com/metanoia/image/upload/v1659340430/onlinebiddingproject/yhekvpygilp5g0zgsdvi.jpg', 'onlinebiddingproject/yhekvpygilp5g0zgsdvi', 85),
+(55, 'https://res.cloudinary.com/metanoia/image/upload/v1659340427/onlinebiddingproject/vwcyphcsc4oivevrbz6m.jpg', 'onlinebiddingproject/vwcyphcsc4oivevrbz6m', 85),
+(56, 'https://res.cloudinary.com/metanoia/image/upload/v1659340764/onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7.jpg', 'onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7', 86),
+(57, 'https://res.cloudinary.com/metanoia/image/upload/v1659340760/onlinebiddingproject/g9dy8lebx81csmzldp2n.jpg', 'onlinebiddingproject/g9dy8lebx81csmzldp2n', 86),
+(58, 'https://res.cloudinary.com/metanoia/image/upload/v1659340756/onlinebiddingproject/tsqs1klwtjzre5delyqu.jpg', 'onlinebiddingproject/tsqs1klwtjzre5delyqu', 86),
+(59, 'https://res.cloudinary.com/metanoia/image/upload/v1659340753/onlinebiddingproject/zkv9vjopgvmoxz3bm8km.jpg', 'onlinebiddingproject/zkv9vjopgvmoxz3bm8km', 86);
 
 -- --------------------------------------------------------
 
@@ -232,14 +227,26 @@ CREATE TABLE `notification` (
 --
 
 INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_type`, `created_at`, `updated_at`) VALUES
-(15, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-07-30 00:29:03', '2022-07-30 00:29:03'),
-(16, 9, 'NEW_BID_AUCTION', 'AUCTION', '2022-07-30 00:29:03', '2022-07-30 00:30:27'),
-(17, NULL, 'START_AUCTION', 'AUCTION', '2022-07-30 00:30:00', '2022-07-30 00:30:00'),
-(18, NULL, 'END_AUCTION', 'AUCTION', '2022-07-30 00:31:00', '2022-07-30 00:31:00'),
-(22, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-07-30 00:47:32', '2022-07-30 00:47:32'),
-(23, NULL, 'START_AUCTION', 'AUCTION', '2022-07-30 00:48:00', '2022-07-30 00:48:00'),
-(24, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-07-30 00:48:00', '2022-07-30 00:48:35'),
-(25, NULL, 'END_AUCTION', 'AUCTION', '2022-07-30 00:49:00', '2022-07-30 00:49:00');
+(43, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:38:02', '2022-08-01 14:38:02'),
+(44, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
+(45, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
+(46, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
+(47, 8, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:41:30', '2022-08-01 14:41:30'),
+(48, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
+(49, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
+(50, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
+(51, 9, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:46:32', '2022-08-01 14:46:32'),
+(52, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
+(53, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:48:00', '2022-08-01 14:48:00'),
+(54, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:48:00', '2022-08-01 14:48:00'),
+(55, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:54:10', '2022-08-01 14:54:10'),
+(56, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
+(57, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:56:00', '2022-08-01 14:56:00'),
+(58, 13, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:56:00', '2022-08-01 15:07:49'),
+(59, 13, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 15:00:13', '2022-08-01 15:00:13'),
+(60, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
+(61, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:00'),
+(62, 6, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:26');
 
 -- --------------------------------------------------------
 
@@ -258,14 +265,26 @@ CREATE TABLE `notification_auction` (
 --
 
 INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUES
-(13, 83, 15),
-(14, 83, 16),
-(15, 83, 17),
-(16, 83, 18),
-(20, 86, 22),
-(21, 86, 23),
-(22, 86, 24),
-(23, 86, 25);
+(37, 92, 43),
+(38, 92, 44),
+(39, 92, 45),
+(40, 92, 46),
+(41, 93, 47),
+(42, 93, 48),
+(43, 93, 49),
+(44, 93, 50),
+(45, 94, 51),
+(46, 94, 52),
+(47, 94, 53),
+(48, 94, 54),
+(49, 95, 55),
+(50, 95, 56),
+(51, 95, 57),
+(52, 95, 58),
+(53, 96, 59),
+(54, 96, 60),
+(55, 96, 61),
+(56, 96, 62);
 
 -- --------------------------------------------------------
 
@@ -284,20 +303,28 @@ CREATE TABLE `notification_notified` (
 --
 
 INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALUES
-(14, 15, 6),
-(15, 16, 6),
-(16, 17, 6),
-(17, 16, 8),
-(18, 16, 9),
-(19, 18, 6),
-(20, 18, 8),
-(21, 18, 9),
-(25, 22, 9),
-(26, 23, 9),
-(27, 24, 9),
-(28, 24, 8),
-(29, 25, 9),
-(30, 25, 8);
+(48, 43, 11),
+(49, 44, 6),
+(50, 45, 6),
+(51, 46, 6),
+(52, 47, 11),
+(53, 48, 8),
+(54, 49, 8),
+(55, 50, 8),
+(56, 51, 11),
+(57, 52, 9),
+(58, 53, 9),
+(59, 54, 9),
+(60, 55, 11),
+(61, 56, 6),
+(62, 57, 6),
+(63, 58, 6),
+(64, 59, 11),
+(65, 60, 13),
+(66, 61, 13),
+(67, 62, 13),
+(68, 62, 6),
+(69, 58, 13);
 
 -- --------------------------------------------------------
 
@@ -428,12 +455,11 @@ CREATE TABLE `QRTZ_JOB_DETAILS` (
 --
 
 INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`, `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`) VALUES
-('quartzScheduler', 'END76', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #76', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000004c7800),
-('quartzScheduler', 'END77', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #77', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000004d7800),
-('quartzScheduler', 'END78', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #78', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000004e7800),
-('quartzScheduler', 'END80', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #80', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000507800),
-('quartzScheduler', 'END81', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #81', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000517800),
-('quartzScheduler', 'END82', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #82', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000527800);
+('quartzScheduler', 'END92', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #92', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005c7800),
+('quartzScheduler', 'END93', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #93', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005d7800),
+('quartzScheduler', 'END94', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #94', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005e7800),
+('quartzScheduler', 'END95', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #95', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005f7800),
+('quartzScheduler', 'END96', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #96', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000607800);
 
 -- --------------------------------------------------------
 
@@ -497,12 +523,11 @@ CREATE TABLE `QRTZ_SIMPLE_TRIGGERS` (
 --
 
 INSERT INTO `QRTZ_SIMPLE_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `REPEAT_COUNT`, `REPEAT_INTERVAL`, `TIMES_TRIGGERED`) VALUES
-('quartzScheduler', 'END76', 'DEFAULT', 0, 0, 0),
-('quartzScheduler', 'END77', 'DEFAULT', 0, 0, 0),
-('quartzScheduler', 'END78', 'DEFAULT', 0, 0, 0),
-('quartzScheduler', 'END80', 'DEFAULT', 0, 0, 0),
-('quartzScheduler', 'END81', 'DEFAULT', 0, 0, 0),
-('quartzScheduler', 'END82', 'DEFAULT', 0, 0, 0);
+('quartzScheduler', 'END92', 'DEFAULT', 0, 0, 0),
+('quartzScheduler', 'END93', 'DEFAULT', 0, 0, 0),
+('quartzScheduler', 'END94', 'DEFAULT', 0, 0, 0),
+('quartzScheduler', 'END95', 'DEFAULT', 0, 0, 0),
+('quartzScheduler', 'END96', 'DEFAULT', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -557,12 +582,11 @@ CREATE TABLE `QRTZ_TRIGGERS` (
 --
 
 INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`, `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`) VALUES
-('quartzScheduler', 'END76', 'DEFAULT', 'END76', 'END AUCTIONS', NULL, 1659243960000, -1, 5, 'WAITING', 'SIMPLE', 1659243960000, 0, NULL, 1, ''),
-('quartzScheduler', 'END77', 'DEFAULT', 'END77', 'END AUCTIONS', NULL, 1659193020000, -1, 5, 'WAITING', 'SIMPLE', 1659193020000, 0, NULL, 1, ''),
-('quartzScheduler', 'END78', 'DEFAULT', 'END78', 'END AUCTIONS', NULL, 1659193560000, -1, 5, 'WAITING', 'SIMPLE', 1659193560000, 0, NULL, 1, ''),
-('quartzScheduler', 'END80', 'DEFAULT', 'END80', 'END AUCTIONS', NULL, 1659197280000, -1, 5, 'WAITING', 'SIMPLE', 1659197280000, 0, NULL, 1, ''),
-('quartzScheduler', 'END81', 'DEFAULT', 'END81', 'END AUCTIONS', NULL, 1659200640000, -1, 5, 'WAITING', 'SIMPLE', 1659200640000, 0, NULL, 1, ''),
-('quartzScheduler', 'END82', 'DEFAULT', 'END82', 'END AUCTIONS', NULL, 1659201840000, -1, 5, 'WAITING', 'SIMPLE', 1659201840000, 0, NULL, 1, '');
+('quartzScheduler', 'END92', 'DEFAULT', 'END92', 'END AUCTIONS', NULL, 1661326560000, -1, 5, 'WAITING', 'SIMPLE', 1661326560000, 0, NULL, 1, ''),
+('quartzScheduler', 'END93', 'DEFAULT', 'END93', 'END AUCTIONS', NULL, 1661240400000, -1, 5, 'WAITING', 'SIMPLE', 1661240400000, 0, NULL, 1, ''),
+('quartzScheduler', 'END94', 'DEFAULT', 'END94', 'END AUCTIONS', NULL, 1660981500000, -1, 5, 'WAITING', 'SIMPLE', 1660981500000, 0, NULL, 1, ''),
+('quartzScheduler', 'END95', 'DEFAULT', 'END95', 'END AUCTIONS', NULL, 1661673180000, -1, 5, 'WAITING', 'SIMPLE', 1661673180000, 0, NULL, 1, ''),
+('quartzScheduler', 'END96', 'DEFAULT', 'END96', 'END AUCTIONS', NULL, 1661500680000, -1, 5, 'WAITING', 'SIMPLE', 1661500680000, 0, NULL, 1, '');
 
 -- --------------------------------------------------------
 
@@ -580,19 +604,6 @@ CREATE TABLE `report` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `report`
---
-
-INSERT INTO `report` (`id`, `user_reporter_id`, `user_reported_id`, `auction_id`, `description`, `created_at`, `updated_at`) VALUES
-(2, 8, 6, NULL, 'asdf', '2022-07-22 23:34:41', '2022-07-22 23:34:41'),
-(3, 8, 6, NULL, 'asd', '2022-07-22 23:34:53', '2022-07-22 23:34:53'),
-(4, 8, 6, NULL, 'asd', '2022-07-22 23:36:58', '2022-07-22 23:36:58'),
-(5, 8, 6, NULL, 'asd', '2022-07-22 23:37:42', '2022-07-22 23:37:42'),
-(7, 8, 6, NULL, 'adu thang nay xam l', '2022-07-23 20:15:11', '2022-07-23 20:15:11'),
-(9, 8, 6, NULL, 'asd', '2022-07-23 20:17:08', '2022-07-23 20:17:08'),
-(17, 8, 9, NULL, 'aqsdasd', '2022-07-23 22:35:41', '2022-07-23 22:35:41');
-
 -- --------------------------------------------------------
 
 --
@@ -605,14 +616,6 @@ CREATE TABLE `report_image` (
   `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `report_image`
---
-
-INSERT INTO `report_image` (`id`, `report_id`, `image_url`, `public_id`) VALUES
-(4, 2, 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/295248025_5619158588102826_8311340490183514443_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=KBVsdYCE5xUAX-qV-0X&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_ISR_GYjgEsOtP6zU8Si3Xh5wjSGVMHEpmudLIEYRMOQ&oe=62E1B08C', 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/295248025_5619158588102826_8311340490183514443_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=KBVsdYCE5xUAX-qV-0X&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_ISR_GYjgEsOtP6zU8Si3Xh5wjSGVMHEpmudLIEYRMOQ&oe=62E1B08C'),
-(5, 7, 'https://res.cloudinary.com/metanoia/image/upload/v1658582103/onlinebiddingproject/wkx6mjfvepoxvskgid2y.jpg', 'onlinebiddingproject/wkx6mjfvepoxvskgid2y');
 
 -- --------------------------------------------------------
 
@@ -628,19 +631,6 @@ CREATE TABLE `report_result` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `report_result`
---
-
-INSERT INTO `report_result` (`id`, `admin_id`, `report_id`, `result`, `created_at`, `updated_at`) VALUES
-(3, 11, 2, 1, '2022-07-23 13:20:40', '2022-07-23 13:20:40'),
-(4, 11, 3, 0, '2022-07-23 13:27:39', '2022-07-23 13:27:39'),
-(5, 11, 4, 0, '2022-07-23 13:28:13', '2022-07-23 13:28:13'),
-(6, 11, 5, 1, '2022-07-23 20:14:17', '2022-07-23 20:14:17'),
-(7, 11, 9, 0, '2022-07-23 20:35:29', '2022-07-23 20:35:29'),
-(8, 11, 7, 0, '2022-07-23 22:12:53', '2022-07-23 22:12:53'),
-(9, 11, 17, 1, '2022-07-26 17:28:17', '2022-07-26 17:28:17');
 
 -- --------------------------------------------------------
 
@@ -662,12 +652,11 @@ CREATE TABLE `review_result` (
 --
 
 INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_at`, `updated_at`) VALUES
-(9, 11, 64, 1, '2022-07-22 22:15:37', '2022-07-22 22:15:37'),
-(15, 11, 71, 1, '2022-07-25 17:24:26', '2022-07-25 17:24:26'),
-(17, 11, 73, 1, '2022-07-27 17:20:31', '2022-07-27 17:20:31'),
-(19, 11, 75, 1, '2022-07-27 17:34:54', '2022-07-27 17:34:54'),
-(26, 11, 83, 1, '2022-07-30 00:29:03', '2022-07-30 00:29:03'),
-(30, 11, 86, 1, '2022-07-30 00:47:32', '2022-07-30 00:47:32');
+(34, 11, 92, 1, '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
+(35, 11, 93, 1, '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
+(36, 11, 94, 1, '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
+(37, 11, 95, 1, '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
+(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27');
 
 -- --------------------------------------------------------
 
@@ -734,17 +723,6 @@ CREATE TABLE `winner` (
   `bid_id` int NOT NULL,
   `auction_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `winner`
---
-
-INSERT INTO `winner` (`id`, `bid_id`, `auction_id`) VALUES
-(675, 100, 64),
-(676, 101, 71),
-(677, 113, 75),
-(678, 122, 83),
-(679, 123, 86);
 
 --
 -- Indexes for dumped tables
@@ -995,19 +973,19 @@ ALTER TABLE `winner`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `auction_user`
 --
 ALTER TABLE `auction_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1019,37 +997,37 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `item_image`
 --
 ALTER TABLE `item_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification_auction`
 --
 ALTER TABLE `notification_auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `notification_notified`
 --
 ALTER TABLE `notification_notified`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `notification_report`
 --
 ALTER TABLE `notification_report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `profile`
@@ -1061,7 +1039,7 @@ ALTER TABLE `profile`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `report_image`
@@ -1073,13 +1051,13 @@ ALTER TABLE `report_image`
 -- AUTO_INCREMENT for table `report_result`
 --
 ALTER TABLE `report_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `review_result`
 --
 ALTER TABLE `review_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `role`

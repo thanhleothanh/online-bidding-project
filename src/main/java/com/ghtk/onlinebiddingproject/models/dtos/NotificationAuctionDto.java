@@ -2,7 +2,7 @@ package com.ghtk.onlinebiddingproject.models.dtos;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ghtk.onlinebiddingproject.models.responses.PlainAuctionResponseDto;
+import com.ghtk.onlinebiddingproject.models.responses.NotificationAuctionResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,5 @@ public class NotificationAuctionDto {
     @JsonIgnore
     private NotificationDto notification;
 
-    private PlainAuctionResponseDto auction;
+    private NotificationAuctionResponseDto auction;
 }

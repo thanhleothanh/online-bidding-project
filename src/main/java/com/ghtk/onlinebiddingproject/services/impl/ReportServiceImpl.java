@@ -30,6 +30,8 @@ import java.util.List;
 @Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
+    private NotificationServiceImpl notificationService;
+    @Autowired
     private ReportRepository reportRepository;
     @Autowired
     private ReportResultRepository reportResultRepository;
@@ -50,6 +52,7 @@ public class ReportServiceImpl implements ReportService {
                 reportImageRepository.save(reportImage);
             }
         }
+        notificationService.createNewReportNotification(newReport);
         return newReport;
     }
 
@@ -91,6 +94,7 @@ public class ReportServiceImpl implements ReportService {
             UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
             reportResult.setAdmin(new Admin(userDetails.getId()));
             reportResult.setReport(report);
+            notificationService.createJudgeReportNotification(report);
             return reportResultRepository.save(reportResult);
         } else throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
     }

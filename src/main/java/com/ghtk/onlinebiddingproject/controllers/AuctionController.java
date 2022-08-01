@@ -85,7 +85,6 @@ public class AuctionController {
     public ResponseEntity<CommonResponse> save(@Valid @RequestBody AuctionRequestDto auctionDto) {
         Auction auction = dtoToEntityConverter.convertToEntity(auctionDto);
         Item item = dtoToEntityConverter.convertToEntity(auctionDto.getItem());
-
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(auctionService.save(auctionDto, auction, item));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
