@@ -21,11 +21,11 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
     @Modifying
     @Query(value = "INSERT INTO notification_auction(`auction_id`, `notification_id`) VALUES (:auctionId , :notificationId)", nativeQuery = true)
     @Transactional
-    void insertNotificationAuction(@Param("auctionId") Integer auctionId, @Param("notificationId") Integer notificationId);
+    void insertAuctionNotification(@Param("auctionId") Integer auctionId, @Param("notificationId") Integer notificationId);
 
     @Modifying
     @Query(value = "INSERT INTO notification_report(`report_id`, `notification_id`) VALUES (:reportId , :notificationId)", nativeQuery = true)
     @Transactional
-    void insertNotificationReport(@Param("reportId") Integer reportId, @Param("notificationId") Integer notificationId);
+    void insertReportNotification(@Param("reportId") Integer reportId, @Param("notificationId") Integer notificationId);
 
 }

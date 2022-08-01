@@ -6,6 +6,7 @@ import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponse
 import com.ghtk.onlinebiddingproject.repositories.AuctionUserRepository;
 import com.ghtk.onlinebiddingproject.repositories.NotificationNotifiedRepository;
 import com.ghtk.onlinebiddingproject.repositories.NotificationRepository;
+import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.NotificationService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
@@ -18,11 +19,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
+    @Autowired
+    private ProfileRepository profileRepository;
     @Autowired
     private AuctionUserRepository auctionUserRepository;
     @Autowired
@@ -47,6 +51,23 @@ public class NotificationServiceImpl implements NotificationService {
                 page.getContent());
     }
 
+    @Override
+    @Transactional
+    public void createSubmitAuctionNotification(Auction auction) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        Notification savedSubmitAuctionNotification = notificationRepository.save(new Notification(
+                new Profile(userDetails.getId()),
+                NotificationTypeConstants.SUBMIT_AUCTION.getNotificationType(),
+                NotificationTypeConstants.SUBMIT_AUCTION.getEntityType()
+        ));
+        notificationRepository.insertAuctionNotification(auction.getId(), savedSubmitAuctionNotification.getId());
+
+        List<Profile> admins = profileRepository.findByRole_Id(1);
+        admins.forEach(admin -> {
+            notificationNotifiedRepository.save(new NotificationNotified(savedSubmitAuctionNotification, admin));
+        });
+    }
+
     // create notification record when admin review the submitted auction
     @Override
     @Transactional
@@ -57,7 +78,7 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.REVIEW_AUCTION.getNotificationType(),
                 NotificationTypeConstants.REVIEW_AUCTION.getEntityType()
         ));
-        notificationRepository.insertNotificationAuction(auction.getId(), savedReviewAuctionNotification.getId());
+        notificationRepository.insertAuctionNotification(auction.getId(), savedReviewAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
                 new NotificationNotified(savedReviewAuctionNotification, new Profile(auction.getUser().getId()));
         notificationNotifiedRepository.save(newNotificationNotified);
@@ -72,7 +93,7 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.END_AUCTION.getNotificationType(),
                 NotificationTypeConstants.END_AUCTION.getEntityType()
         ));
-        notificationRepository.insertNotificationAuction(auction.getId(), savedEndAuctionNotification.getId());
+        notificationRepository.insertAuctionNotification(auction.getId(), savedEndAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
                 new NotificationNotified(savedEndAuctionNotification, new Profile(auction.getUser().getId()));
         notificationNotifiedRepository.save(newNotificationNotified);
@@ -94,7 +115,7 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.START_AUCTION.getNotificationType(),
                 NotificationTypeConstants.START_AUCTION.getEntityType()
         ));
-        notificationRepository.insertNotificationAuction(auction.getId(), savedStartAuctionNotification.getId());
+        notificationRepository.insertAuctionNotification(auction.getId(), savedStartAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
                 new NotificationNotified(savedStartAuctionNotification, new Profile(auction.getUser().getId()));
         notificationNotifiedRepository.save(newNotificationNotified);
@@ -109,7 +130,7 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.NEW_BID_AUCTION.getNotificationType(),
                 NotificationTypeConstants.NEW_BID_AUCTION.getEntityType()
         ));
-        notificationRepository.insertNotificationAuction(auction.getId(), savedNewBidAuctionNotification.getId());
+        notificationRepository.insertAuctionNotification(auction.getId(), savedNewBidAuctionNotification.getId());
     }
 
     // update the placeholder when new bids get added
@@ -121,6 +142,7 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.NEW_BID_AUCTION.getNotificationType()
         );
         savedNewBidAuctionNotification.setProfile(profile);
+        savedNewBidAuctionNotification.setUpdatedAt(LocalDateTime.now());
         notificationRepository.save(savedNewBidAuctionNotification);
     }
 
@@ -137,14 +159,40 @@ public class NotificationServiceImpl implements NotificationService {
         notificationNotifiedRepository.save(newNotificationNotified);
     }
 
+    /*
+     * Report notifications related
+     * */
+
     @Override
     @Transactional
     public void createNewReportNotification(Report report) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        Notification savedNewReportNotification = notificationRepository.save(new Notification(
+                new Profile(userDetails.getId()),
+                NotificationTypeConstants.CREATE_REPORT.getNotificationType(),
+                NotificationTypeConstants.CREATE_REPORT.getEntityType()
+        ));
+        notificationRepository.insertReportNotification(report.getId(), savedNewReportNotification.getId());
+
+        List<Profile> admins = profileRepository.findByRole_Id(1);
+        admins.forEach(admin -> {
+            notificationNotifiedRepository.save(new NotificationNotified(savedNewReportNotification, admin));
+        });
     }
 
     @Override
     @Transactional
     public void createJudgeReportNotification(Report report) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        Notification savedJudgeReportNotification = notificationRepository.save(new Notification(
+                new Profile(userDetails.getId()),
+                NotificationTypeConstants.JUDGE_REPORT.getNotificationType(),
+                NotificationTypeConstants.JUDGE_REPORT.getEntityType()
+        ));
+        notificationRepository.insertReportNotification(report.getId(), savedJudgeReportNotification.getId());
+        NotificationNotified newNotificationNotified =
+                new NotificationNotified(savedJudgeReportNotification, new Profile(report.getUserReporter().getId()));
+        notificationNotifiedRepository.save(newNotificationNotified);
     }
 
 }

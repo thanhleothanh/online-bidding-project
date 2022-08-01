@@ -9,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 public interface NotificationService {
     NotificationPagingResponse getMyNotifications(HttpHeaders headers);
 
+    void createSubmitAuctionNotification(Auction auction);
+
     void createReviewAuctionNotification(Profile profile, Auction auction);
 
     void createEndAuctionNotification(Auction auction);

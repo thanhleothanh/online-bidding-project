@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum NotificationTypeConstants {
+    SUBMIT_AUCTION("SUBMIT_AUCTION", "AUCTION"),
     REVIEW_AUCTION("REVIEW_AUCTION", "AUCTION"),
     START_AUCTION("START_AUCTION", "AUCTION"),
     END_AUCTION("END_AUCTION", "AUCTION"),

@@ -41,6 +41,7 @@ public class OnlinebiddingprojectApplication {
                 map().setUpdatedAt(String.valueOf(source.getUpdatedAt()));
             }
         };
+
         modelMapper.addMappings(localDateTimeToStringBid);
         modelMapper.addMappings(localDateTimeToStringReport);
         modelMapper.addMappings(localDateTimeToStringAuction);

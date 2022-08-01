@@ -1,5 +1,7 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import com.ghtk.onlinebiddingproject.constants.ReviewResultConstants;
 import com.ghtk.onlinebiddingproject.daos.AuctionDao;
@@ -27,6 +29,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -47,6 +50,8 @@ public class AuctionServiceImpl implements AuctionService {
     private NotificationServiceImpl notificationService;
     @Autowired
     private AuctionDao auctionDao;
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Override
     public AuctionPagingResponse get(Specification<Auction> spec, HttpHeaders headers, Sort sort) {
@@ -133,23 +138,12 @@ public class AuctionServiceImpl implements AuctionService {
         AuctionStatusConstants currentStatus = auction.getStatus();
         AuctionStatusConstants newStatus = auctionDto.getStatus();
 
-        LocalDateTime newTimeStart = auctionDto.getTimeStart() != null ? auctionDto.getTimeStart() : auction.getTimeStart();
-        LocalDateTime newTimeEnd = auctionDto.getTimeEnd() != null ? auctionDto.getTimeEnd() : auction.getTimeEnd();
-
         if (!isPostedByCurrentUser)
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
         if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING))
             throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
         if (newStatus != null)
             throw new BadRequestException("Không thể tự ý thay đổi trạng thái bài đấu giá!");
-        if (newTimeEnd.isBefore(newTimeStart))
-            throw new BadRequestException("Thời gian bắt đầu và kết thúc đấu giá không hợp lệ!");
-        if (LocalDateTime.now().isAfter(newTimeStart))
-            throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
-        if (LocalDateTime.now().isAfter(newTimeEnd))
-            throw new BadRequestException("Thời gian kết thúc đấu giá không hợp lệ!");
-        if (ChronoUnit.MINUTES.between(newTimeStart, newTimeEnd) > 2881)
-            throw new BadRequestException("Thời gian bắt đầu và thời gian kết thúc không được cách nhau quá 48 tiếng!");
 
         DtoToEntityUtils.copyNonNullProperties(auctionDto, auction);
         if (auctionDto.getCategory() != null) auction.setCategory(new Category(auctionDto.getCategory().getId()));
@@ -174,6 +168,7 @@ public class AuctionServiceImpl implements AuctionService {
             throw new BadRequestException("Thời gian bắt đầu hoặc thời gian kết thúc của bài đấu giá không hợp lệ!");
         if (auction.getItem() != null) {
             auction.setStatus(AuctionStatusConstants.PENDING);
+            notificationService.createSubmitAuctionNotification(auction);
             return auctionRepository.save(auction);
         } else throw new BadRequestException("Không thể submit bài đấu giá khi chưa có sản phẩm!");
     }
@@ -187,9 +182,19 @@ public class AuctionServiceImpl implements AuctionService {
 
         if (!isPostedByCurrentUser)
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
-        if (currentStatus.equals(AuctionStatusConstants.PENDING) || currentStatus.equals(AuctionStatusConstants.DRAFT))
+        if (currentStatus.equals(AuctionStatusConstants.PENDING) || currentStatus.equals(AuctionStatusConstants.DRAFT)) {
+            List<ItemImage> itemImages = auction.getItem().getItemImages();
+            itemImages.forEach(itemImage -> {
+                if (itemImage.getPublicId() != null) {
+                    try {
+                        cloudinary.uploader().destroy(itemImage.getPublicId(), ObjectUtils.emptyMap());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
             auctionRepository.delete(auction);
-        else throw new AccessDeniedException("Không thể thực hiện xoá bài đấu giá khi đã và đang đấu giá!");
+        } else throw new AccessDeniedException("Không thể thực hiện xoá bài đấu giá khi đã và đang đấu giá!");
     }
 
     /**
@@ -252,6 +257,11 @@ public class AuctionServiceImpl implements AuctionService {
     public AuctionPagingResponse helperGet(Specification<Auction> spec, Pageable pageable) {
         Page<Auction> page = auctionRepository.findAll(spec, pageable);
         List<Auction> auctionEntities = page.getContent();
-        return new AuctionPagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(), auctionEntities);
+        return new AuctionPagingResponse(
+                (int) page.getTotalElements(),
+                page.getNumber(),
+                page.getNumberOfElements(),
+                page.getTotalPages(),
+                auctionEntities);
     }
 }
