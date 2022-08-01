@@ -1,19 +1,19 @@
 package com.ghtk.onlinebiddingproject.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.ghtk.onlinebiddingproject.models.responses.NotificationReportResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class WinnerDto {
+@AllArgsConstructor
+public class NotificationReportDto {
     private Integer id;
 
-    private BidDto bid;
-
     @JsonIgnore
-    private AuctionDto auction;
+    private NotificationDto notification;
+
+    private NotificationReportResponseDto report;
 }

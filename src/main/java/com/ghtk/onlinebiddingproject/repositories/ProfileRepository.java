@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, Integer>, JpaSpecificationExecutor<Profile> {
@@ -16,6 +17,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer>, JpaS
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    List<Profile> findByRole_Id(Integer id);
 
     @Modifying
     @Query(value = "INSERT INTO user(`profile_id`) VALUES (:profileId)", nativeQuery = true)
@@ -26,7 +29,4 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer>, JpaS
     @Query(value = "INSERT INTO admin(`profile_id`) VALUES (:profileId)", nativeQuery = true)
     @Transactional
     void insertAdmin(@Param("profileId") Integer profileId);
-
-
-
 }

@@ -30,11 +30,35 @@ import java.util.List;
 @Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
+    private NotificationServiceImpl notificationService;
+    @Autowired
     private ReportRepository reportRepository;
     @Autowired
     private ReportResultRepository reportResultRepository;
     @Autowired
     private ReportImageRepository reportImageRepository;
+
+    @Override
+    @Transactional(rollbackFor = {SQLException.class})
+    public Report save(Report report) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+
+        Report newReport = reportRepository.save(report);
+        List<ReportImage> reportImages = report.getReportImages();
+        if (reportImages != null && reportImages.size() != 0) {
+            for (ReportImage reportImage : reportImages) {
+                reportImage.setReport(newReport);
+                reportImageRepository.save(reportImage);
+            }
+        }
+        notificationService.createNewReportNotification(newReport);
+        return newReport;
+    }
+
+    /*
+     * For admin
+     * */
 
     @Override
     public ReportPagingResponse get(Specification<Report> spec, HttpHeaders headers, Sort sort) {
@@ -45,24 +69,6 @@ public class ReportServiceImpl implements ReportService {
             return new ReportPagingResponse(reportEntities.size(), 0, 0, 0, reportEntities);
         }
     }
-
-    @Override
-    @Transactional(rollbackFor = {SQLException.class})
-    public Report save(Report report) {
-        Report newReport = reportRepository.save(report);
-        List<ReportImage> reportImages = report.getReportImages();
-        if (reportImages != null && reportImages.size() != 0) {
-            for (ReportImage reportImage : reportImages) {
-                reportImage.setReport(newReport);
-                reportImageRepository.save(reportImage);
-            }
-        }
-        return newReport;
-    }
-
-    /*
-     * For admin
-     * */
 
     @Override
     public Report adminGetById(Integer id) {
@@ -88,6 +94,7 @@ public class ReportServiceImpl implements ReportService {
             UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
             reportResult.setAdmin(new Admin(userDetails.getId()));
             reportResult.setReport(report);
+            notificationService.createJudgeReportNotification(report);
             return reportResultRepository.save(reportResult);
         } else throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
     }
@@ -111,6 +118,7 @@ public class ReportServiceImpl implements ReportService {
     /**
      * helper methods
      */
+
     public List<Report> helperGet(Specification<Report> spec, Sort sort) {
         return reportRepository.findAll(spec, sort);
     }

@@ -1,6 +1,5 @@
 package com.ghtk.onlinebiddingproject.models.entities;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,22 +12,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "winner")
-public class Winner {
+@Table(name = "notification_auction")
+public class NotificationAuction {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bid_id", nullable = false)
-    private Bid bid;
+    @JoinColumn(name = "notification_id", nullable = false)
+    private Notification notification;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auction_id", nullable = false)
     private Auction auction;
-
-    public Winner(Integer id) {
-        this.id = id;
-    }
 }

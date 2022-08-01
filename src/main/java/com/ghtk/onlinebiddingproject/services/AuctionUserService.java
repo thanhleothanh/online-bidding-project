@@ -1,8 +1,15 @@
 package com.ghtk.onlinebiddingproject.services;
 
+import com.ghtk.onlinebiddingproject.models.entities.Auction;
+import com.ghtk.onlinebiddingproject.models.entities.Profile;
+
+import java.util.List;
+
 public interface AuctionUserService {
 
-    void saveInterestUser(Integer auctionId);
+    List<Auction> getMyInterestedAuctions();
 
-    void removeInterestUser(Integer auctionId);
+    List<Profile> getInterestedUsersByAuctionId(Integer auctionId);
+
+    void saveInterestedAuction(Integer auctionId);
 }

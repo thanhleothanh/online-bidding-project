@@ -115,7 +115,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"nguoidung\",\r\n\t\t\"password\": \"nguoidung\",\r\n\t\t\"name\": \"thanhthanh\",\r\n\t\t\"role\": {\r\n\t\t\t\"id\": 2\r\n\t\t}\r\n}",
+							"raw": "{\r\n    \"username\": \"thanhng260588\",\r\n\t\t\"password\": \"12345678\",\r\n\t\t\"email\": \"thanhng260588@gmail.com\",\r\n\t\t\"name\": \"thanhthanh\",\r\n\t\t\"role\": {\r\n\t\t\t\"id\": 2\r\n\t\t}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -153,7 +153,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\t\"status\": \"ACTIVE\"\r\n}",
+							"raw": "{\r\n\t\t\"name\": \"thanh\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -186,7 +186,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"currentPassword\": \"12345678\",\r\n\t\t\"newPassword\": \"123456789\",\r\n\t\t\"newPasswordConfirm\": \"123456789\"\r\n}",
+							"raw": "{\r\n    \"currentPassword\": \"123456789\",\r\n\t\t\"newPassword\": \"123456789\",\r\n\t\t\"confirmedNewPassword\": \"123456789\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -303,7 +303,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/profiles/19/auctions",
+							"raw": "127.0.0.1:8080/api/v1/profiles/6/auctions",
 							"host": [
 								"127",
 								"0",
@@ -315,8 +315,128 @@
 								"api",
 								"v1",
 								"profiles",
-								"19",
+								"6",
 								"auctions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get my notifications",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "0",
+								"type": "text"
+							},
+							{
+								"key": "page_size",
+								"value": "10",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/profiles/myNotifications",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"profiles",
+								"myNotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get interested auctions by user id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/profiles/myInterestedAuctions",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"profiles",
+								"myInterestedAuctions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get won auctions by user id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/profiles/8/wonAuctions",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"profiles",
+								"8",
+								"wonAuctions"
 							]
 						}
 					},
@@ -344,45 +464,6 @@
 							}
 						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/admin/auctions?status=ENDED",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"auctions"
-							],
-							"query": [
-								{
-									"key": "status",
-									"value": "ENDED"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "put auction (admin)",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\t\"id\": 24,\r\n\t\"status\": \"PENDING\" \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
 							"raw": "127.0.0.1:8080/api/v1/admin/auctions",
 							"host": [
 								"127",
@@ -396,6 +477,81 @@
 								"v1",
 								"admin",
 								"auctions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all profiles (admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "0",
+								"type": "text"
+							},
+							{
+								"key": "page_size",
+								"value": "7",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/admin/profiles?status=",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"profiles"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put auction (admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"OPENING\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/admin/auctions/57",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"auctions",
+								"57"
 							]
 						}
 					},
@@ -416,7 +572,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/admin/auctions/35/approve",
+							"raw": "127.0.0.1:8080/api/v1/admin/auctions/57/approve",
 							"host": [
 								"127",
 								"0",
@@ -429,7 +585,7 @@
 								"v1",
 								"admin",
 								"auctions",
-								"35",
+								"57",
 								"approve"
 							]
 						}
@@ -517,7 +673,7 @@
 							}
 						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/auctions?status=PENDING",
+							"raw": "127.0.0.1:8080/api/v1/auctions?status=OPENING",
 							"host": [
 								"127",
 								"0",
@@ -533,7 +689,7 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "PENDING"
+									"value": "OPENING"
 								}
 							]
 						}
@@ -592,7 +748,7 @@
 							}
 						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/auctions/myAuctions",
+							"raw": "127.0.0.1:8080/api/v1/profiles/myAuctions",
 							"host": [
 								"127",
 								"0",
@@ -603,7 +759,7 @@
 							"path": [
 								"api",
 								"v1",
-								"auctions",
+								"profiles",
 								"myAuctions"
 							]
 						}
@@ -627,7 +783,7 @@
 							}
 						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/auctions/34",
+							"raw": "127.0.0.1:8080/api/v1/auctions/96",
 							"host": [
 								"127",
 								"0",
@@ -639,7 +795,7 @@
 								"api",
 								"v1",
 								"auctions",
-								"34"
+								"96"
 							]
 						}
 					},
@@ -780,7 +936,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"price\": 100000000000000000000000000000\n}\t\t\t\t\t\t\t",
+							"raw": "{\n\t\"price\": 123123\n}\t\t\t\t\t\t\t",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -788,7 +944,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/auctions/35/bids",
+							"raw": "127.0.0.1:8080/api/v1/auctions/71/bids",
 							"host": [
 								"127",
 								"0",
@@ -800,7 +956,7 @@
 								"api",
 								"v1",
 								"auctions",
-								"35",
+								"71",
 								"bids"
 							]
 						}
@@ -824,7 +980,7 @@
 							}
 						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/auctions/32/bids",
+							"raw": "127.0.0.1:8080/api/v1/auctions/96/bids",
 							"host": [
 								"127",
 								"0",
@@ -836,7 +992,7 @@
 								"api",
 								"v1",
 								"auctions",
-								"32",
+								"96",
 								"bids"
 							]
 						}
@@ -881,13 +1037,13 @@
 					"response": []
 				},
 				{
-					"name": "post item image",
+					"name": "put item",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"imageUrl\": \"1231\"\n}\t\t\t\t\t\t\t",
+							"raw": "{\n\t\"itemImages\": [\n\t\t\t\t{\n\t\t\t\t\t\"id\": 19,\n\t\t\t\t\t\"imageUrl\": \"https://res.cloudinary.com/metanoia/image/upload/v1658223217/onlinebiddingproject/dtbzh9dnftdr5yramjge.jpg\",\n\t\t\t\t\t\"publicId\": \"onlinebiddingproject/dtbzh9dnftdr5yramjge\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"id\": 18,\n\t\t\t\t\t\"imageUrl\": \"https://res.cloudinary.com/metanoia/image/upload/v1658223227/onlinebiddingproject/kypoz8diely90al0dt0f.jpg\",\n\t\t\t\t\t\"publicId\": \"onlinebiddingproject/kypoz8diely90al0dt0f\"\n\t\t\t\t}\n\t\t\t]\n}\t\t\t\t\t\t\t",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -895,7 +1051,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/items/21/itemImages",
+							"raw": "127.0.0.1:8080/api/v1/items/55",
 							"host": [
 								"127",
 								"0",
@@ -907,7 +1063,40 @@
 								"api",
 								"v1",
 								"items",
-								"21",
+								"55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post item image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"imageUrl\": \"https://res.cloudinary.com/metanoia/image/upload/v1658223227/onlinebiddingproject/kypoz8diely90al0dt0f.jpg\",\n\t\"publicId\": \"onlinebiddingproject/kypoz8diely90al0dt0f\"\n}\t\t\t\t\t\t\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/items/55/itemImages",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"items",
+								"55",
 								"itemImages"
 							]
 						}
@@ -989,9 +1178,20 @@
 					"name": "get all reports (admin)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "page",
+								"value": "0",
+								"type": "text"
+							},
+							{
+								"key": "page_size",
+								"value": "10",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/admin/reports",
+							"raw": "127.0.0.1:8080/api/v1/admin/reports?result=",
 							"host": [
 								"127",
 								"0",
@@ -1004,6 +1204,12 @@
 								"v1",
 								"admin",
 								"reports"
+							],
+							"query": [
+								{
+									"key": "result",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -1016,7 +1222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"result\": \"ACCEPTED\"\n}",
+							"raw": "{\n\t\"result\": \"REJECTED\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1024,7 +1230,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/admin/reports/1/results",
+							"raw": "127.0.0.1:8080/api/v1/admin/reports/22/results",
 							"host": [
 								"127",
 								"0",
@@ -1037,7 +1243,7 @@
 								"v1",
 								"admin",
 								"reports",
-								"1",
+								"22",
 								"results"
 							]
 						}

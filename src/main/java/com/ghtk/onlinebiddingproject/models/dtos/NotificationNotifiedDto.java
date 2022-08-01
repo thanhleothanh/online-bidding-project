@@ -1,5 +1,6 @@
 package com.ghtk.onlinebiddingproject.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuctionUserDto {
+public class NotificationNotifiedDto {
     private Integer id;
-    private AuctionDto auction;
+
+    @JsonIgnore
+    private NotificationDto notification;
+
+    private ProfileDto profile;
 }
