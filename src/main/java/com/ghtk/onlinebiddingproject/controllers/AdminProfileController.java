@@ -39,7 +39,6 @@ public class AdminProfileController {
             Sort sort,
             @RequestHeader HttpHeaders headers) {
         ProfilePagingResponse pagingResponse = profileService.adminGetAll(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
-
         ProfilePagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);

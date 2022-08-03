@@ -1,11 +1,13 @@
 package com.ghtk.onlinebiddingproject.controllers;
 
 import com.ghtk.onlinebiddingproject.models.dtos.ReportResultDto;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.entities.Report;
 import com.ghtk.onlinebiddingproject.models.entities.ReportResult;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponseDto;
+import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.ReportServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
@@ -31,6 +33,8 @@ public class AdminReportController {
     @Autowired
     private ReportServiceImpl reportService;
     @Autowired
+    private NotificationServiceImpl notificationService;
+    @Autowired
     private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
     private EntityToDtoConverter entityToDtoConverter;
@@ -46,7 +50,6 @@ public class AdminReportController {
             Sort sort,
             @RequestHeader HttpHeaders headers) {
         ReportPagingResponse pagingResponse = reportService.get(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
-
         ReportPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);
@@ -65,9 +68,12 @@ public class AdminReportController {
     public ResponseEntity<CommonResponse> adminJudgeReport(@PathVariable("id") int id, @Valid @RequestBody ReportResultDto reportResultDto) {
         Report report = reportService.adminGetById(id);
         ReportResult reportResult = dtoToEntityConverter.convertToEntity(reportResultDto);
-
         ReportResultDto dtoResponse = entityToDtoConverter.convertToDto(reportService.adminJudgeReport(reportResult, report));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+
+        //send notification
+        Notification notification = notificationService.createJudgeReportNotification(report);
+        notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

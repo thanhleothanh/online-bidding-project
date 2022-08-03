@@ -51,7 +51,6 @@ public class BidServiceImpl implements BidService {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy user này!"));
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
-
         Double currentHighestPrice = auction.getHighestPrice() != 0 ? auction.getHighestPrice() : auction.getPriceStart();
         if (auction.getUser().getId().equals(userDetails.getId()))
             throw new AccessDeniedException("Bạn không thể trả giá cho bài đấu giá của chính mình!");
@@ -67,7 +66,6 @@ public class BidServiceImpl implements BidService {
         auction.setHighestPrice(bidDto.getPrice());
         auctionRepository.save(auction);
         auctionUserService.saveInterestedAuction(auctionId);
-        notificationService.saveNewBidAuctionNotification(currentUser.getProfile(), auction);
 
         bid.setUser(currentUser);
         bid.setAuction(auction);
