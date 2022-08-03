@@ -106,11 +106,12 @@ public class AuctionServiceImpl implements AuctionService {
     public Auction save(AuctionRequestDto auctionDto, Auction auction, Item item) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
-
         User user = new User(userDetails.getId());
         auction.setUser(user);
 
         if (auctionDto.getTimeEnd().isBefore(auctionDto.getTimeStart()))
+            throw new BadRequestException("Thời gian bắt đầu và kết thúc đấu giá không hợp lệ!");
+        if (auctionDto.getTimeEnd().isEqual(auctionDto.getTimeStart()))
             throw new BadRequestException("Thời gian bắt đầu và kết thúc đấu giá không hợp lệ!");
         if (LocalDateTime.now().isAfter(auctionDto.getTimeStart()))
             throw new BadRequestException("Thời gian bắt đầu đấu giá không hợp lệ!");
@@ -137,7 +138,6 @@ public class AuctionServiceImpl implements AuctionService {
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
         AuctionStatusConstants currentStatus = auction.getStatus();
         AuctionStatusConstants newStatus = auctionDto.getStatus();
-
         if (!isPostedByCurrentUser)
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
         if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING))
@@ -168,7 +168,6 @@ public class AuctionServiceImpl implements AuctionService {
             throw new BadRequestException("Thời gian bắt đầu hoặc thời gian kết thúc của bài đấu giá không hợp lệ!");
         if (auction.getItem() != null) {
             auction.setStatus(AuctionStatusConstants.PENDING);
-            notificationService.createSubmitAuctionNotification(auction);
             return auctionRepository.save(auction);
         } else throw new BadRequestException("Không thể submit bài đấu giá khi chưa có sản phẩm!");
     }
@@ -193,6 +192,7 @@ public class AuctionServiceImpl implements AuctionService {
                     }
                 }
             });
+            notificationService.deleteAuctionNotifications(auction.getId());
             auctionRepository.delete(auction);
         } else throw new AccessDeniedException("Không thể thực hiện xoá bài đấu giá khi đã và đang đấu giá!");
     }
@@ -217,15 +217,13 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     @Transactional(rollbackFor = {SQLException.class})
     public Auction adminReviewSubmit(AuctionRequestDto auctionRequestDto, Integer id) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Auction auction = adminGetById(id);
-        AuctionStatusConstants currentStatus = auction.getStatus();
 
-        if (currentStatus.equals(AuctionStatusConstants.PENDING)) {
-            UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        if (auction.getStatus().equals(AuctionStatusConstants.PENDING)) {
             Admin admin = new Admin(userDetails.getId());
             AuctionStatusConstants newStatus = auctionRequestDto.getStatus();
             ReviewResult reviewResult = null;
-
             if (newStatus.equals(AuctionStatusConstants.QUEUED))
                 reviewResult = new ReviewResult(ReviewResultConstants.ACCEPTED, auction, admin);
             else if (newStatus.equals(AuctionStatusConstants.CANCELED))
@@ -233,16 +231,14 @@ public class AuctionServiceImpl implements AuctionService {
             else throw new BadRequestException("Duyệt bài đấu giá không thành công!");
             reviewResultRepository.save(reviewResult);
             auction.setStatus(newStatus);
-
-            Auction reviewedAuction = auctionRepository.save(auction);
-            notificationService.createReviewAuctionNotification(new Profile(userDetails.getId()), reviewedAuction);
-            return reviewedAuction;
+            return auctionRepository.save(auction);
         }
         throw new BadRequestException("Chưa thể duyệt bài đấu giá này vào lúc này!");
     }
 
     @Override
     public void adminDeleteById(Integer id) {
+        notificationService.deleteAuctionNotifications(id);
         auctionRepository.deleteById(id);
     }
 

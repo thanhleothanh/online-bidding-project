@@ -3,10 +3,7 @@ package com.ghtk.onlinebiddingproject.services.impl;
 import com.ghtk.onlinebiddingproject.constants.NotificationTypeConstants;
 import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponse;
-import com.ghtk.onlinebiddingproject.repositories.AuctionUserRepository;
-import com.ghtk.onlinebiddingproject.repositories.NotificationNotifiedRepository;
-import com.ghtk.onlinebiddingproject.repositories.NotificationRepository;
-import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
+import com.ghtk.onlinebiddingproject.repositories.*;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.NotificationService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
@@ -32,7 +29,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
+    private NotificationAuctionRepository notificationAuctionRepository;
+    @Autowired
+    private NotificationReportRepository notificationReportRepository;
+    @Autowired
     private NotificationNotifiedRepository notificationNotifiedRepository;
+    @Autowired
+    private WebSocketServiceImpl webSocketService;
 
     // get 10 latest notifications by userId
     @Override
@@ -51,9 +54,10 @@ public class NotificationServiceImpl implements NotificationService {
                 page.getContent());
     }
 
+    // create notification record when a user submit an auction
     @Override
     @Transactional
-    public void createSubmitAuctionNotification(Auction auction) {
+    public Notification createSubmitAuctionNotification(Auction auction) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Notification savedSubmitAuctionNotification = notificationRepository.save(new Notification(
                 new Profile(userDetails.getId()),
@@ -61,17 +65,17 @@ public class NotificationServiceImpl implements NotificationService {
                 NotificationTypeConstants.SUBMIT_AUCTION.getEntityType()
         ));
         notificationRepository.insertAuctionNotification(auction.getId(), savedSubmitAuctionNotification.getId());
-
         List<Profile> admins = profileRepository.findByRole_Id(1);
         admins.forEach(admin -> {
             notificationNotifiedRepository.save(new NotificationNotified(savedSubmitAuctionNotification, admin));
         });
+        return savedSubmitAuctionNotification;
     }
 
     // create notification record when admin review the submitted auction
     @Override
     @Transactional
-    public void createReviewAuctionNotification(Profile profile, Auction auction) {
+    public Notification createReviewAuctionNotification(Auction auction) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Notification savedReviewAuctionNotification = notificationRepository.save(new Notification(
                 new Profile(userDetails.getId()),
@@ -80,14 +84,15 @@ public class NotificationServiceImpl implements NotificationService {
         ));
         notificationRepository.insertAuctionNotification(auction.getId(), savedReviewAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
-                new NotificationNotified(savedReviewAuctionNotification, new Profile(auction.getUser().getId()));
+                new NotificationNotified(savedReviewAuctionNotification, auction.getUser().getProfile());
         notificationNotifiedRepository.save(newNotificationNotified);
+        return savedReviewAuctionNotification;
     }
 
     // create notification record to inform users that auction has ended
     @Override
     @Transactional
-    public void createEndAuctionNotification(Auction auction) {
+    public Notification createEndAuctionNotification(Auction auction) {
         Notification savedEndAuctionNotification = notificationRepository.save(new Notification(
                 null,
                 NotificationTypeConstants.END_AUCTION.getNotificationType(),
@@ -95,21 +100,21 @@ public class NotificationServiceImpl implements NotificationService {
         ));
         notificationRepository.insertAuctionNotification(auction.getId(), savedEndAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
-                new NotificationNotified(savedEndAuctionNotification, new Profile(auction.getUser().getId()));
+                new NotificationNotified(savedEndAuctionNotification, auction.getUser().getProfile());
         notificationNotifiedRepository.save(newNotificationNotified);
 
         List<AuctionUser> auctionUsers = auctionUserRepository.findByAuction_Id(auction.getId());
         List<Profile> interestedProfiles = auctionUsers.stream().map(AuctionUser::getUser).map(User::getProfile).collect(Collectors.toList());
-
         interestedProfiles.forEach(profile -> {
             notificationNotifiedRepository.save(new NotificationNotified(savedEndAuctionNotification, profile));
         });
+        return savedEndAuctionNotification;
     }
 
     // create notification record to inform auction creator that auction has started
     @Override
     @Transactional
-    public void createStartAuctionNotification(Auction auction) {
+    public Notification createStartAuctionNotification(Auction auction) {
         Notification savedStartAuctionNotification = notificationRepository.save(new Notification(
                 null,
                 NotificationTypeConstants.START_AUCTION.getNotificationType(),
@@ -117,8 +122,9 @@ public class NotificationServiceImpl implements NotificationService {
         ));
         notificationRepository.insertAuctionNotification(auction.getId(), savedStartAuctionNotification.getId());
         NotificationNotified newNotificationNotified =
-                new NotificationNotified(savedStartAuctionNotification, new Profile(auction.getUser().getId()));
+                new NotificationNotified(savedStartAuctionNotification, auction.getUser().getProfile());
         notificationNotifiedRepository.save(newNotificationNotified);
+        return savedStartAuctionNotification;
     }
 
     // create notification record as a placeholder that gets updated when new bids get added
@@ -136,26 +142,28 @@ public class NotificationServiceImpl implements NotificationService {
     // update the placeholder when new bids get added
     @Override
     @Transactional
-    public void saveNewBidAuctionNotification(Profile profile, Auction auction) {
+    public Notification saveNewBidAuctionNotification(Auction auction) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Notification savedNewBidAuctionNotification = notificationRepository.findByNotificationAuction_Auction_IdAndNotificationType(
                 auction.getId(),
                 NotificationTypeConstants.NEW_BID_AUCTION.getNotificationType()
         );
-        savedNewBidAuctionNotification.setProfile(profile);
+        savedNewBidAuctionNotification.setProfile(new Profile(userDetails.getId()));
         savedNewBidAuctionNotification.setUpdatedAt(LocalDateTime.now());
         notificationRepository.save(savedNewBidAuctionNotification);
+        return savedNewBidAuctionNotification;
     }
 
     // add notification notified record when new person starts bidding
     @Override
     @Transactional
     public void createNewAuctionUserNotification(Profile profile, Auction auction) {
-        Notification savedNewBidAuctionNotification = notificationRepository.findByNotificationAuction_Auction_IdAndNotificationType(
+        Notification savedNewAuctionUserNotification = notificationRepository.findByNotificationAuction_Auction_IdAndNotificationType(
                 auction.getId(),
                 NotificationTypeConstants.NEW_BID_AUCTION.getNotificationType()
         );
         NotificationNotified newNotificationNotified =
-                new NotificationNotified(savedNewBidAuctionNotification, profile);
+                new NotificationNotified(savedNewAuctionUserNotification, profile);
         notificationNotifiedRepository.save(newNotificationNotified);
     }
 
@@ -165,7 +173,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    public void createNewReportNotification(Report report) {
+    public Notification createNewReportNotification(Report report) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Notification savedNewReportNotification = notificationRepository.save(new Notification(
                 new Profile(userDetails.getId()),
@@ -178,11 +186,12 @@ public class NotificationServiceImpl implements NotificationService {
         admins.forEach(admin -> {
             notificationNotifiedRepository.save(new NotificationNotified(savedNewReportNotification, admin));
         });
+        return savedNewReportNotification;
     }
 
     @Override
     @Transactional
-    public void createJudgeReportNotification(Report report) {
+    public Notification createJudgeReportNotification(Report report) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Notification savedJudgeReportNotification = notificationRepository.save(new Notification(
                 new Profile(userDetails.getId()),
@@ -191,8 +200,41 @@ public class NotificationServiceImpl implements NotificationService {
         ));
         notificationRepository.insertReportNotification(report.getId(), savedJudgeReportNotification.getId());
         NotificationNotified newNotificationNotified =
-                new NotificationNotified(savedJudgeReportNotification, new Profile(report.getUserReporter().getId()));
+                new NotificationNotified(savedJudgeReportNotification, report.getUserReporter().getProfile());
         notificationNotifiedRepository.save(newNotificationNotified);
+        return savedJudgeReportNotification;
     }
 
+    //deleting notifications
+
+    @Override
+    @Transactional
+    public void deleteAuctionNotifications(Integer auctionId) {
+        List<NotificationAuction> notificationAuctions = notificationAuctionRepository.findByAuction_Id(auctionId);
+        notificationAuctions.forEach(notificationAuction -> {
+            notificationRepository.deleteById(notificationAuction.getNotification().getId());
+        });
+    }
+
+    @Override
+    @Transactional
+    public void deleteReportNotifications(Integer reportId) {
+        List<NotificationReport> notificationReports = notificationReportRepository.findByReport_Id(reportId);
+        notificationReports.forEach(notificationReport -> {
+            notificationRepository.deleteById(notificationReport.getNotification().getId());
+        });
+    }
+
+    //realtime notifying
+
+    @Override
+    @Transactional
+    public void notifyThroughSocket(Notification notification) {
+        List<NotificationNotified> notifiedProfiles = notificationNotifiedRepository.findByNotification_Id(notification.getId());
+        notifiedProfiles.forEach(profile -> {
+            if (profile.getProfile() != null && profile.getProfile().getUsername() != null) {
+                webSocketService.sendNotification(profile.getProfile(), notification);
+            }
+        });
+    }
 }

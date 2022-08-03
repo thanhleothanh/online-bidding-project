@@ -1,5 +1,8 @@
 package com.ghtk.onlinebiddingproject.ws;
 
+import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
+import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
+import com.ghtk.onlinebiddingproject.security.UserDetailsServiceImpl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +20,28 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
-    static final String JWT_TOKEN_HEADER = "jwtToken";
+    static final String USERNAME_HEADER = "username";
     @Autowired
-    private WebSocketUtils webSocketUtils;
+    private UserDetailsServiceImpl userDetailsService;
 
     @SneakyThrows
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         final StompHeaderAccessor accessor = readHeaderAccessor(message);
         if (accessor.getCommand() == StompCommand.CONNECT) {
-            String jwtToken = readJwtTokenHeader(accessor);
-            UsernamePasswordAuthenticationToken userDetails = webSocketUtils.authenticate(jwtToken);
+            String username = readUsernameHeader(accessor);
+            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
             if (userDetails == null)
-                throw new AccessDeniedException("JWT Token not valid");
-            else {
-                accessor.setUser(userDetails);
-                log.info("User with jwtToken '{}' make a WebSocket connection ", jwtToken);
+                throw new AccessDeniedException("Username not found in the database!");
+            if (userDetails.getStatus().equals(UserStatusConstants.BANNED)) {
+                throw new AccessDeniedException("Tài khoản của bạn đã bị khoá!");
             }
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails,
+                            null,
+                            userDetails.getAuthorities());
+            accessor.setUser(authentication);
+            log.info("User with username '{}' made a WebSocket connection ", username);
         }
         return message;
     }
@@ -43,14 +51,14 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         if (accessor == null) {
             throw new AuthenticationCredentialsNotFoundException("Fail to read headers.");
         }
-        return accessor;
+       return accessor;
     }
 
-    private String readJwtTokenHeader(StompHeaderAccessor accessor) {
-        final String jwtToken = accessor.getFirstNativeHeader(JWT_TOKEN_HEADER);
-        if (jwtToken == null || jwtToken.trim().isEmpty())
-            throw new AuthenticationCredentialsNotFoundException("JWT Token not found!");
-        return jwtToken;
+    private String readUsernameHeader(StompHeaderAccessor accessor) {
+        final String username = accessor.getFirstNativeHeader(USERNAME_HEADER);
+        if (username == null || username.trim().isEmpty())
+            throw new AuthenticationCredentialsNotFoundException("Username not found in header!");
+        return username;
     }
 
     StompHeaderAccessor getAccessor(Message<?> message) {

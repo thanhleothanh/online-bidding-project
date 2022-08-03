@@ -2,7 +2,7 @@ package com.ghtk.onlinebiddingproject.jobs;
 
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
-import com.ghtk.onlinebiddingproject.models.entities.Profile;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.repositories.AuctionRepository;
 import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +29,12 @@ public class StartAuctionJob extends QuartzJobBean {
             Integer auctionId = jobDataMap.getInt("auctionId");
             Auction auction = auctionRepository.findById(auctionId)
                     .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
-
             auctionRepository.startAuction(auctionId);
-            notificationService.createStartAuctionNotification(auction);
+
+            Notification notification = notificationService.createStartAuctionNotification(auction);
             notificationService.createNewBidAuctionNotification(auction);
-            notificationService.createNewAuctionUserNotification(new Profile(auction.getUser().getId()), auction);
+            notificationService.createNewAuctionUserNotification(auction.getUser().getProfile(), auction);
+            notificationService.notifyThroughSocket(notification);
             log.info("started auction with id " + auctionId);
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());

@@ -2,9 +2,11 @@ package com.ghtk.onlinebiddingproject.controllers;
 
 import com.ghtk.onlinebiddingproject.models.dtos.ReportDto;
 import com.ghtk.onlinebiddingproject.models.dtos.ReportImageDto;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.entities.Report;
 import com.ghtk.onlinebiddingproject.models.entities.ReportImage;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
+import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.ReportServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
@@ -22,6 +24,8 @@ public class ReportController {
     @Autowired
     private ReportServiceImpl reportService;
     @Autowired
+    private NotificationServiceImpl notificationService;
+    @Autowired
     private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
     private EntityToDtoConverter entityToDtoConverter;
@@ -30,8 +34,13 @@ public class ReportController {
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> save(@Valid @RequestBody ReportDto reportDto) {
         Report report = dtoToEntityConverter.convertToEntity(reportDto);
-        ReportDto dtoResponse = entityToDtoConverter.convertToDto(reportService.save(report));
+        Report newReport = reportService.save(report);
+        ReportDto dtoResponse = entityToDtoConverter.convertToDto(newReport);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+
+        //send notification
+        Notification notification = notificationService.createNewReportNotification(newReport);
+        notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
