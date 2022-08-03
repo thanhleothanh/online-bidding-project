@@ -2,10 +2,7 @@ package com.ghtk.onlinebiddingproject.services.impl;
 
 import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
-import com.ghtk.onlinebiddingproject.models.entities.Admin;
-import com.ghtk.onlinebiddingproject.models.entities.Report;
-import com.ghtk.onlinebiddingproject.models.entities.ReportImage;
-import com.ghtk.onlinebiddingproject.models.entities.ReportResult;
+import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import com.ghtk.onlinebiddingproject.repositories.ReportImageRepository;
 import com.ghtk.onlinebiddingproject.repositories.ReportRepository;
@@ -52,7 +49,6 @@ public class ReportServiceImpl implements ReportService {
                 reportImageRepository.save(reportImage);
             }
         }
-        notificationService.createNewReportNotification(newReport);
         return newReport;
     }
 
@@ -78,6 +74,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void adminDeleteById(Integer id) {
+        notificationService.deleteReportNotifications(id);
         reportRepository.deleteById(id);
     }
 
@@ -94,7 +91,6 @@ public class ReportServiceImpl implements ReportService {
             UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
             reportResult.setAdmin(new Admin(userDetails.getId()));
             reportResult.setReport(report);
-            notificationService.createJudgeReportNotification(report);
             return reportResultRepository.save(reportResult);
         } else throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
     }
@@ -108,7 +104,6 @@ public class ReportServiceImpl implements ReportService {
         Report report = reportRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy report với id này!"));
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(report.getUserReporter().getId());
-
         if (isPostedByCurrentUser) {
             reportImage.setReport(report);
             return reportImageRepository.save(reportImage);

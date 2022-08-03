@@ -5,16 +5,14 @@ import com.ghtk.onlinebiddingproject.models.dtos.BidDto;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import com.ghtk.onlinebiddingproject.models.entities.Bid;
 import com.ghtk.onlinebiddingproject.models.entities.Item;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.BidRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponseDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionTopTrendingDto;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
-import com.ghtk.onlinebiddingproject.services.impl.AuctionServiceImpl;
-import com.ghtk.onlinebiddingproject.services.impl.BidServiceImpl;
-import com.ghtk.onlinebiddingproject.services.impl.JobSchedulerServiceImpl;
-import com.ghtk.onlinebiddingproject.services.impl.WebSocketServiceImpl;
+import com.ghtk.onlinebiddingproject.services.impl.*;
 import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
@@ -41,6 +39,8 @@ import java.util.List;
 public class AuctionController {
     @Autowired
     private WebSocketServiceImpl webSocketService;
+    @Autowired
+    private NotificationServiceImpl notificationService;
     @Autowired
     private AuctionServiceImpl auctionService;
     @Autowired
@@ -121,6 +121,10 @@ public class AuctionController {
         jobSchedulerService.cancelAuctionScheduler(submittedAuction); //scheduling a job to automatically cancel auction if no admin approve when timeStart comes!
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(submittedAuction);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+
+        //send notification
+        Notification notification = notificationService.createSubmitAuctionNotification(submittedAuction);
+        notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -147,10 +151,15 @@ public class AuctionController {
     @PostMapping("/{id}/bids")
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> saveBid(@PathVariable(value = "id") Integer id, @Valid @RequestBody BidRequestDto bidDto) {
+        Auction auction = auctionService.getById(id);
         Bid bid = dtoToEntityConverter.convertToEntity(bidDto);
         BidDto dtoResponse = entityToDtoConverter.convertToBidDto(bidService.saveBid(id, bidDto, bid));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
-        webSocketService.sendBid(id, response); // send new saved bid to all listeners at topic/auctions/${auctionId}/bids
+        webSocketService.sendBid(id, dtoResponse); // send new saved bid to all listeners at topic/auctions/${auctionId}/bids
+
+        //send notification
+        Notification notification = notificationService.saveNewBidAuctionNotification(auction);
+        notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

@@ -1,29 +1,37 @@
 package com.ghtk.onlinebiddingproject.services;
 
-import com.ghtk.onlinebiddingproject.models.entities.Auction;
-import com.ghtk.onlinebiddingproject.models.entities.Profile;
-import com.ghtk.onlinebiddingproject.models.entities.Report;
+import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponse;
 import org.springframework.http.HttpHeaders;
 
 public interface NotificationService {
     NotificationPagingResponse getMyNotifications(HttpHeaders headers);
 
-    void createSubmitAuctionNotification(Auction auction);
+    Notification createSubmitAuctionNotification(Auction auction);
 
-    void createReviewAuctionNotification(Profile profile, Auction auction);
+    Notification createReviewAuctionNotification(Auction auction);
 
-    void createEndAuctionNotification(Auction auction);
+    Notification createEndAuctionNotification(Auction auction);
 
-    void createStartAuctionNotification(Auction auction);
+    Notification createStartAuctionNotification(Auction auction);
 
     void createNewBidAuctionNotification(Auction auction);
 
-    void saveNewBidAuctionNotification(Profile profile, Auction auction);
+    Notification saveNewBidAuctionNotification(Auction auction);
 
     void createNewAuctionUserNotification(Profile profile, Auction auction);
 
-    void createNewReportNotification(Report report);
+    Notification createNewReportNotification(Report report);
 
-    void createJudgeReportNotification(Report report);
+    Notification createJudgeReportNotification(Report report);
+
+    //deleting notifications
+
+    void deleteAuctionNotifications(Integer auctionId);
+
+    void deleteReportNotifications(Integer reportId);
+
+    //realtime notifying
+
+    void notifyThroughSocket(Notification notification);
 }

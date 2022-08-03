@@ -4,6 +4,7 @@ package com.ghtk.onlinebiddingproject.controllers;
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import com.ghtk.onlinebiddingproject.models.dtos.AuctionDto;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponse;
 import com.ghtk.onlinebiddingproject.models.responses.AuctionPagingResponseDto;
@@ -65,7 +66,6 @@ public class AdminAuctionController {
             Sort sort,
             @RequestHeader HttpHeaders headers) {
         AuctionPagingResponse pagingResponse = auctionService.get(spec, headers, Sort.by(Sort.Direction.DESC, "createdAt"));
-
         AuctionPagingResponseDto dtoResponse = entityToDtoConverter.convertToDto(pagingResponse);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
         return new ResponseEntity<>(response, HttpHeadersUtils.returnHttpHeaders(pagingResponse), HttpStatus.OK);
@@ -91,13 +91,16 @@ public class AdminAuctionController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> adminReviewSubmit(@PathVariable("id") int id, @RequestBody @Valid AuctionRequestDto auctionRequestDto) {
         Auction approvedAuction = auctionService.adminReviewSubmit(auctionRequestDto, id);
-
         if (approvedAuction.getStatus().equals(AuctionStatusConstants.QUEUED)) {
             jobSchedulerService.startAuctionScheduler(approvedAuction); //scheduling a job to automatically open the auction when timeStart comes!
             jobSchedulerService.endAuctionScheduler(approvedAuction); //scheduling a job to automatically end the auction when timeEnd comes!
         }
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(approvedAuction);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+
+        //send notification
+        Notification notification = notificationService.createReviewAuctionNotification(approvedAuction);
+        notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

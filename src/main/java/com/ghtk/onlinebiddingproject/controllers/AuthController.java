@@ -1,5 +1,6 @@
 package com.ghtk.onlinebiddingproject.controllers;
 
+import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.models.requests.UserLogin;
 import com.ghtk.onlinebiddingproject.models.requests.UserSignup;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
@@ -37,7 +38,6 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse> signUpUser(@Validated @RequestBody UserSignup signUpRequest, final HttpServletRequest request) {
         UserAuthResponse userRegisterResponse = authService.signUp(signUpRequest, request);
-
         CommonResponse commonResponse = new CommonResponse(true, "Đăng ký thành công!", userRegisterResponse, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
     }
@@ -53,11 +53,10 @@ public class AuthController {
     @GetMapping("/verificationSignup")
     public ResponseEntity<CommonResponse> verificationSignup(@RequestParam("token") String token) {
         String result = authService.validateVerificationToken(token);
-        if (result.equalsIgnoreCase("valid")) {
-            CommonResponse commonResponse = new CommonResponse(true, "Success", "xác thực email thành công", null);
-            return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+        if (!result.equalsIgnoreCase("valid")) {
+            throw new BadRequestException("Xác thực email thất bại!");
         }
-        CommonResponse commonResponse = new CommonResponse(false, "Bad User", "xác thực email thất bại", null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);
+        CommonResponse commonResponse = new CommonResponse(true, "Success", "Xác thực email thành công", null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
     }
 }
