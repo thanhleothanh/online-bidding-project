@@ -16,7 +16,4 @@ public class UserDto {
 
     private ProfileDto profile;
 
-    public UserDto(Integer id) {
-        this.id = id;
-    }
 }

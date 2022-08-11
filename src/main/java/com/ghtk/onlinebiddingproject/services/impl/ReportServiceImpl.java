@@ -1,5 +1,6 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
+import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
 import com.ghtk.onlinebiddingproject.models.entities.*;
@@ -28,6 +29,8 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private NotificationServiceImpl notificationService;
+    @Autowired
+    private ProfileServiceImpl profileService;
     @Autowired
     private ReportRepository reportRepository;
     @Autowired
@@ -85,12 +88,18 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
-    public ReportResult adminJudgeReport(ReportResult reportResult, Report report) {
+    public ReportResult adminJudgeReport(Integer id, ReportResult reportResult) {
+        Report report = adminGetById(id);
         ReportResult existingResult = reportResultRepository.findByReport_Id(report.getId());
         if (existingResult == null) {
             UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
             reportResult.setAdmin(new Admin(userDetails.getId()));
             reportResult.setReport(report);
+
+            //deduct legitmate score
+            if (reportResult.getResult().equals(ReportResultConstants.ACCEPTED)) {
+                profileService.deductLegitimateScore(report.getUserReported().getId(), 5);
+            }
             return reportResultRepository.save(reportResult);
         } else throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
     }

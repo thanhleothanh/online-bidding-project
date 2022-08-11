@@ -17,7 +17,6 @@ public class SignupCompleteEventListener implements ApplicationListener<SignupCo
 
     @Override
     public void onApplicationEvent(SignupCompleteEvent event) {
-        // Create the verification Token for  ther profile with link
         Profile profile = event.getProfile();
         String token = UUID.randomUUID().toString();
         authService.saveVerificationTokenForProfile(token, profile);

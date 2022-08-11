@@ -26,7 +26,7 @@ public class UserSignup {
     private String password;
 
     @NotBlank(message = "Tên người dùng không được để trống!")
-    @Pattern(regexp = "^[A-Za-z]*$", message = "tên người dùng không được chứa ký tự đặc biệt hoặc số!")
+    @Pattern(regexp = "^[a-zA-Z ]*$", message = "tên người dùng không được chứa ký tự đặc biệt hoặc số!")
     private String name;
 
     @NotBlank(message = "Email không được để trống!")
