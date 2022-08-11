@@ -21,7 +21,7 @@ public interface ReportService {
 
     List<Report> adminGetReports();
 
-    ReportResult adminJudgeReport(ReportResult reportResult, Report report);
+    ReportResult adminJudgeReport(Integer id, ReportResult reportResult);
 
     ReportImage saveReportImage(Integer id, ReportImage reportImage);
 }

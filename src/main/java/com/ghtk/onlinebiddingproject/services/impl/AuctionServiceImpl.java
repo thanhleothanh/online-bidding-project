@@ -1,7 +1,5 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import com.ghtk.onlinebiddingproject.constants.ReviewResultConstants;
 import com.ghtk.onlinebiddingproject.daos.AuctionDao;
@@ -29,7 +27,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -50,8 +47,6 @@ public class AuctionServiceImpl implements AuctionService {
     private NotificationServiceImpl notificationService;
     @Autowired
     private AuctionDao auctionDao;
-    @Autowired
-    private Cloudinary cloudinary;
 
     @Override
     public AuctionPagingResponse get(Specification<Auction> spec, HttpHeaders headers, Sort sort) {
@@ -183,15 +178,7 @@ public class AuctionServiceImpl implements AuctionService {
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
         if (currentStatus.equals(AuctionStatusConstants.PENDING) || currentStatus.equals(AuctionStatusConstants.DRAFT)) {
             List<ItemImage> itemImages = auction.getItem().getItemImages();
-            itemImages.forEach(itemImage -> {
-                if (itemImage.getPublicId() != null) {
-                    try {
-                        cloudinary.uploader().destroy(itemImage.getPublicId(), ObjectUtils.emptyMap());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
+            itemService.deleteItemImages(itemImages);
             notificationService.deleteAuctionNotifications(auction.getId());
             auctionRepository.delete(auction);
         } else throw new AccessDeniedException("Không thể thực hiện xoá bài đấu giá khi đã và đang đấu giá!");

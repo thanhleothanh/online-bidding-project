@@ -20,8 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `onlineBiddingProject`
 --
-CREATE DATABASE onlineBiddingProject;
-USE onlineBiddingProject;
+
 -- --------------------------------------------------------
 
 --
@@ -30,7 +29,7 @@ USE onlineBiddingProject;
 
 CREATE TABLE `admin` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -49,7 +48,7 @@ CREATE TABLE `auction` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `status` int NOT NULL,
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
@@ -58,7 +57,7 @@ CREATE TABLE `auction` (
   `highest_price` double DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `auction`
@@ -81,7 +80,7 @@ CREATE TABLE `auction_user` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `auction_user`
@@ -104,7 +103,7 @@ CREATE TABLE `bid` (
   `price` double NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bid`
@@ -123,8 +122,8 @@ INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `update
 
 CREATE TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `category`
@@ -151,13 +150,13 @@ INSERT INTO `category` (`id`, `name`) VALUES
 
 CREATE TABLE `item` (
   `id` int NOT NULL,
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `amount` int NOT NULL,
   `auction_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `item`
@@ -178,10 +177,10 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 
 CREATE TABLE `item_image` (
   `id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL,
   `item_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `item_image`
@@ -221,7 +220,7 @@ CREATE TABLE `notification` (
   `entity_type` varchar(25) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification`
@@ -259,7 +258,7 @@ CREATE TABLE `notification_auction` (
   `id` int NOT NULL,
   `auction_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification_auction`
@@ -297,7 +296,7 @@ CREATE TABLE `notification_notified` (
   `id` int NOT NULL,
   `notification_id` int NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification_notified`
@@ -337,7 +336,7 @@ CREATE TABLE `notification_report` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -347,16 +346,16 @@ CREATE TABLE `notification_report` (
 
 CREATE TABLE `profile` (
   `id` int NOT NULL,
-  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `username` varchar(30) CHARACTER SET utf8mb4  NOT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
   `status` int NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  DEFAULT NULL,
   `role_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `profile`
@@ -382,7 +381,7 @@ CREATE TABLE `QRTZ_BLOB_TRIGGERS` (
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `BLOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -394,7 +393,7 @@ CREATE TABLE `QRTZ_CALENDARS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `CALENDAR_NAME` varchar(190) NOT NULL,
   `CALENDAR` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -408,7 +407,7 @@ CREATE TABLE `QRTZ_CRON_TRIGGERS` (
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `CRON_EXPRESSION` varchar(120) NOT NULL,
   `TIME_ZONE_ID` varchar(80) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -430,7 +429,7 @@ CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
   `JOB_GROUP` varchar(190) DEFAULT NULL,
   `IS_NONCONCURRENT` varchar(1) DEFAULT NULL,
   `REQUESTS_RECOVERY` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -449,7 +448,7 @@ CREATE TABLE `QRTZ_JOB_DETAILS` (
   `IS_UPDATE_DATA` varchar(1) NOT NULL,
   `REQUESTS_RECOVERY` varchar(1) NOT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `QRTZ_JOB_DETAILS`
@@ -471,7 +470,7 @@ INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPT
 CREATE TABLE `QRTZ_LOCKS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `LOCK_NAME` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `QRTZ_LOCKS`
@@ -489,7 +488,7 @@ INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`) VALUES
 CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -502,7 +501,7 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
   `INSTANCE_NAME` varchar(190) NOT NULL,
   `LAST_CHECKIN_TIME` bigint NOT NULL,
   `CHECKIN_INTERVAL` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -517,7 +516,7 @@ CREATE TABLE `QRTZ_SIMPLE_TRIGGERS` (
   `REPEAT_COUNT` bigint NOT NULL,
   `REPEAT_INTERVAL` bigint NOT NULL,
   `TIMES_TRIGGERED` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `QRTZ_SIMPLE_TRIGGERS`
@@ -551,7 +550,7 @@ CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
   `DEC_PROP_2` decimal(13,4) DEFAULT NULL,
   `BOOL_PROP_1` varchar(1) DEFAULT NULL,
   `BOOL_PROP_2` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -576,7 +575,7 @@ CREATE TABLE `QRTZ_TRIGGERS` (
   `CALENDAR_NAME` varchar(190) DEFAULT NULL,
   `MISFIRE_INSTR` smallint DEFAULT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `QRTZ_TRIGGERS`
@@ -600,10 +599,10 @@ CREATE TABLE `report` (
   `user_reporter_id` int NOT NULL,
   `user_reported_id` int NOT NULL,
   `auction_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -614,9 +613,9 @@ CREATE TABLE `report` (
 CREATE TABLE `report_image` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -631,7 +630,7 @@ CREATE TABLE `report_result` (
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -646,7 +645,7 @@ CREATE TABLE `review_result` (
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `review_result`
@@ -667,8 +666,8 @@ INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_
 
 CREATE TABLE `role` (
   `id` int NOT NULL,
-  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `name` varchar(30) CHARACTER SET utf8mb4  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `role`
@@ -686,7 +685,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 
 CREATE TABLE `user` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
@@ -711,7 +710,7 @@ CREATE TABLE `verification_token` (
   `expiration_time` datetime NOT NULL,
   `token` varchar(1000) NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -723,7 +722,7 @@ CREATE TABLE `winner` (
   `id` int NOT NULL,
   `bid_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables

@@ -2,14 +2,8 @@ package com.ghtk.onlinebiddingproject;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.ghtk.onlinebiddingproject.models.dtos.AuctionDto;
-import com.ghtk.onlinebiddingproject.models.dtos.BidDto;
-import com.ghtk.onlinebiddingproject.models.dtos.NotificationDto;
-import com.ghtk.onlinebiddingproject.models.dtos.ReportDto;
-import com.ghtk.onlinebiddingproject.models.entities.Auction;
-import com.ghtk.onlinebiddingproject.models.entities.Bid;
-import com.ghtk.onlinebiddingproject.models.entities.Notification;
-import com.ghtk.onlinebiddingproject.models.entities.Report;
+import com.ghtk.onlinebiddingproject.models.dtos.*;
+import com.ghtk.onlinebiddingproject.models.entities.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.boot.SpringApplication;
@@ -41,11 +35,16 @@ public class OnlinebiddingprojectApplication {
                 map().setUpdatedAt(String.valueOf(source.getUpdatedAt()));
             }
         };
-
+        PropertyMap<Profile, ProfileDto> localDateTimeToStringProfile = new PropertyMap<Profile, ProfileDto>() {
+            protected void configure() {
+                map().setCreatedAt(String.valueOf(source.getCreatedAt()));
+            }
+        };
         modelMapper.addMappings(localDateTimeToStringBid);
         modelMapper.addMappings(localDateTimeToStringReport);
         modelMapper.addMappings(localDateTimeToStringAuction);
         modelMapper.addMappings(localDateTimeToStringNotification);
+        modelMapper.addMappings(localDateTimeToStringProfile);
         return modelMapper;
     }
 
