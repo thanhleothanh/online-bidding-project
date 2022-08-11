@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.models.entities.ItemImage;
 import com.ghtk.onlinebiddingproject.models.requests.ItemRequestDto;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface ItemService {
     Item getById(Integer id);
@@ -16,4 +17,6 @@ public interface ItemService {
     ItemImage saveItemImage(Integer id, ItemImage itemImage);
 
     void deleteItemImage(Integer itemId, Integer id) throws IOException;
+
+    void deleteItemImages(List<ItemImage> itemImages) throws IOException;
 }

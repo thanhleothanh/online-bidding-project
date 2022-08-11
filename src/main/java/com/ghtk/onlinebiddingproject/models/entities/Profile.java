@@ -27,6 +27,12 @@ public class Profile extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "bio", nullable = true)
+    private String bio;
+
+    @Column(name = "legitimate_score", nullable = true)
+    private Integer legitimateScore;
+
     @Column(name = "name", nullable = false)
     private String name;
 

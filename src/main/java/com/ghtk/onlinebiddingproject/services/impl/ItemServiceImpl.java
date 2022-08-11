@@ -21,6 +21,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -113,5 +114,19 @@ public class ItemServiceImpl implements ItemService {
             cloudinary.uploader().destroy(itemImage.getPublicId(), ObjectUtils.emptyMap());
 
         itemImageRepository.delete(itemImage);
+    }
+
+    @Override
+    @SneakyThrows
+    public void deleteItemImages(List<ItemImage> itemImages) {
+        itemImages.forEach(itemImage -> {
+            if (itemImage.getPublicId() != null) {
+                try {
+                    cloudinary.uploader().destroy(itemImage.getPublicId(), ObjectUtils.emptyMap());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 }

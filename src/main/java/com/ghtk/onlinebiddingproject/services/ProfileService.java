@@ -16,7 +16,16 @@ public interface ProfileService {
 
     Profile putMyProfile(UserChangeProfile userChangeProfile);
 
+    void deductLegitimateScore(Integer profileId, Integer amount);
+
+    void addLegitimateScore(Integer profileId, Integer amount);
+
+    /*
+     * For Admin
+     * */
+
     Profile adminChangeUserStatus(Integer id, ProfileDto profileDto);
 
     ProfilePagingResponse adminGetAll(Specification<Profile> spec, HttpHeaders headers, Sort sort);
+
 }

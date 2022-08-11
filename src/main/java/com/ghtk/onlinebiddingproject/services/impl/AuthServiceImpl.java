@@ -68,7 +68,6 @@ public class AuthServiceImpl implements AuthService {
 
         if (profile.getStatus() == UserStatusConstants.INACTIVE) {
             VerificationToken verificationToken = verificationTokenRepository.findByProfile_Id(profile.getId());
-
             if (verificationToken != null && verificationToken.getExpirationTime().isAfter(LocalDateTime.now()))
                 throw new AccessDeniedException("Tài khoản chưa được xác thực hãy vào mail ấn link để xác thực!");
             if (verificationToken != null && LocalDateTime.now().isAfter(verificationToken.getExpirationTime())) {

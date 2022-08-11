@@ -17,6 +17,10 @@ public class ProfileDto {
     @JsonIgnore
     private String password;
 
+    private String bio;
+
+    private Integer legitimateScore;
+
     private String name;
 
     private String email;
@@ -27,5 +31,7 @@ public class ProfileDto {
 
     @JsonIgnore
     private RoleDto role;
+
+    private String createdAt;
 
 }

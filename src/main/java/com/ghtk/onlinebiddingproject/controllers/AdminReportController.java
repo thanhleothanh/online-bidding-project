@@ -66,12 +66,12 @@ public class AdminReportController {
     @PostMapping("/{id}/results")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> adminJudgeReport(@PathVariable("id") int id, @Valid @RequestBody ReportResultDto reportResultDto) {
-        Report report = reportService.adminGetById(id);
         ReportResult reportResult = dtoToEntityConverter.convertToEntity(reportResultDto);
-        ReportResultDto dtoResponse = entityToDtoConverter.convertToDto(reportService.adminJudgeReport(reportResult, report));
+        ReportResultDto dtoResponse = entityToDtoConverter.convertToDto(reportService.adminJudgeReport(id, reportResult));
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
 
         //send notification
+        Report report = reportService.adminGetById(id);
         Notification notification = notificationService.createJudgeReportNotification(report);
         notificationService.notifyThroughSocket(notification);
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.repositories.AuctionRepository;
 import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
+import com.ghtk.onlinebiddingproject.services.impl.ProfileServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobDataMap;
@@ -21,6 +22,8 @@ public class EndAuctionJob extends QuartzJobBean {
     private AuctionRepository auctionRepository;
     @Autowired
     private NotificationServiceImpl notificationService;
+    @Autowired
+    private ProfileServiceImpl profileService;
 
     @Override
     protected void executeInternal(@NotNull JobExecutionContext context) throws JobExecutionException {
@@ -34,6 +37,8 @@ public class EndAuctionJob extends QuartzJobBean {
             else {
                 auctionRepository.endAuction(auctionId);
                 auctionRepository.insertWinner(auctionId);
+                //add legitmate score
+                profileService.addLegitimateScore(auction.getUser().getId(), 1);
             }
 
             Notification notification = notificationService.createEndAuctionNotification(auction);

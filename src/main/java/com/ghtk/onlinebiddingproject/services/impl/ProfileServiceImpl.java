@@ -48,6 +48,20 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.save(profile);
     }
 
+    @Override
+    public void deductLegitimateScore(Integer profileId, Integer amount) {
+        Profile profile = getById(profileId);
+        profile.setLegitimateScore(profile.getLegitimateScore() - amount);
+        profileRepository.save(profile);
+    }
+
+    @Override
+    public void addLegitimateScore(Integer profileId, Integer amount) {
+        Profile profile = getById(profileId);
+        profile.setLegitimateScore(profile.getLegitimateScore() + amount);
+        profileRepository.save(profile);
+    }
+
     /**
      * For admin
      */
