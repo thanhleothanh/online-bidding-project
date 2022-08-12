@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 01, 2022 at 03:21 PM
--- Server version: 8.0.29-0ubuntu0.22.04.2
+-- Generation Time: Aug 12, 2022 at 01:05 PM
+-- Server version: 8.0.30-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -20,23 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Database: `onlineBiddingProject`
 --
-CREATE DATABASE onlineBiddingProject;
-USE onlineBiddingProject;
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `admin`
 --
 
-CREATE TABLE `admin` (
+create TABLE `admin` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`profile_id`) VALUES
+insert into `admin` (`profile_id`) VALUES
 (11);
 
 -- --------------------------------------------------------
@@ -45,11 +44,11 @@ INSERT INTO `admin` (`profile_id`) VALUES
 -- Table structure for table `auction`
 --
 
-CREATE TABLE `auction` (
+create TABLE `auction` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `status` int NOT NULL,
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
@@ -58,18 +57,19 @@ CREATE TABLE `auction` (
   `highest_price` double DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `auction`
 --
 
-INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, `time_start`, `time_end`, `price_start`, `price_step`, `highest_price`, `created_at`, `updated_at`) VALUES
-(92, 6, 1, 'nue keyboard auction', 3, '2022-08-01 14:40:00', '2022-08-24 14:36:00', 100000, 50000, 0, '2022-08-01 14:37:22', '2022-08-01 14:38:14'),
+insert into `auction` (`id`, `user_id`, `category_id`, `description`, `status`, `time_start`, `time_end`, `price_start`, `price_step`, `highest_price`, `created_at`, `updated_at`) VALUES
+(92, 6, 1, 'nue keyboard auction', 3, '2022-08-01 14:40:00', '2022-08-24 14:36:00', 100000, 50000, 300000, '2022-08-01 14:37:22', '2022-08-12 12:31:41'),
 (93, 8, 1, 'TGR Police auction', 3, '2022-08-01 14:43:00', '2022-08-23 14:40:00', 100000, 500000, 0, '2022-08-01 14:41:25', '2022-08-01 14:41:51'),
 (94, 9, 4, 'Kikuichimonji auction', 3, '2022-08-01 14:48:00', '2022-08-20 14:45:00', 1000000, 500000, 0, '2022-08-01 14:46:28', '2022-08-01 14:47:06'),
 (95, 6, 8, 'Noxary vulcan pro auction', 3, '2022-08-01 14:56:00', '2022-08-28 14:53:00', 1000000, 500000, 1500000, '2022-08-01 14:54:04', '2022-08-01 15:07:49'),
-(96, 13, 9, 'Keycult No. 2 auction', 3, '2022-08-01 15:01:00', '2022-08-26 14:58:00', 1000000, 1000000, 1000000, '2022-08-01 14:59:59', '2022-08-01 15:01:26');
+(96, 13, 9, 'Keycult No. 2 auction', 3, '2022-08-01 15:01:00', '2022-08-26 14:58:00', 1000000, 1000000, 2000000, '2022-08-01 14:59:59', '2022-08-10 21:50:40'),
+(97, 6, 4, 'gmk keycaps auction', 4, '2022-08-12 11:59:00', '2022-08-12 12:01:00', 100000, 50000, 100000, '2022-08-12 11:58:04', '2022-08-12 11:59:07');
 
 -- --------------------------------------------------------
 
@@ -77,18 +77,21 @@ INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, 
 -- Table structure for table `auction_user`
 --
 
-CREATE TABLE `auction_user` (
+create TABLE `auction_user` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `auction_user`
 --
 
-INSERT INTO `auction_user` (`id`, `user_id`, `auction_id`) VALUES
+insert into `auction_user` (`id`, `user_id`, `auction_id`) VALUES
 (29, 6, 96),
+(33, 8, 92),
+(32, 8, 97),
+(31, 10, 96),
 (30, 13, 95);
 
 -- --------------------------------------------------------
@@ -97,23 +100,27 @@ INSERT INTO `auction_user` (`id`, `user_id`, `auction_id`) VALUES
 -- Table structure for table `bid`
 --
 
-CREATE TABLE `bid` (
+create TABLE `bid` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `auction_id` int NOT NULL,
   `price` double NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `bid`
 --
 
-INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `updated_at`) VALUES
+insert into `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `updated_at`) VALUES
 (130, 6, 96, 1000000, '2022-08-01 15:01:26', '2022-08-01 15:01:26'),
 (131, 13, 95, 1000000, '2022-08-01 15:02:11', '2022-08-01 15:02:11'),
-(132, 13, 95, 1500000, '2022-08-01 15:07:49', '2022-08-01 15:07:49');
+(132, 13, 95, 1500000, '2022-08-01 15:07:49', '2022-08-01 15:07:49'),
+(133, 10, 96, 2000000, '2022-08-10 21:50:40', '2022-08-10 21:50:40'),
+(134, 8, 97, 100000, '2022-08-12 11:59:07', '2022-08-12 11:59:07'),
+(135, 8, 92, 200000, '2022-08-12 12:08:27', '2022-08-12 12:08:27'),
+(136, 8, 92, 300000, '2022-08-12 12:31:41', '2022-08-12 12:31:41');
 
 -- --------------------------------------------------------
 
@@ -121,16 +128,16 @@ INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `update
 -- Table structure for table `category`
 --
 
-CREATE TABLE `category` (
+create TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `name`) VALUES
+insert into `category` (`id`, `name`) VALUES
 (1, 'Đồ điện tử'),
 (2, 'Thời trang'),
 (3, 'Đồ nội thất'),
@@ -149,26 +156,27 @@ INSERT INTO `category` (`id`, `name`) VALUES
 -- Table structure for table `item`
 --
 
-CREATE TABLE `item` (
+create TABLE `item` (
   `id` int NOT NULL,
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `amount` int NOT NULL,
   `auction_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `item`
 --
 
-INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `created_at`, `updated_at`) VALUES
+insert into `item` (`id`, `name`, `description`, `amount`, `auction_id`, `created_at`, `updated_at`) VALUES
 (82, 'nue keyboard by kbye of Studio Kestra, custom commission for harsha.', 'Mint green cerakoted aluminum case with brass accent.  Lubed (205g0) TX clip-in stabilizers.  Lubed (205g0) H1 switches, with 68g springs and Deskey films, mounted on PCB.', 1, 92, '2022-08-01 14:37:22', '2022-08-01 14:37:22'),
 (83, 'Polycarbonate Alice (Police)', 'Design by TGR  Polycarbonate case with copper weight.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches - with 65g springs and TX films - mounted on a copper full plate.', 1, 93, '2022-08-01 14:41:25', '2022-08-01 14:41:25'),
 (84, 'Kikuichimonji keyboard', 'Design by bisoromi, run by AEBoards  Silver-anodized aluminum case.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed Boba LT switches, with 62g springs - mounted on an aluminum full plate.', 1, 94, '2022-08-01 14:46:28', '2022-08-01 14:46:28'),
 (85, 'Vulcan Pro Design by Noxary.', '\"Hyper Red\"-anodized aluminum case.  Clipped and lubed (205g0) Cherry clip-in stabilizers.  Lubed (205g0) Gateron Ink Red switches, with 62g springs and TX films - mounted on an aluminum full plate.  Vulcan PCB by ai03 (QMK/VIA).', 1, 95, '2022-08-01 14:54:04', '2022-08-01 14:54:04'),
-(86, 'Keycult No. 2', 'Silver-anodized aluminum case with sandblasted stainless steel bottom. 5.5 degree angle.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches, with 63.5g springs - mounted on an aluminum full plate.', 1, 96, '2022-08-01 14:59:59', '2022-08-01 14:59:59');
+(86, 'Keycult No. 2', 'Silver-anodized aluminum case with sandblasted stainless steel bottom. 5.5 degree angle.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches, with 63.5g springs - mounted on an aluminum full plate.', 1, 96, '2022-08-01 14:59:59', '2022-08-01 14:59:59'),
+(87, 'gmk colors', 'gmk colors, unreleased, prolly a scam idk', 1, 97, '2022-08-12 11:58:04', '2022-08-12 11:58:04');
 
 -- --------------------------------------------------------
 
@@ -176,18 +184,18 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 -- Table structure for table `item_image`
 --
 
-CREATE TABLE `item_image` (
+create TABLE `item_image` (
   `id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL,
   `item_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `item_image`
 --
 
-INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
+insert into `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
 (41, 'https://res.cloudinary.com/metanoia/image/upload/v1659339437/onlinebiddingproject/s3jp7oqwmrtpijj7lifw.jpg', 'onlinebiddingproject/s3jp7oqwmrtpijj7lifw', 82),
 (42, 'https://res.cloudinary.com/metanoia/image/upload/v1659339433/onlinebiddingproject/jlypg0tlb4gglm6xbuhx.jpg', 'onlinebiddingproject/jlypg0tlb4gglm6xbuhx', 82),
 (43, 'https://res.cloudinary.com/metanoia/image/upload/v1659339428/onlinebiddingproject/og2lxi9pjuq6rwjejast.jpg', 'onlinebiddingproject/og2lxi9pjuq6rwjejast', 82),
@@ -206,7 +214,10 @@ INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
 (56, 'https://res.cloudinary.com/metanoia/image/upload/v1659340764/onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7.jpg', 'onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7', 86),
 (57, 'https://res.cloudinary.com/metanoia/image/upload/v1659340760/onlinebiddingproject/g9dy8lebx81csmzldp2n.jpg', 'onlinebiddingproject/g9dy8lebx81csmzldp2n', 86),
 (58, 'https://res.cloudinary.com/metanoia/image/upload/v1659340756/onlinebiddingproject/tsqs1klwtjzre5delyqu.jpg', 'onlinebiddingproject/tsqs1klwtjzre5delyqu', 86),
-(59, 'https://res.cloudinary.com/metanoia/image/upload/v1659340753/onlinebiddingproject/zkv9vjopgvmoxz3bm8km.jpg', 'onlinebiddingproject/zkv9vjopgvmoxz3bm8km', 86);
+(59, 'https://res.cloudinary.com/metanoia/image/upload/v1659340753/onlinebiddingproject/zkv9vjopgvmoxz3bm8km.jpg', 'onlinebiddingproject/zkv9vjopgvmoxz3bm8km', 86),
+(60, 'https://res.cloudinary.com/metanoia/image/upload/v1660280251/onlinebiddingproject/s8souhhaoohgcvwv57bh.jpg', 'onlinebiddingproject/s8souhhaoohgcvwv57bh', 87),
+(61, 'https://res.cloudinary.com/metanoia/image/upload/v1660280244/onlinebiddingproject/ify9nicknmpyhlegasoe.jpg', 'onlinebiddingproject/ify9nicknmpyhlegasoe', 87),
+(62, 'https://res.cloudinary.com/metanoia/image/upload/v1660280237/onlinebiddingproject/fx2imhpmcq8wfjoehw21.jpg', 'onlinebiddingproject/fx2imhpmcq8wfjoehw21', 87);
 
 -- --------------------------------------------------------
 
@@ -214,24 +225,24 @@ INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
 -- Table structure for table `notification`
 --
 
-CREATE TABLE `notification` (
+create TABLE `notification` (
   `id` int NOT NULL,
   `profile_id` int DEFAULT NULL,
   `notification_type` varchar(50) NOT NULL,
   `entity_type` varchar(25) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_type`, `created_at`, `updated_at`) VALUES
+insert into `notification` (`id`, `profile_id`, `notification_type`, `entity_type`, `created_at`, `updated_at`) VALUES
 (43, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:38:02', '2022-08-01 14:38:02'),
 (44, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
 (45, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
-(46, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
+(46, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-12 12:31:41'),
 (47, 8, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:41:30', '2022-08-01 14:41:30'),
 (48, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
 (49, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
@@ -247,7 +258,13 @@ INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_typ
 (59, 13, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 15:00:13', '2022-08-01 15:00:13'),
 (60, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
 (61, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:00'),
-(62, 6, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:26');
+(62, 10, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-10 21:50:40'),
+(63, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-12 11:58:08', '2022-08-12 11:58:08'),
+(64, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-12 11:58:32', '2022-08-12 11:58:32'),
+(65, NULL, 'START_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:00'),
+(66, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:07'),
+(67, NULL, 'END_AUCTION', 'AUCTION', '2022-08-12 12:01:00', '2022-08-12 12:01:00'),
+(69, 6, 'CREATE_REPORT', 'REPORT', '2022-08-12 12:12:15', '2022-08-12 12:12:15');
 
 -- --------------------------------------------------------
 
@@ -255,17 +272,17 @@ INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_typ
 -- Table structure for table `notification_auction`
 --
 
-CREATE TABLE `notification_auction` (
+create TABLE `notification_auction` (
   `id` int NOT NULL,
   `auction_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `notification_auction`
 --
 
-INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUES
+insert into `notification_auction` (`id`, `auction_id`, `notification_id`) VALUES
 (37, 92, 43),
 (38, 92, 44),
 (39, 92, 45),
@@ -285,7 +302,12 @@ INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUE
 (53, 96, 59),
 (54, 96, 60),
 (55, 96, 61),
-(56, 96, 62);
+(56, 96, 62),
+(57, 97, 63),
+(58, 97, 64),
+(59, 97, 65),
+(60, 97, 66),
+(61, 97, 67);
 
 -- --------------------------------------------------------
 
@@ -293,17 +315,17 @@ INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUE
 -- Table structure for table `notification_notified`
 --
 
-CREATE TABLE `notification_notified` (
+create TABLE `notification_notified` (
   `id` int NOT NULL,
   `notification_id` int NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `notification_notified`
 --
 
-INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALUES
+insert into `notification_notified` (`id`, `notification_id`, `profile_id`) VALUES
 (48, 43, 11),
 (49, 44, 6),
 (50, 45, 6),
@@ -325,7 +347,17 @@ INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALU
 (66, 61, 13),
 (67, 62, 13),
 (68, 62, 6),
-(69, 58, 13);
+(69, 58, 13),
+(70, 62, 10),
+(71, 63, 11),
+(72, 64, 6),
+(73, 65, 6),
+(74, 66, 6),
+(75, 66, 8),
+(76, 67, 6),
+(77, 67, 8),
+(79, 46, 8),
+(80, 69, 11);
 
 -- --------------------------------------------------------
 
@@ -333,11 +365,18 @@ INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALU
 -- Table structure for table `notification_report`
 --
 
-CREATE TABLE `notification_report` (
+create TABLE `notification_report` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+
+--
+-- Dumping data for table `notification_report`
+--
+
+insert into `notification_report` (`id`, `report_id`, `notification_id`) VALUES
+(5, 24, 69);
 
 -- --------------------------------------------------------
 
@@ -345,31 +384,33 @@ CREATE TABLE `notification_report` (
 -- Table structure for table `profile`
 --
 
-CREATE TABLE `profile` (
+create TABLE `profile` (
   `id` int NOT NULL,
-  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `username` varchar(30) CHARACTER SET utf8mb4  NOT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `bio` varchar(10000) DEFAULT NULL,
+  `legitimate_score` int NOT NULL DEFAULT '0',
+  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
   `status` int NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  DEFAULT NULL,
   `role_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `profile`
 --
 
-INSERT INTO `profile` (`id`, `username`, `password`, `name`, `status`, `email`, `image_url`, `role_id`, `created_at`, `updated_at`) VALUES
-(6, 'nguoidung1', '$2a$10$krqgee7paXEfPRq/6RaCkOAm/U/IkRfVOaAdfIzuKxxND3sh74hP2', 'thanh', 2, 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-07-25 10:24:17'),
-(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
-(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
-(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:54:14', '2022-07-06 13:54:14'),
-(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', 'admin', 2, NULL, NULL, 1, '2022-07-06 22:38:52', '2022-07-06 22:38:52'),
-(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', 'thanhthanh', 2, NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
-(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', 'thanhthanh', 2, 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-07-25 17:35:52');
+insert into `profile` (`id`, `username`, `password`, `bio`, `legitimate_score`, `name`, `status`, `email`, `image_url`, `role_id`, `created_at`, `updated_at`) VALUES
+(6, 'nguoidung1', '$2a$10$dYlSRalQ1PpbzCS3yvuEt.NRmlnqTvJ5cLuK6IiTT2E2S9NagM..e', 'https://www.facebook.com/leothanhng/', 1, 'thanhthanh', 2, 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-08-12 12:01:00'),
+(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
+(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
+(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:54:14', '2022-08-10 21:51:52'),
+(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', '', 0, 'adminadmin', 2, NULL, NULL, 1, '2022-07-06 22:38:52', '2022-08-11 15:11:30'),
+(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', NULL, 0, 'thanhthanh', 2, NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
+(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', NULL, 0, 'thanhthanh', 2, 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-08-11 16:02:02');
 
 -- --------------------------------------------------------
 
@@ -377,12 +418,12 @@ INSERT INTO `profile` (`id`, `username`, `password`, `name`, `status`, `email`, 
 -- Table structure for table `QRTZ_BLOB_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_BLOB_TRIGGERS` (
+create TABLE `QRTZ_BLOB_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `BLOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -390,11 +431,11 @@ CREATE TABLE `QRTZ_BLOB_TRIGGERS` (
 -- Table structure for table `QRTZ_CALENDARS`
 --
 
-CREATE TABLE `QRTZ_CALENDARS` (
+create TABLE `QRTZ_CALENDARS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `CALENDAR_NAME` varchar(190) NOT NULL,
   `CALENDAR` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -402,13 +443,13 @@ CREATE TABLE `QRTZ_CALENDARS` (
 -- Table structure for table `QRTZ_CRON_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_CRON_TRIGGERS` (
+create TABLE `QRTZ_CRON_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `CRON_EXPRESSION` varchar(120) NOT NULL,
   `TIME_ZONE_ID` varchar(80) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -416,7 +457,7 @@ CREATE TABLE `QRTZ_CRON_TRIGGERS` (
 -- Table structure for table `QRTZ_FIRED_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
+create TABLE `QRTZ_FIRED_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `ENTRY_ID` varchar(95) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
@@ -430,7 +471,7 @@ CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
   `JOB_GROUP` varchar(190) DEFAULT NULL,
   `IS_NONCONCURRENT` varchar(1) DEFAULT NULL,
   `REQUESTS_RECOVERY` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -438,7 +479,7 @@ CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
 -- Table structure for table `QRTZ_JOB_DETAILS`
 --
 
-CREATE TABLE `QRTZ_JOB_DETAILS` (
+create TABLE `QRTZ_JOB_DETAILS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `JOB_NAME` varchar(190) NOT NULL,
   `JOB_GROUP` varchar(190) NOT NULL,
@@ -449,13 +490,13 @@ CREATE TABLE `QRTZ_JOB_DETAILS` (
   `IS_UPDATE_DATA` varchar(1) NOT NULL,
   `REQUESTS_RECOVERY` varchar(1) NOT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `QRTZ_JOB_DETAILS`
 --
 
-INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`, `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`) VALUES
+insert into `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`, `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`) VALUES
 ('quartzScheduler', 'END92', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #92', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005c7800),
 ('quartzScheduler', 'END93', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #93', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005d7800),
 ('quartzScheduler', 'END94', 'END AUCTIONS', 'SCHEDULING ENDING AUCTION #94', 'com.ghtk.onlinebiddingproject.jobs.EndAuctionJob', '0', '0', '0', '0', 0xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000961756374696f6e4964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b02000078700000005e7800),
@@ -468,16 +509,16 @@ INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPT
 -- Table structure for table `QRTZ_LOCKS`
 --
 
-CREATE TABLE `QRTZ_LOCKS` (
+create TABLE `QRTZ_LOCKS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `LOCK_NAME` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `QRTZ_LOCKS`
 --
 
-INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`) VALUES
+insert into `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`) VALUES
 ('quartzScheduler', 'TRIGGER_ACCESS');
 
 -- --------------------------------------------------------
@@ -486,10 +527,10 @@ INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`) VALUES
 -- Table structure for table `QRTZ_PAUSED_TRIGGER_GRPS`
 --
 
-CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
+create TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -497,12 +538,12 @@ CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
 -- Table structure for table `QRTZ_SCHEDULER_STATE`
 --
 
-CREATE TABLE `QRTZ_SCHEDULER_STATE` (
+create TABLE `QRTZ_SCHEDULER_STATE` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `INSTANCE_NAME` varchar(190) NOT NULL,
   `LAST_CHECKIN_TIME` bigint NOT NULL,
   `CHECKIN_INTERVAL` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -510,20 +551,20 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
 -- Table structure for table `QRTZ_SIMPLE_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_SIMPLE_TRIGGERS` (
+create TABLE `QRTZ_SIMPLE_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `REPEAT_COUNT` bigint NOT NULL,
   `REPEAT_INTERVAL` bigint NOT NULL,
   `TIMES_TRIGGERED` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `QRTZ_SIMPLE_TRIGGERS`
 --
 
-INSERT INTO `QRTZ_SIMPLE_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `REPEAT_COUNT`, `REPEAT_INTERVAL`, `TIMES_TRIGGERED`) VALUES
+insert into `QRTZ_SIMPLE_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `REPEAT_COUNT`, `REPEAT_INTERVAL`, `TIMES_TRIGGERED`) VALUES
 ('quartzScheduler', 'END92', 'DEFAULT', 0, 0, 0),
 ('quartzScheduler', 'END93', 'DEFAULT', 0, 0, 0),
 ('quartzScheduler', 'END94', 'DEFAULT', 0, 0, 0),
@@ -536,7 +577,7 @@ INSERT INTO `QRTZ_SIMPLE_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP
 -- Table structure for table `QRTZ_SIMPROP_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
+create TABLE `QRTZ_SIMPROP_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
@@ -551,7 +592,7 @@ CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
   `DEC_PROP_2` decimal(13,4) DEFAULT NULL,
   `BOOL_PROP_1` varchar(1) DEFAULT NULL,
   `BOOL_PROP_2` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -559,7 +600,7 @@ CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
 -- Table structure for table `QRTZ_TRIGGERS`
 --
 
-CREATE TABLE `QRTZ_TRIGGERS` (
+create TABLE `QRTZ_TRIGGERS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
@@ -576,13 +617,13 @@ CREATE TABLE `QRTZ_TRIGGERS` (
   `CALENDAR_NAME` varchar(190) DEFAULT NULL,
   `MISFIRE_INSTR` smallint DEFAULT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `QRTZ_TRIGGERS`
 --
 
-INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`, `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`) VALUES
+insert into `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`, `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`) VALUES
 ('quartzScheduler', 'END92', 'DEFAULT', 'END92', 'END AUCTIONS', NULL, 1661326560000, -1, 5, 'WAITING', 'SIMPLE', 1661326560000, 0, NULL, 1, ''),
 ('quartzScheduler', 'END93', 'DEFAULT', 'END93', 'END AUCTIONS', NULL, 1661240400000, -1, 5, 'WAITING', 'SIMPLE', 1661240400000, 0, NULL, 1, ''),
 ('quartzScheduler', 'END94', 'DEFAULT', 'END94', 'END AUCTIONS', NULL, 1660981500000, -1, 5, 'WAITING', 'SIMPLE', 1660981500000, 0, NULL, 1, ''),
@@ -595,15 +636,22 @@ INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB
 -- Table structure for table `report`
 --
 
-CREATE TABLE `report` (
+create TABLE `report` (
   `id` int NOT NULL,
   `user_reporter_id` int NOT NULL,
   `user_reported_id` int NOT NULL,
   `auction_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+
+--
+-- Dumping data for table `report`
+--
+
+insert into `report` (`id`, `user_reporter_id`, `user_reported_id`, `auction_id`, `description`, `created_at`, `updated_at`) VALUES
+(24, 6, 13, NULL, 'bài có vấn đề, admin check hộ em he!', '2022-08-12 12:12:15', '2022-08-12 12:12:15');
 
 -- --------------------------------------------------------
 
@@ -611,12 +659,12 @@ CREATE TABLE `report` (
 -- Table structure for table `report_image`
 --
 
-CREATE TABLE `report_image` (
+create TABLE `report_image` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -624,14 +672,14 @@ CREATE TABLE `report_image` (
 -- Table structure for table `report_result`
 --
 
-CREATE TABLE `report_result` (
+create TABLE `report_result` (
   `id` int NOT NULL,
   `admin_id` int NOT NULL,
   `report_id` int NOT NULL,
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -639,25 +687,26 @@ CREATE TABLE `report_result` (
 -- Table structure for table `review_result`
 --
 
-CREATE TABLE `review_result` (
+create TABLE `review_result` (
   `id` int NOT NULL,
   `admin_id` int NOT NULL,
   `auction_id` int NOT NULL,
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `review_result`
 --
 
-INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_at`, `updated_at`) VALUES
+insert into `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_at`, `updated_at`) VALUES
 (34, 11, 92, 1, '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
 (35, 11, 93, 1, '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
 (36, 11, 94, 1, '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
 (37, 11, 95, 1, '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
-(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27');
+(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
+(39, 11, 97, 1, '2022-08-12 11:58:32', '2022-08-12 11:58:32');
 
 -- --------------------------------------------------------
 
@@ -665,16 +714,16 @@ INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_
 -- Table structure for table `role`
 --
 
-CREATE TABLE `role` (
+create TABLE `role` (
   `id` int NOT NULL,
-  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `name` varchar(30) CHARACTER SET utf8mb4  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `role`
 --
 
-INSERT INTO `role` (`id`, `name`) VALUES
+insert into `role` (`id`, `name`) VALUES
 (1, 'ADMIN'),
 (2, 'USER');
 
@@ -684,15 +733,15 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+create TABLE `user` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`profile_id`) VALUES
+insert into `user` (`profile_id`) VALUES
 (6),
 (8),
 (9),
@@ -706,12 +755,12 @@ INSERT INTO `user` (`profile_id`) VALUES
 -- Table structure for table `verification_token`
 --
 
-CREATE TABLE `verification_token` (
+create TABLE `verification_token` (
   `id` int NOT NULL,
   `expiration_time` datetime NOT NULL,
   `token` varchar(1000) NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -719,11 +768,18 @@ CREATE TABLE `verification_token` (
 -- Table structure for table `winner`
 --
 
-CREATE TABLE `winner` (
+create TABLE `winner` (
   `id` int NOT NULL,
   `bid_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+
+--
+-- Dumping data for table `winner`
+--
+
+insert into `winner` (`id`, `bid_id`, `auction_id`) VALUES
+(680, 134, 97);
 
 --
 -- Indexes for dumped tables
@@ -732,14 +788,14 @@ CREATE TABLE `winner` (
 --
 -- Indexes for table `admin`
 --
-ALTER TABLE `admin`
+alter table `admin`
   ADD PRIMARY KEY (`profile_id`),
   ADD UNIQUE KEY `user_id` (`profile_id`);
 
 --
 -- Indexes for table `auction`
 --
-ALTER TABLE `auction`
+alter table `auction`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `category_id` (`category_id`);
@@ -747,7 +803,7 @@ ALTER TABLE `auction`
 --
 -- Indexes for table `auction_user`
 --
-ALTER TABLE `auction_user`
+alter table `auction_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nguoidung_id` (`user_id`,`auction_id`),
   ADD KEY `baidaugia_id` (`auction_id`);
@@ -755,7 +811,7 @@ ALTER TABLE `auction_user`
 --
 -- Indexes for table `bid`
 --
-ALTER TABLE `bid`
+alter table `bid`
   ADD PRIMARY KEY (`id`),
   ADD KEY `baidaugia_id` (`auction_id`),
   ADD KEY `nguoidung_id` (`user_id`);
@@ -763,34 +819,34 @@ ALTER TABLE `bid`
 --
 -- Indexes for table `category`
 --
-ALTER TABLE `category`
+alter table `category`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `item`
 --
-ALTER TABLE `item`
+alter table `item`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `auction_id` (`auction_id`);
 
 --
 -- Indexes for table `item_image`
 --
-ALTER TABLE `item_image`
+alter table `item_image`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sanpham_id` (`item_id`);
 
 --
 -- Indexes for table `notification`
 --
-ALTER TABLE `notification`
+alter table `notification`
   ADD PRIMARY KEY (`id`),
   ADD KEY `profile_id` (`profile_id`);
 
 --
 -- Indexes for table `notification_auction`
 --
-ALTER TABLE `notification_auction`
+alter table `notification_auction`
   ADD PRIMARY KEY (`id`),
   ADD KEY `auction_id` (`auction_id`),
   ADD KEY `notification_id` (`notification_id`);
@@ -798,7 +854,7 @@ ALTER TABLE `notification_auction`
 --
 -- Indexes for table `notification_notified`
 --
-ALTER TABLE `notification_notified`
+alter table `notification_notified`
   ADD PRIMARY KEY (`id`),
   ADD KEY `notification_id` (`notification_id`),
   ADD KEY `profile_id` (`profile_id`);
@@ -806,7 +862,7 @@ ALTER TABLE `notification_notified`
 --
 -- Indexes for table `notification_report`
 --
-ALTER TABLE `notification_report`
+alter table `notification_report`
   ADD PRIMARY KEY (`id`),
   ADD KEY `report_id` (`report_id`),
   ADD KEY `notification_id` (`notification_id`);
@@ -814,7 +870,7 @@ ALTER TABLE `notification_report`
 --
 -- Indexes for table `profile`
 --
-ALTER TABLE `profile`
+alter table `profile`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `tai_khoan` (`username`),
   ADD KEY `vaitro_id` (`role_id`);
@@ -822,26 +878,26 @@ ALTER TABLE `profile`
 --
 -- Indexes for table `QRTZ_BLOB_TRIGGERS`
 --
-ALTER TABLE `QRTZ_BLOB_TRIGGERS`
+alter table `QRTZ_BLOB_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   ADD KEY `SCHED_NAME` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`);
 
 --
 -- Indexes for table `QRTZ_CALENDARS`
 --
-ALTER TABLE `QRTZ_CALENDARS`
+alter table `QRTZ_CALENDARS`
   ADD PRIMARY KEY (`SCHED_NAME`,`CALENDAR_NAME`);
 
 --
 -- Indexes for table `QRTZ_CRON_TRIGGERS`
 --
-ALTER TABLE `QRTZ_CRON_TRIGGERS`
+alter table `QRTZ_CRON_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`);
 
 --
 -- Indexes for table `QRTZ_FIRED_TRIGGERS`
 --
-ALTER TABLE `QRTZ_FIRED_TRIGGERS`
+alter table `QRTZ_FIRED_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`ENTRY_ID`),
   ADD KEY `IDX_QRTZ_FT_TRIG_INST_NAME` (`SCHED_NAME`,`INSTANCE_NAME`),
   ADD KEY `IDX_QRTZ_FT_INST_JOB_REQ_RCVRY` (`SCHED_NAME`,`INSTANCE_NAME`,`REQUESTS_RECOVERY`),
@@ -853,7 +909,7 @@ ALTER TABLE `QRTZ_FIRED_TRIGGERS`
 --
 -- Indexes for table `QRTZ_JOB_DETAILS`
 --
-ALTER TABLE `QRTZ_JOB_DETAILS`
+alter table `QRTZ_JOB_DETAILS`
   ADD PRIMARY KEY (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`),
   ADD KEY `IDX_QRTZ_J_REQ_RECOVERY` (`SCHED_NAME`,`REQUESTS_RECOVERY`),
   ADD KEY `IDX_QRTZ_J_GRP` (`SCHED_NAME`,`JOB_GROUP`);
@@ -861,37 +917,37 @@ ALTER TABLE `QRTZ_JOB_DETAILS`
 --
 -- Indexes for table `QRTZ_LOCKS`
 --
-ALTER TABLE `QRTZ_LOCKS`
+alter table `QRTZ_LOCKS`
   ADD PRIMARY KEY (`SCHED_NAME`,`LOCK_NAME`);
 
 --
 -- Indexes for table `QRTZ_PAUSED_TRIGGER_GRPS`
 --
-ALTER TABLE `QRTZ_PAUSED_TRIGGER_GRPS`
+alter table `QRTZ_PAUSED_TRIGGER_GRPS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_GROUP`);
 
 --
 -- Indexes for table `QRTZ_SCHEDULER_STATE`
 --
-ALTER TABLE `QRTZ_SCHEDULER_STATE`
+alter table `QRTZ_SCHEDULER_STATE`
   ADD PRIMARY KEY (`SCHED_NAME`,`INSTANCE_NAME`);
 
 --
 -- Indexes for table `QRTZ_SIMPLE_TRIGGERS`
 --
-ALTER TABLE `QRTZ_SIMPLE_TRIGGERS`
+alter table `QRTZ_SIMPLE_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`);
 
 --
 -- Indexes for table `QRTZ_SIMPROP_TRIGGERS`
 --
-ALTER TABLE `QRTZ_SIMPROP_TRIGGERS`
+alter table `QRTZ_SIMPROP_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`);
 
 --
 -- Indexes for table `QRTZ_TRIGGERS`
 --
-ALTER TABLE `QRTZ_TRIGGERS`
+alter table `QRTZ_TRIGGERS`
   ADD PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   ADD KEY `IDX_QRTZ_T_J` (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`),
   ADD KEY `IDX_QRTZ_T_JG` (`SCHED_NAME`,`JOB_GROUP`),
@@ -909,7 +965,7 @@ ALTER TABLE `QRTZ_TRIGGERS`
 --
 -- Indexes for table `report`
 --
-ALTER TABLE `report`
+alter table `report`
   ADD PRIMARY KEY (`id`),
   ADD KEY `baidaugia_id` (`auction_id`),
   ADD KEY `nguoidung_id_reported` (`user_reported_id`),
@@ -918,14 +974,14 @@ ALTER TABLE `report`
 --
 -- Indexes for table `report_image`
 --
-ALTER TABLE `report_image`
+alter table `report_image`
   ADD PRIMARY KEY (`id`),
   ADD KEY `phieubaocao_id` (`report_id`);
 
 --
 -- Indexes for table `report_result`
 --
-ALTER TABLE `report_result`
+alter table `report_result`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_id` (`admin_id`,`report_id`),
   ADD KEY `phieubaocao_id` (`report_id`);
@@ -933,7 +989,7 @@ ALTER TABLE `report_result`
 --
 -- Indexes for table `review_result`
 --
-ALTER TABLE `review_result`
+alter table `review_result`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_id` (`admin_id`,`auction_id`),
   ADD KEY `baidaugia_id` (`auction_id`);
@@ -941,27 +997,27 @@ ALTER TABLE `review_result`
 --
 -- Indexes for table `role`
 --
-ALTER TABLE `role`
+alter table `role`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
 --
-ALTER TABLE `user`
+alter table `user`
   ADD PRIMARY KEY (`profile_id`),
   ADD UNIQUE KEY `user_id` (`profile_id`);
 
 --
 -- Indexes for table `verification_token`
 --
-ALTER TABLE `verification_token`
+alter table `verification_token`
   ADD PRIMARY KEY (`id`),
   ADD KEY `verification_token_ibfk_1` (`profile_id`);
 
 --
 -- Indexes for table `winner`
 --
-ALTER TABLE `winner`
+alter table `winner`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `auction_id` (`auction_id`),
   ADD KEY `lenhdaugia_id` (`bid_id`);
@@ -973,110 +1029,110 @@ ALTER TABLE `winner`
 --
 -- AUTO_INCREMENT for table `auction`
 --
-ALTER TABLE `auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+alter table `auction`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `auction_user`
 --
-ALTER TABLE `auction_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+alter table `auction_user`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `bid`
 --
-ALTER TABLE `bid`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+alter table `bid`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
-ALTER TABLE `category`
+alter table `category`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
-ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+alter table `item`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `item_image`
 --
-ALTER TABLE `item_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+alter table `item_image`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
-ALTER TABLE `notification`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+alter table `notification`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `notification_auction`
 --
-ALTER TABLE `notification_auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+alter table `notification_auction`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification_notified`
 --
-ALTER TABLE `notification_notified`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+alter table `notification_notified`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `notification_report`
 --
-ALTER TABLE `notification_report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+alter table `notification_report`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `profile`
 --
-ALTER TABLE `profile`
+alter table `profile`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
-ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+alter table `report`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `report_image`
 --
-ALTER TABLE `report_image`
+alter table `report_image`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `report_result`
 --
-ALTER TABLE `report_result`
+alter table `report_result`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `review_result`
 --
-ALTER TABLE `review_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+alter table `review_result`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
-ALTER TABLE `role`
+alter table `role`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `verification_token`
 --
-ALTER TABLE `verification_token`
+alter table `verification_token`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `winner`
 --
-ALTER TABLE `winner`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=680;
+alter table `winner`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=681;
 
 --
 -- Constraints for dumped tables
@@ -1085,152 +1141,152 @@ ALTER TABLE `winner`
 --
 -- Constraints for table `admin`
 --
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `auction`
 --
-ALTER TABLE `auction`
-  ADD CONSTRAINT `auction_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `auction_ibfk_6` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT;
+alter table `auction`
+  ADD CONSTRAINT `auction_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `auction_ibfk_6` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON delete SET NULL ON update RESTRICT;
 
 --
 -- Constraints for table `auction_user`
 --
-ALTER TABLE `auction_user`
-  ADD CONSTRAINT `auction_user_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `auction_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `auction_user`
+  ADD CONSTRAINT `auction_user_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `auction_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `bid`
 --
-ALTER TABLE `bid`
-  ADD CONSTRAINT `bid_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `bid_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `bid`
+  ADD CONSTRAINT `bid_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `bid_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`profile_id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `item`
 --
-ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+alter table `item`
+  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update CASCADE;
 
 --
 -- Constraints for table `item_image`
 --
-ALTER TABLE `item_image`
-  ADD CONSTRAINT `item_image_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `item_image`
+  ADD CONSTRAINT `item_image_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `notification`
 --
-ALTER TABLE `notification`
-  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `notification`
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `notification_auction`
 --
-ALTER TABLE `notification_auction`
-  ADD CONSTRAINT `notification_auction_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `notification_auction_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `notification_auction`
+  ADD CONSTRAINT `notification_auction_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `notification_auction_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `notification_notified`
 --
-ALTER TABLE `notification_notified`
-  ADD CONSTRAINT `notification_notified_ibfk_1` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `notification_notified_ibfk_2` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `notification_notified`
+  ADD CONSTRAINT `notification_notified_ibfk_1` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `notification_notified_ibfk_2` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `notification_report`
 --
-ALTER TABLE `notification_report`
-  ADD CONSTRAINT `notification_report_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `notification_report_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `notification_report`
+  ADD CONSTRAINT `notification_report_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `notification_report_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `profile`
 --
-ALTER TABLE `profile`
-  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+alter table `profile`
+  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON delete RESTRICT ON update RESTRICT;
 
 --
 -- Constraints for table `QRTZ_BLOB_TRIGGERS`
 --
-ALTER TABLE `QRTZ_BLOB_TRIGGERS`
+alter table `QRTZ_BLOB_TRIGGERS`
   ADD CONSTRAINT `QRTZ_BLOB_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`);
 
 --
 -- Constraints for table `QRTZ_CRON_TRIGGERS`
 --
-ALTER TABLE `QRTZ_CRON_TRIGGERS`
+alter table `QRTZ_CRON_TRIGGERS`
   ADD CONSTRAINT `QRTZ_CRON_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`);
 
 --
 -- Constraints for table `QRTZ_SIMPLE_TRIGGERS`
 --
-ALTER TABLE `QRTZ_SIMPLE_TRIGGERS`
+alter table `QRTZ_SIMPLE_TRIGGERS`
   ADD CONSTRAINT `QRTZ_SIMPLE_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`);
 
 --
 -- Constraints for table `QRTZ_SIMPROP_TRIGGERS`
 --
-ALTER TABLE `QRTZ_SIMPROP_TRIGGERS`
+alter table `QRTZ_SIMPROP_TRIGGERS`
   ADD CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`);
 
 --
 -- Constraints for table `QRTZ_TRIGGERS`
 --
-ALTER TABLE `QRTZ_TRIGGERS`
+alter table `QRTZ_TRIGGERS`
   ADD CONSTRAINT `QRTZ_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`) REFERENCES `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`);
 
 --
 -- Constraints for table `report`
 --
-ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`user_reported_id`) REFERENCES `user` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `report_ibfk_4` FOREIGN KEY (`user_reporter_id`) REFERENCES `user` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `report`
+  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`user_reported_id`) REFERENCES `user` (`profile_id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `report_ibfk_4` FOREIGN KEY (`user_reporter_id`) REFERENCES `user` (`profile_id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `report_image`
 --
-ALTER TABLE `report_image`
-  ADD CONSTRAINT `report_image_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `report_image`
+  ADD CONSTRAINT `report_image_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `report_result`
 --
-ALTER TABLE `report_result`
-  ADD CONSTRAINT `report_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `report_result_ibfk_2` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `report_result`
+  ADD CONSTRAINT `report_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `report_result_ibfk_2` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `review_result`
 --
-ALTER TABLE `review_result`
-  ADD CONSTRAINT `review_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `review_result_ibfk_2` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `review_result`
+  ADD CONSTRAINT `review_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `review_result_ibfk_2` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `user`
 --
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `verification_token`
 --
-ALTER TABLE `verification_token`
-  ADD CONSTRAINT `verification_token_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+alter table `verification_token`
+  ADD CONSTRAINT `verification_token_ibfk_1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON delete CASCADE ON update RESTRICT;
 
 --
 -- Constraints for table `winner`
 --
-ALTER TABLE `winner`
-  ADD CONSTRAINT `winner_ibfk_1` FOREIGN KEY (`bid_id`) REFERENCES `bid` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `winner_ibfk_2` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-COMMIT;
+alter table `winner`
+  ADD CONSTRAINT `winner_ibfk_1` FOREIGN KEY (`bid_id`) REFERENCES `bid` (`id`) ON delete CASCADE ON update RESTRICT,
+  ADD CONSTRAINT `winner_ibfk_2` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON delete CASCADE ON update RESTRICT;
+commit;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
