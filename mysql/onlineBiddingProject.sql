@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 01, 2022 at 03:21 PM
--- Server version: 8.0.29-0ubuntu0.22.04.2
+-- Generation Time: Aug 12, 2022 at 01:05 PM
+-- Server version: 8.0.30-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `admin`
@@ -48,7 +48,7 @@ CREATE TABLE `auction` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `status` int NOT NULL,
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
@@ -57,18 +57,19 @@ CREATE TABLE `auction` (
   `highest_price` double DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `auction`
 --
 
 INSERT INTO `auction` (`id`, `user_id`, `category_id`, `description`, `status`, `time_start`, `time_end`, `price_start`, `price_step`, `highest_price`, `created_at`, `updated_at`) VALUES
-(92, 6, 1, 'nue keyboard auction', 3, '2022-08-01 14:40:00', '2022-08-24 14:36:00', 100000, 50000, 0, '2022-08-01 14:37:22', '2022-08-01 14:38:14'),
+(92, 6, 1, 'nue keyboard auction', 3, '2022-08-01 14:40:00', '2022-08-24 14:36:00', 100000, 50000, 300000, '2022-08-01 14:37:22', '2022-08-12 12:31:41'),
 (93, 8, 1, 'TGR Police auction', 3, '2022-08-01 14:43:00', '2022-08-23 14:40:00', 100000, 500000, 0, '2022-08-01 14:41:25', '2022-08-01 14:41:51'),
 (94, 9, 4, 'Kikuichimonji auction', 3, '2022-08-01 14:48:00', '2022-08-20 14:45:00', 1000000, 500000, 0, '2022-08-01 14:46:28', '2022-08-01 14:47:06'),
 (95, 6, 8, 'Noxary vulcan pro auction', 3, '2022-08-01 14:56:00', '2022-08-28 14:53:00', 1000000, 500000, 1500000, '2022-08-01 14:54:04', '2022-08-01 15:07:49'),
-(96, 13, 9, 'Keycult No. 2 auction', 3, '2022-08-01 15:01:00', '2022-08-26 14:58:00', 1000000, 1000000, 1000000, '2022-08-01 14:59:59', '2022-08-01 15:01:26');
+(96, 13, 9, 'Keycult No. 2 auction', 3, '2022-08-01 15:01:00', '2022-08-26 14:58:00', 1000000, 1000000, 2000000, '2022-08-01 14:59:59', '2022-08-10 21:50:40'),
+(97, 6, 4, 'gmk keycaps auction', 4, '2022-08-12 11:59:00', '2022-08-12 12:01:00', 100000, 50000, 100000, '2022-08-12 11:58:04', '2022-08-12 11:59:07');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,7 @@ CREATE TABLE `auction_user` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `auction_user`
@@ -88,6 +89,9 @@ CREATE TABLE `auction_user` (
 
 INSERT INTO `auction_user` (`id`, `user_id`, `auction_id`) VALUES
 (29, 6, 96),
+(33, 8, 92),
+(32, 8, 97),
+(31, 10, 96),
 (30, 13, 95);
 
 -- --------------------------------------------------------
@@ -103,7 +107,7 @@ CREATE TABLE `bid` (
   `price` double NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `bid`
@@ -112,7 +116,11 @@ CREATE TABLE `bid` (
 INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `updated_at`) VALUES
 (130, 6, 96, 1000000, '2022-08-01 15:01:26', '2022-08-01 15:01:26'),
 (131, 13, 95, 1000000, '2022-08-01 15:02:11', '2022-08-01 15:02:11'),
-(132, 13, 95, 1500000, '2022-08-01 15:07:49', '2022-08-01 15:07:49');
+(132, 13, 95, 1500000, '2022-08-01 15:07:49', '2022-08-01 15:07:49'),
+(133, 10, 96, 2000000, '2022-08-10 21:50:40', '2022-08-10 21:50:40'),
+(134, 8, 97, 100000, '2022-08-12 11:59:07', '2022-08-12 11:59:07'),
+(135, 8, 92, 200000, '2022-08-12 12:08:27', '2022-08-12 12:08:27'),
+(136, 8, 92, 300000, '2022-08-12 12:31:41', '2022-08-12 12:31:41');
 
 -- --------------------------------------------------------
 
@@ -122,8 +130,8 @@ INSERT INTO `bid` (`id`, `user_id`, `auction_id`, `price`, `created_at`, `update
 
 CREATE TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `category`
@@ -150,13 +158,13 @@ INSERT INTO `category` (`id`, `name`) VALUES
 
 CREATE TABLE `item` (
   `id` int NOT NULL,
-  `name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `amount` int NOT NULL,
   `auction_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `item`
@@ -167,7 +175,8 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 (83, 'Polycarbonate Alice (Police)', 'Design by TGR  Polycarbonate case with copper weight.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches - with 65g springs and TX films - mounted on a copper full plate.', 1, 93, '2022-08-01 14:41:25', '2022-08-01 14:41:25'),
 (84, 'Kikuichimonji keyboard', 'Design by bisoromi, run by AEBoards  Silver-anodized aluminum case.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed Boba LT switches, with 62g springs - mounted on an aluminum full plate.', 1, 94, '2022-08-01 14:46:28', '2022-08-01 14:46:28'),
 (85, 'Vulcan Pro Design by Noxary.', '\"Hyper Red\"-anodized aluminum case.  Clipped and lubed (205g0) Cherry clip-in stabilizers.  Lubed (205g0) Gateron Ink Red switches, with 62g springs and TX films - mounted on an aluminum full plate.  Vulcan PCB by ai03 (QMK/VIA).', 1, 95, '2022-08-01 14:54:04', '2022-08-01 14:54:04'),
-(86, 'Keycult No. 2', 'Silver-anodized aluminum case with sandblasted stainless steel bottom. 5.5 degree angle.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches, with 63.5g springs - mounted on an aluminum full plate.', 1, 96, '2022-08-01 14:59:59', '2022-08-01 14:59:59');
+(86, 'Keycult No. 2', 'Silver-anodized aluminum case with sandblasted stainless steel bottom. 5.5 degree angle.  Lubed (205g0) Durock v2 screw-in stabilizers.  Lubed (205g0) Cherry MX Black switches, with 63.5g springs - mounted on an aluminum full plate.', 1, 96, '2022-08-01 14:59:59', '2022-08-01 14:59:59'),
+(87, 'gmk colors', 'gmk colors, unreleased, prolly a scam idk', 1, 97, '2022-08-12 11:58:04', '2022-08-12 11:58:04');
 
 -- --------------------------------------------------------
 
@@ -177,10 +186,10 @@ INSERT INTO `item` (`id`, `name`, `description`, `amount`, `auction_id`, `create
 
 CREATE TABLE `item_image` (
   `id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL,
   `item_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `item_image`
@@ -205,7 +214,10 @@ INSERT INTO `item_image` (`id`, `image_url`, `public_id`, `item_id`) VALUES
 (56, 'https://res.cloudinary.com/metanoia/image/upload/v1659340764/onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7.jpg', 'onlinebiddingproject/qgxkg9sc1eb7fmfsbfi7', 86),
 (57, 'https://res.cloudinary.com/metanoia/image/upload/v1659340760/onlinebiddingproject/g9dy8lebx81csmzldp2n.jpg', 'onlinebiddingproject/g9dy8lebx81csmzldp2n', 86),
 (58, 'https://res.cloudinary.com/metanoia/image/upload/v1659340756/onlinebiddingproject/tsqs1klwtjzre5delyqu.jpg', 'onlinebiddingproject/tsqs1klwtjzre5delyqu', 86),
-(59, 'https://res.cloudinary.com/metanoia/image/upload/v1659340753/onlinebiddingproject/zkv9vjopgvmoxz3bm8km.jpg', 'onlinebiddingproject/zkv9vjopgvmoxz3bm8km', 86);
+(59, 'https://res.cloudinary.com/metanoia/image/upload/v1659340753/onlinebiddingproject/zkv9vjopgvmoxz3bm8km.jpg', 'onlinebiddingproject/zkv9vjopgvmoxz3bm8km', 86),
+(60, 'https://res.cloudinary.com/metanoia/image/upload/v1660280251/onlinebiddingproject/s8souhhaoohgcvwv57bh.jpg', 'onlinebiddingproject/s8souhhaoohgcvwv57bh', 87),
+(61, 'https://res.cloudinary.com/metanoia/image/upload/v1660280244/onlinebiddingproject/ify9nicknmpyhlegasoe.jpg', 'onlinebiddingproject/ify9nicknmpyhlegasoe', 87),
+(62, 'https://res.cloudinary.com/metanoia/image/upload/v1660280237/onlinebiddingproject/fx2imhpmcq8wfjoehw21.jpg', 'onlinebiddingproject/fx2imhpmcq8wfjoehw21', 87);
 
 -- --------------------------------------------------------
 
@@ -220,7 +232,7 @@ CREATE TABLE `notification` (
   `entity_type` varchar(25) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notification`
@@ -230,7 +242,7 @@ INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_typ
 (43, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:38:02', '2022-08-01 14:38:02'),
 (44, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
 (45, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
-(46, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
+(46, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-12 12:31:41'),
 (47, 8, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:41:30', '2022-08-01 14:41:30'),
 (48, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
 (49, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
@@ -246,7 +258,13 @@ INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_typ
 (59, 13, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 15:00:13', '2022-08-01 15:00:13'),
 (60, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
 (61, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:00'),
-(62, 6, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:26');
+(62, 10, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-10 21:50:40'),
+(63, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-12 11:58:08', '2022-08-12 11:58:08'),
+(64, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-12 11:58:32', '2022-08-12 11:58:32'),
+(65, NULL, 'START_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:00'),
+(66, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:07'),
+(67, NULL, 'END_AUCTION', 'AUCTION', '2022-08-12 12:01:00', '2022-08-12 12:01:00'),
+(69, 6, 'CREATE_REPORT', 'REPORT', '2022-08-12 12:12:15', '2022-08-12 12:12:15');
 
 -- --------------------------------------------------------
 
@@ -258,7 +276,7 @@ CREATE TABLE `notification_auction` (
   `id` int NOT NULL,
   `auction_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notification_auction`
@@ -284,7 +302,12 @@ INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUE
 (53, 96, 59),
 (54, 96, 60),
 (55, 96, 61),
-(56, 96, 62);
+(56, 96, 62),
+(57, 97, 63),
+(58, 97, 64),
+(59, 97, 65),
+(60, 97, 66),
+(61, 97, 67);
 
 -- --------------------------------------------------------
 
@@ -296,7 +319,7 @@ CREATE TABLE `notification_notified` (
   `id` int NOT NULL,
   `notification_id` int NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notification_notified`
@@ -324,7 +347,17 @@ INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALU
 (66, 61, 13),
 (67, 62, 13),
 (68, 62, 6),
-(69, 58, 13);
+(69, 58, 13),
+(70, 62, 10),
+(71, 63, 11),
+(72, 64, 6),
+(73, 65, 6),
+(74, 66, 6),
+(75, 66, 8),
+(76, 67, 6),
+(77, 67, 8),
+(79, 46, 8),
+(80, 69, 11);
 
 -- --------------------------------------------------------
 
@@ -336,7 +369,14 @@ CREATE TABLE `notification_report` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
   `notification_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `notification_report`
+--
+
+INSERT INTO `notification_report` (`id`, `report_id`, `notification_id`) VALUES
+(5, 24, 69);
 
 -- --------------------------------------------------------
 
@@ -346,29 +386,31 @@ CREATE TABLE `notification_report` (
 
 CREATE TABLE `profile` (
   `id` int NOT NULL,
-  `username` varchar(30) CHARACTER SET utf8mb4  NOT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
+  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `bio` varchar(10000) DEFAULT NULL,
+  `legitimate_score` int NOT NULL DEFAULT '0',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `status` int NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `role_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `profile`
 --
 
-INSERT INTO `profile` (`id`, `username`, `password`, `name`, `status`, `email`, `image_url`, `role_id`, `created_at`, `updated_at`) VALUES
-(6, 'nguoidung1', '$2a$10$krqgee7paXEfPRq/6RaCkOAm/U/IkRfVOaAdfIzuKxxND3sh74hP2', 'thanh', 2, 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-07-25 10:24:17'),
-(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
-(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
-(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:54:14', '2022-07-06 13:54:14'),
-(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', 'admin', 2, NULL, NULL, 1, '2022-07-06 22:38:52', '2022-07-06 22:38:52'),
-(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', 'thanhthanh', 2, NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
-(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', 'thanhthanh', 2, 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-07-25 17:35:52');
+INSERT INTO `profile` (`id`, `username`, `password`, `bio`, `legitimate_score`, `name`, `status`, `email`, `image_url`, `role_id`, `created_at`, `updated_at`) VALUES
+(6, 'nguoidung1', '$2a$10$dYlSRalQ1PpbzCS3yvuEt.NRmlnqTvJ5cLuK6IiTT2E2S9NagM..e', 'https://www.facebook.com/leothanhng/', 1, 'thanhthanh', 2, 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-08-12 12:01:00'),
+(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
+(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
+(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:54:14', '2022-08-10 21:51:52'),
+(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', '', 0, 'adminadmin', 2, NULL, NULL, 1, '2022-07-06 22:38:52', '2022-08-11 15:11:30'),
+(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', NULL, 0, 'thanhthanh', 2, NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
+(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', NULL, 0, 'thanhthanh', 2, 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-08-11 16:02:02');
 
 -- --------------------------------------------------------
 
@@ -381,7 +423,7 @@ CREATE TABLE `QRTZ_BLOB_TRIGGERS` (
   `TRIGGER_NAME` varchar(190) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `BLOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -393,7 +435,7 @@ CREATE TABLE `QRTZ_CALENDARS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `CALENDAR_NAME` varchar(190) NOT NULL,
   `CALENDAR` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -407,7 +449,7 @@ CREATE TABLE `QRTZ_CRON_TRIGGERS` (
   `TRIGGER_GROUP` varchar(190) NOT NULL,
   `CRON_EXPRESSION` varchar(120) NOT NULL,
   `TIME_ZONE_ID` varchar(80) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -429,7 +471,7 @@ CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
   `JOB_GROUP` varchar(190) DEFAULT NULL,
   `IS_NONCONCURRENT` varchar(1) DEFAULT NULL,
   `REQUESTS_RECOVERY` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -448,7 +490,7 @@ CREATE TABLE `QRTZ_JOB_DETAILS` (
   `IS_UPDATE_DATA` varchar(1) NOT NULL,
   `REQUESTS_RECOVERY` varchar(1) NOT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `QRTZ_JOB_DETAILS`
@@ -470,7 +512,7 @@ INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPT
 CREATE TABLE `QRTZ_LOCKS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `LOCK_NAME` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `QRTZ_LOCKS`
@@ -488,7 +530,7 @@ INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`) VALUES
 CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_GROUP` varchar(190) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -501,7 +543,7 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
   `INSTANCE_NAME` varchar(190) NOT NULL,
   `LAST_CHECKIN_TIME` bigint NOT NULL,
   `CHECKIN_INTERVAL` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -516,7 +558,7 @@ CREATE TABLE `QRTZ_SIMPLE_TRIGGERS` (
   `REPEAT_COUNT` bigint NOT NULL,
   `REPEAT_INTERVAL` bigint NOT NULL,
   `TIMES_TRIGGERED` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `QRTZ_SIMPLE_TRIGGERS`
@@ -550,7 +592,7 @@ CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
   `DEC_PROP_2` decimal(13,4) DEFAULT NULL,
   `BOOL_PROP_1` varchar(1) DEFAULT NULL,
   `BOOL_PROP_2` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -575,7 +617,7 @@ CREATE TABLE `QRTZ_TRIGGERS` (
   `CALENDAR_NAME` varchar(190) DEFAULT NULL,
   `MISFIRE_INSTR` smallint DEFAULT NULL,
   `JOB_DATA` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `QRTZ_TRIGGERS`
@@ -599,10 +641,17 @@ CREATE TABLE `report` (
   `user_reporter_id` int NOT NULL,
   `user_reported_id` int NOT NULL,
   `auction_id` int DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`id`, `user_reporter_id`, `user_reported_id`, `auction_id`, `description`, `created_at`, `updated_at`) VALUES
+(24, 6, 13, NULL, 'bài có vấn đề, admin check hộ em he!', '2022-08-12 12:12:15', '2022-08-12 12:12:15');
 
 -- --------------------------------------------------------
 
@@ -613,9 +662,9 @@ CREATE TABLE `report` (
 CREATE TABLE `report_image` (
   `id` int NOT NULL,
   `report_id` int NOT NULL,
-  `image_url` varchar(500) CHARACTER SET utf8mb4  NOT NULL,
+  `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `public_id` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -630,7 +679,7 @@ CREATE TABLE `report_result` (
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -645,7 +694,7 @@ CREATE TABLE `review_result` (
   `result` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `review_result`
@@ -656,7 +705,8 @@ INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_
 (35, 11, 93, 1, '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
 (36, 11, 94, 1, '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
 (37, 11, 95, 1, '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
-(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27');
+(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
+(39, 11, 97, 1, '2022-08-12 11:58:32', '2022-08-12 11:58:32');
 
 -- --------------------------------------------------------
 
@@ -666,8 +716,8 @@ INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_
 
 CREATE TABLE `role` (
   `id` int NOT NULL,
-  `name` varchar(30) CHARACTER SET utf8mb4  NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `role`
@@ -685,7 +735,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 
 CREATE TABLE `user` (
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -710,7 +760,7 @@ CREATE TABLE `verification_token` (
   `expiration_time` datetime NOT NULL,
   `token` varchar(1000) NOT NULL,
   `profile_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -722,7 +772,14 @@ CREATE TABLE `winner` (
   `id` int NOT NULL,
   `bid_id` int NOT NULL,
   `auction_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `winner`
+--
+
+INSERT INTO `winner` (`id`, `bid_id`, `auction_id`) VALUES
+(680, 134, 97);
 
 --
 -- Indexes for dumped tables
@@ -973,19 +1030,19 @@ ALTER TABLE `winner`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `auction_user`
 --
 ALTER TABLE `auction_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -997,37 +1054,37 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `item_image`
 --
 ALTER TABLE `item_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `notification_auction`
 --
 ALTER TABLE `notification_auction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification_notified`
 --
 ALTER TABLE `notification_notified`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `notification_report`
 --
 ALTER TABLE `notification_report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `profile`
@@ -1039,7 +1096,7 @@ ALTER TABLE `profile`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `report_image`
@@ -1057,7 +1114,7 @@ ALTER TABLE `report_result`
 -- AUTO_INCREMENT for table `review_result`
 --
 ALTER TABLE `review_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -1075,7 +1132,7 @@ ALTER TABLE `verification_token`
 -- AUTO_INCREMENT for table `winner`
 --
 ALTER TABLE `winner`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=680;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=681;
 
 --
 -- Constraints for dumped tables
