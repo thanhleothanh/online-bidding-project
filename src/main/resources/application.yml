@@ -5,3 +5,4 @@ mailServer:
   password: tbtyrtkutlfdppbk
   protocol: smtp
   isSSL: false
+

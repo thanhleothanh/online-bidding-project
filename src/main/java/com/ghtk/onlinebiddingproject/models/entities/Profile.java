@@ -52,9 +52,8 @@ public class Profile extends BaseEntity {
     @PrePersist
     public void prePersist() {
         this.status = UserStatusConstants.valueOf("INACTIVE");
-        this.bio = "";
-        this.legitimateScore = 0;
     }
+
     public Profile(String username, String password, String name, String email, Role role) {
         this.username = username;
         this.password = password;
