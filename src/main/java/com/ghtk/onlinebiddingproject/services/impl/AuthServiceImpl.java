@@ -14,7 +14,6 @@ import com.ghtk.onlinebiddingproject.models.requests.UserLogin;
 import com.ghtk.onlinebiddingproject.models.requests.UserSignup;
 import com.ghtk.onlinebiddingproject.models.responses.UserAuthResponse;
 import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
-import com.ghtk.onlinebiddingproject.repositories.RoleRepository;
 import com.ghtk.onlinebiddingproject.repositories.VerificationTokenRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.AuthService;
@@ -49,8 +48,6 @@ public class AuthServiceImpl implements AuthService {
     private VerificationTokenRepository verificationTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder encoder;
     @Autowired
@@ -90,18 +87,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException("Username đã được sử dụng!");
         if (profileRepository.existsByEmail(signupRequest.getEmail()))
             throw new BadRequestException("Email đã được sử dụng!");
-        if (signupRequest.getRole().getId().equals(1))
-            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
 
-        Role userRole = roleRepository.findById(signupRequest.getRole().getId()).get();
         Profile newUser = profileRepository.save(new Profile(signupRequest.getUsername(),
-                encoder.encode(signupRequest.getPassword()), signupRequest.getName(), signupRequest.getEmail(), userRole));
+                encoder.encode(signupRequest.getPassword()), signupRequest.getName(), signupRequest.getEmail(), new Role(2)));
+        profileRepository.insertUser(newUser.getId());
+        publisher.publishEvent(new SignupCompleteEvent(newUser, applicationUrl(request)));
 
-        if (userRole.getId() == 1) profileRepository.insertAdmin(newUser.getId());
-        else {
-            profileRepository.insertUser(newUser.getId());
-            publisher.publishEvent(new SignupCompleteEvent(newUser, applicationUrl(request)));
-        }
         return new UserAuthResponse(newUser.getId(), newUser.getUsername(), newUser.getName(), newUser.getEmail(), newUser.getImageUrl(), newUser.getRole().getName(), newUser.getStatus());
     }
 
