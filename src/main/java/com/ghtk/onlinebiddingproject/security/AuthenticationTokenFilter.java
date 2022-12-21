@@ -2,6 +2,12 @@ package com.ghtk.onlinebiddingproject.security;
 
 import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
 import com.ghtk.onlinebiddingproject.utils.JwtUtils;
+import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
@@ -25,7 +24,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse servletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
@@ -46,6 +45,6 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, servletResponse);
     }
 }

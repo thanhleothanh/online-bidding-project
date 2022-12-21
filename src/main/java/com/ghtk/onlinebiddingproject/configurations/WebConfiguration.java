@@ -18,6 +18,6 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns("http://localhost:3000").allowedMethods("GET", "POST", "PUT", "DELETE").allowCredentials(true).exposedHeaders("Set-Cookie");
+        registry.addMapping("/**").allowedOriginPatterns("http://localhost:3000").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(true).exposedHeaders("Set-Cookie");
     }
 }
