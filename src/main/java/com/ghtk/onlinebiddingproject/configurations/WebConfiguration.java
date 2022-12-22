@@ -18,6 +18,6 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns("http://localhost:3000").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(true).exposedHeaders("Set-Cookie");
+        registry.addMapping("/**").allowedOriginPatterns("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000", "https://onlinebiddingproject.netlify.app").allowedMethods("GET", "POST", "PUT", "DELETE").allowCredentials(true).exposedHeaders("Set-Cookie");
     }
 }

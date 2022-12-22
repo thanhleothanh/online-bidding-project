@@ -80,8 +80,18 @@ public class AuthServiceImpl implements AuthService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         CurrentUserUtils.setCurrentUserDetails(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
 
-        return new UserAuthResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getName(), userDetails.getEmail(), userDetails.getImageUrl(), userDetails.getAuthorities().stream().findFirst().get().getAuthority(), userDetails.getStatus());
+        return new UserAuthResponse(
+            userDetails.getId(),
+            userDetails.getUsername(),
+            userDetails.getName(),
+            userDetails.getEmail(),
+            userDetails.getImageUrl(),
+            userDetails.getAuthorities().stream().findFirst().get().getAuthority(),
+            userDetails.getStatus(),
+            jwtToken
+        );
     }
 
     @Override
@@ -102,7 +112,16 @@ public class AuthServiceImpl implements AuthService {
             profileRepository.insertUser(newUser.getId());
             publisher.publishEvent(new SignupCompleteEvent(newUser, applicationUrl(request)));
         }
-        return new UserAuthResponse(newUser.getId(), newUser.getUsername(), newUser.getName(), newUser.getEmail(), newUser.getImageUrl(), newUser.getRole().getName(), newUser.getStatus());
+        return new UserAuthResponse(
+            newUser.getId(),
+            newUser.getUsername(),
+            newUser.getName(),
+            newUser.getEmail(),
+            newUser.getImageUrl(),
+            newUser.getRole().getName(),
+            newUser.getStatus(),
+            null
+        );
     }
 
     @Override
@@ -123,8 +142,8 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        return jwtUtils.generateJwtCookie(userDetails);
+        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
+        return jwtUtils.generateJwtCookie(jwtToken);
     }
 
     @Override

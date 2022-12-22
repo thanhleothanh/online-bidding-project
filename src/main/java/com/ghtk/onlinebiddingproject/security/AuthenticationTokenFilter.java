@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
@@ -27,9 +29,10 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse servletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            String jwt = jwtUtils.getJwtFromCookies(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+//            String jwtToken = jwtUtils.getJwtFromCookies(request);
+            String jwtToken = resolveToken(request);
+            if (StringUtils.hasText(jwtToken) && jwtUtils.validateJwtToken(jwtToken)) {
+                String username = jwtUtils.getUserNameFromJwtToken(jwtToken);
                 UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
                 if (userDetails.getStatus().equals(UserStatusConstants.BANNED)) {
                     throw new AccessDeniedException("Tài khoản của bạn đã bị khoá!");
@@ -46,5 +49,13 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             logger.error("Cannot set user authentication: {}", e);
         }
         filterChain.doFilter(request, servletResponse);
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }
