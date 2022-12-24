@@ -207,7 +207,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public String applicationUrl(HttpServletRequest request) {
-        return "https://"
+        return "http://"
                 + request.getServerName()
                 + ":" + request.getServerPort() + "/api/v1/auth/"
                 + request.getContextPath();
