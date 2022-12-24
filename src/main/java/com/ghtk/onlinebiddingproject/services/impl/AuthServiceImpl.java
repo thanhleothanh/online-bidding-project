@@ -2,7 +2,6 @@ package com.ghtk.onlinebiddingproject.services.impl;
 
 import com.ghtk.onlinebiddingproject.constants.MailConstants;
 import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
-import com.ghtk.onlinebiddingproject.events.SignupCompleteEvent;
 import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
 import com.ghtk.onlinebiddingproject.models.dtos.DataMailDto;
@@ -20,6 +19,12 @@ import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.AuthService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.JwtUtils;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -32,13 +37,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -110,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
         if (userRole.getId() == 1) profileRepository.insertAdmin(newUser.getId());
         else {
             profileRepository.insertUser(newUser.getId());
-            publisher.publishEvent(new SignupCompleteEvent(newUser, applicationUrl(request)));
+            prepareSendMailVerification(newUser, request);
         }
         return new UserAuthResponse(
             newUser.getId(),
@@ -152,11 +150,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
-    @Override
-    public void saveVerificationTokenForProfile(String token, Profile profile) {
-        VerificationToken verificationToken = new VerificationToken(profile, token);
-        verificationTokenRepository.save(verificationToken);
-    }
 
     @Override
     public String validateVerificationToken(String token) {
@@ -176,18 +169,15 @@ public class AuthServiceImpl implements AuthService {
         return "valid";
     }
 
-    @Override
+    /*
+     * helper methods
+     * */
+
     public VerificationToken garenateNewVerification(VerificationToken verificationToken) {
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setExpirationTime(LocalDateTime.now().plusMinutes(10L));
         return verificationTokenRepository.save(verificationToken);
     }
-
-
-    /*
-     * helper methods
-     * */
-
 
     public void resendVerificationMail(Profile profile, String applicationUrl, VerificationToken verificationToken) {
         String url = applicationUrl
@@ -217,9 +207,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public String applicationUrl(HttpServletRequest request) {
-        return "http://"
+        return "https://"
                 + request.getServerName()
                 + ":" + request.getServerPort() + "/api/v1/auth/"
                 + request.getContextPath();
+    }
+    private void prepareSendMailVerification(Profile newUser, HttpServletRequest request) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken(newUser, token);
+        verificationTokenRepository.save(verificationToken);
+        String url = applicationUrl(request)
+            + "verificationSignup?token="
+            + token;
+        sendMailVerification(newUser, url);
     }
 }

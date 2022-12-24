@@ -27,6 +27,7 @@ public class MailServiceImpl implements MailService {
         context.setVariables(dataMail.getProps());
         String html = templateEngine.process(templateName, context);
 
+        helper.setFrom("AUCTION_TIME_PROJECT");
         helper.setTo(dataMail.getTo());
         helper.setSubject(dataMail.getSubject());
         helper.setText(html, true);
