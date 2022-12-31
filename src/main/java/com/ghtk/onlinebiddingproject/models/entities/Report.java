@@ -1,6 +1,7 @@
 package com.ghtk.onlinebiddingproject.models.entities;
 
 
+import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @Table(name = "report")
 public class Report extends BaseEntity {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,13 @@ public class Report extends BaseEntity {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "result")
+    private ReportResultConstants result;
+
+    @ManyToOne
+    @JoinColumn(name = "admin", referencedColumnName = "profile_id", nullable = false)
+    private Admin admin;
 
     @ManyToOne
     @JoinColumn(name = "user_reporter_id", referencedColumnName = "profile_id", nullable = false)
@@ -38,7 +47,4 @@ public class Report extends BaseEntity {
 
     @OneToMany(mappedBy = "report")
     private List<ReportImage> reportImages;
-
-    @OneToOne(mappedBy = "report")
-    private ReportResult reportResult;
 }

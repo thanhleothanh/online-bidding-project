@@ -4,7 +4,9 @@ package com.ghtk.onlinebiddingproject.jobs;
 import com.ghtk.onlinebiddingproject.repositories.AuctionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CancelAuctionJob extends QuartzJobBean {
+
     @Autowired
     private AuctionRepository auctionRepository;
 

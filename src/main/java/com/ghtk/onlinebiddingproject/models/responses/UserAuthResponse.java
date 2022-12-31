@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UserAuthResponse {
+
     private Integer id;
     private String username;
     private String name;

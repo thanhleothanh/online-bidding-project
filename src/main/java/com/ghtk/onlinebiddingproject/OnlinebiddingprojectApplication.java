@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class OnlinebiddingprojectApplication {
+
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();

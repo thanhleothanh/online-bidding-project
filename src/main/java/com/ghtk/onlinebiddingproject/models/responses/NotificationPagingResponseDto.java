@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class NotificationPagingResponseDto {
+
     private Integer count;
     private Integer page;
     private Integer pageSize;

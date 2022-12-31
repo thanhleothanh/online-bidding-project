@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommonResponse {
+
     private boolean success;
     private String message;
     private Object data;

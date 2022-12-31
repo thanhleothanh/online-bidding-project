@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionDto {
+
     private Integer id;
 
     private String description;
@@ -37,9 +38,6 @@ public class AuctionDto {
     private ItemDto item;
 
     private WinnerDto winner;
-
-    @JsonIgnore
-    private ReviewResultDto reviewResultDto;
 
     @JsonIgnore
     private List<BidDto> bids;

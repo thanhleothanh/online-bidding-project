@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Slf4j
 public class JobDetailBuilderUtils {
+
     public static JobDetail buildStartAuctionJobDetail(JobDataMap jobDataMap) {
         Integer auctionId = jobDataMap.getInt("auctionId");
         String jobDetailName = getStartAuctionJobDetailName(auctionId);

@@ -1,8 +1,8 @@
 package com.ghtk.onlinebiddingproject.services;
 
+import com.ghtk.onlinebiddingproject.models.dtos.ReportResultDto;
 import com.ghtk.onlinebiddingproject.models.entities.Report;
 import com.ghtk.onlinebiddingproject.models.entities.ReportImage;
-import com.ghtk.onlinebiddingproject.models.entities.ReportResult;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import java.util.List;
 
 public interface ReportService {
+
     ReportPagingResponse get(Specification<Report> spec, HttpHeaders headers, Sort sort);
 
     Report save(Report report);
@@ -21,7 +22,7 @@ public interface ReportService {
 
     List<Report> adminGetReports();
 
-    ReportResult adminJudgeReport(Integer id, ReportResult reportResult);
+    void adminJudgeReport(Integer id, ReportResultDto reportResultDto);
 
     ReportImage saveReportImage(Integer id, ReportImage reportImage);
 }

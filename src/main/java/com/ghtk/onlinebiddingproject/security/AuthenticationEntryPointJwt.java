@@ -15,10 +15,12 @@ import java.io.IOException;
 
 @Component
 public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
+
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationEntryPointJwt.class);
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
+            throws IOException, ServletException {
         logger.error("Unauthorized error: {}", e.getMessage());
         CommonResponse errorResponse = new CommonResponse(false, "Unauthorized!", null, null);
         final ObjectMapper mapper = new ObjectMapper();

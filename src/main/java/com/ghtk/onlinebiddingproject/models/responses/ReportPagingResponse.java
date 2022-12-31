@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class ReportPagingResponse {
+
     private Integer count;
     private Integer page;
     private Integer pageSize;

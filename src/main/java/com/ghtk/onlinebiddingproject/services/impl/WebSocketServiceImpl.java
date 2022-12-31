@@ -32,8 +32,9 @@ public class WebSocketServiceImpl implements WebSocketService {
     @SneakyThrows
     public void sendNotification(Profile profile, Notification notification) {
         boolean notifying = true;
-        if (notification.getProfile() != null)
+        if (notification.getProfile() != null) {
             notifying = !profile.getId().equals(notification.getProfile().getId());
+        }
         String username = profile.getUsername();
         String dest = "/queue/notifications";
         simpMessagingTemplate.convertAndSendToUser(username, dest, notifying);

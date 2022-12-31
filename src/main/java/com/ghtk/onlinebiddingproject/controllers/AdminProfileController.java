@@ -25,6 +25,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "api/v1/admin/profiles")
 public class AdminProfileController {
+
     @Autowired
     private ProfileServiceImpl profileService;
     @Autowired

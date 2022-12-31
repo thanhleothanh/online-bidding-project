@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class AuctionPagingResponse {
+
     private Integer count;
     private Integer page;
     private Integer pageSize;

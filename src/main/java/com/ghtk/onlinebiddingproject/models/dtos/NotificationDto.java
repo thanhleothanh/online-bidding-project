@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationDto {
+
     private Integer id;
 
     private ProfileDto profile;

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuctionUserServiceImpl implements AuctionUserService {
+
     @Autowired
     private AuctionUserRepository auctionUserRepository;
     @Autowired

@@ -37,6 +37,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/auctions")
 public class AuctionController {
+
     @Autowired
     private WebSocketServiceImpl webSocketService;
     @Autowired
@@ -118,7 +119,8 @@ public class AuctionController {
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<CommonResponse> submitPending(@PathVariable("id") int id) {
         Auction submittedAuction = auctionService.submitPending(id);
-        jobSchedulerService.cancelAuctionScheduler(submittedAuction); //scheduling a job to automatically cancel auction if no admin approve when timeStart comes!
+        jobSchedulerService.cancelAuctionScheduler(
+                submittedAuction); //scheduling a job to automatically cancel auction if no admin approve when timeStart comes!
         AuctionDto dtoResponse = entityToDtoConverter.convertToDto(submittedAuction);
         CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
 

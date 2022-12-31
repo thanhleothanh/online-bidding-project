@@ -20,6 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "api/v1/items")
 public class ItemController {
+
     @Autowired
     private ItemServiceImpl itemService;
     @Autowired

@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDto {
+
     private Integer id;
 
     @NotBlank(message = "thiếu thông tin mô tả!")

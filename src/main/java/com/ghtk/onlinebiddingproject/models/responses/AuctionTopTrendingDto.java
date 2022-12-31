@@ -39,6 +39,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionTopTrendingDto {
+
     @Id
     private Integer id;
     private Integer user_id;
@@ -56,7 +57,9 @@ public class AuctionTopTrendingDto {
     private Integer itemAmount;
     private Integer numberOfBids;
 
-    public AuctionTopTrendingDto(Integer id, Integer user_id, Integer category_id, String description, Integer status, LocalDateTime time_start, LocalDateTime time_end, Double price_start, Double price_step, Double highest_price, Integer itemId, String itemName, String itemDescription, Integer itemAmount, Integer numberOfBids) {
+    public AuctionTopTrendingDto(Integer id, Integer user_id, Integer category_id, String description, Integer status, LocalDateTime time_start,
+                                 LocalDateTime time_end, Double price_start, Double price_step, Double highest_price, Integer itemId, String itemName, String itemDescription,
+                                 Integer itemAmount, Integer numberOfBids) {
         this.id = id;
         this.user_id = user_id;
         this.category_id = category_id;

@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import java.util.Objects;
 
 public class PaginationUtils {
+
     public static boolean isPaginationRequested(HttpHeaders headers) {
         return headers.containsKey(PagingHeadersConstants.PAGE.getProp()) && headers.containsKey(PagingHeadersConstants.PAGE_SIZE.getProp());
     }

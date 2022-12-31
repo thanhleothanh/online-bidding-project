@@ -12,6 +12,7 @@ import java.util.List;
 
 @Component
 public class EntityToDtoConverter {
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -33,10 +34,6 @@ public class EntityToDtoConverter {
 
     public ReportDto convertToDto(Report report) {
         return modelMapper.map(report, ReportDto.class);
-    }
-
-    public ReportResultDto convertToDto(ReportResult reportResult) {
-        return modelMapper.map(reportResult, ReportResultDto.class);
     }
 
     public BidDto convertToBidDto(Bid bid) {

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "bid")
 public class Bid extends BaseEntity {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,6 +3,7 @@ package com.ghtk.onlinebiddingproject.services;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
 
 public interface JobSchedulerService {
+
     /*
      * Quartz
      * */

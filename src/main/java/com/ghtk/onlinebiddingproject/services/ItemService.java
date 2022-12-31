@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ItemService {
+
     Item getById(Integer id);
 
     Item save(Item item);

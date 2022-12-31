@@ -12,6 +12,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+
     @Autowired
     private WebSocketChannelInterceptor channelInterceptor;
 
@@ -29,6 +30,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000", "https://onlinebiddingproject.netlify.app", "http://20.172.145.151:80", "http://20.172.145.151:3000", "http://20.172.145.151:443", "https://20.172.145.151:80", "https://20.172.145.151:3000", "https://20.172.145.151:443").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000",
+                "https://onlinebiddingproject.netlify.app", "http://20.172.145.151:80", "http://20.172.145.151:3000", "http://20.172.145.151:443",
+                "https://20.172.145.151:80", "https://20.172.145.151:3000", "https://20.172.145.151:443").withSockJS();
     }
 }

@@ -27,6 +27,7 @@ import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
+
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
@@ -64,13 +65,17 @@ public class ItemServiceImpl implements ItemService {
         AuctionStatusConstants currentStatus = auction.getStatus();
 
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        if (userDetails.isSuspended()) {
+            throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        }
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
 
-        if (!isPostedByCurrentUser)
+        if (!isPostedByCurrentUser) {
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
-        if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING))
+        }
+        if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING)) {
             throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
+        }
 
         DtoToEntityUtils.copyNonNullProperties(itemDto, item);
         return itemRepository.save(item);
@@ -88,7 +93,9 @@ public class ItemServiceImpl implements ItemService {
         if (isPostedByCurrentUser) {
             itemImage.setItem(item);
             return itemImageRepository.save(itemImage);
-        } else throw new AccessDeniedException("Không có quyền thêm ảnh vào sản phẩm này!");
+        } else {
+            throw new AccessDeniedException("Không có quyền thêm ảnh vào sản phẩm này!");
+        }
     }
 
     @Override
@@ -100,18 +107,23 @@ public class ItemServiceImpl implements ItemService {
         AuctionStatusConstants currentStatus = auction.getStatus();
 
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        if (userDetails.isSuspended()) {
+            throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        }
         boolean isPostedByCurrentUser = CurrentUserUtils.isPostedByCurrentUser(auction.getUser().getId());
 
-        if (!isPostedByCurrentUser)
+        if (!isPostedByCurrentUser) {
             throw new AccessDeniedException("Chỉ admin và chủ bài đấu giá mới có quyền sửa!");
-        if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING))
+        }
+        if (!currentStatus.equals(AuctionStatusConstants.DRAFT) && !currentStatus.equals(AuctionStatusConstants.PENDING)) {
             throw new AccessDeniedException("Không thể thực hiện sửa bài đấu giá khi đã và đang (chờ) đấu giá!");
+        }
 
         ItemImage itemImage = itemImageRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy item image với id này!"));
-        if (itemImage.getPublicId() != null)
+        if (itemImage.getPublicId() != null) {
             cloudinary.uploader().destroy(itemImage.getPublicId(), ObjectUtils.emptyMap());
+        }
 
         itemImageRepository.delete(itemImage);
     }

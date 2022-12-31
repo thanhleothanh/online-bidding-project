@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionUserDto {
+
     private Integer id;
     private AuctionDto auction;
 }

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "auction_user")
 public class AuctionUser {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

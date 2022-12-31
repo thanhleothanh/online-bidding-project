@@ -7,6 +7,7 @@ import javax.validation.constraints.Positive;
 
 @Data
 public class BidRequestDto {
+
     private Integer id;
 
     @NotNull(message = "Thiếu thông tin giá bid!")

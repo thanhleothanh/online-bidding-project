@@ -1,13 +1,14 @@
 package com.ghtk.onlinebiddingproject.services.impl;
 
-import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import com.ghtk.onlinebiddingproject.exceptions.BadRequestException;
 import com.ghtk.onlinebiddingproject.exceptions.NotFoundException;
-import com.ghtk.onlinebiddingproject.models.entities.*;
+import com.ghtk.onlinebiddingproject.models.dtos.ReportResultDto;
+import com.ghtk.onlinebiddingproject.models.entities.Admin;
+import com.ghtk.onlinebiddingproject.models.entities.Report;
+import com.ghtk.onlinebiddingproject.models.entities.ReportImage;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import com.ghtk.onlinebiddingproject.repositories.ReportImageRepository;
 import com.ghtk.onlinebiddingproject.repositories.ReportRepository;
-import com.ghtk.onlinebiddingproject.repositories.ReportResultRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.ReportService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
@@ -24,9 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReportServiceImpl implements ReportService {
+
     @Autowired
     private NotificationServiceImpl notificationService;
     @Autowired
@@ -34,15 +37,15 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private ReportRepository reportRepository;
     @Autowired
-    private ReportResultRepository reportResultRepository;
-    @Autowired
     private ReportImageRepository reportImageRepository;
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
     public Report save(Report report) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-        if (userDetails.isSuspended()) throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        if (userDetails.isSuspended()) {
+            throw new AccessDeniedException("Tài khoản của bạn đang bị giới hạn!");
+        }
 
         Report newReport = reportRepository.save(report);
         List<ReportImage> reportImages = report.getReportImages();
@@ -88,20 +91,16 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})
-    public ReportResult adminJudgeReport(Integer id, ReportResult reportResult) {
+    public void adminJudgeReport(Integer id, ReportResultDto reportResultDto) {
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Report report = adminGetById(id);
-        ReportResult existingResult = reportResultRepository.findByReport_Id(report.getId());
-        if (existingResult == null) {
-            UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-            reportResult.setAdmin(new Admin(userDetails.getId()));
-            reportResult.setReport(report);
-
-            //deduct legitmate score
-            if (reportResult.getResult().equals(ReportResultConstants.ACCEPTED)) {
-                profileService.deductLegitimateScore(report.getUserReported().getId(), 5);
-            }
-            return reportResultRepository.save(reportResult);
-        } else throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
+        if (Objects.nonNull(report.getResult())) {
+            throw new BadRequestException("Phiếu báo cáo này đã được xem xét trước đó!");
+        } else {
+            report.setAdmin(new Admin(userDetails.getId()));
+            report.setResult(reportResultDto.getResult());
+            reportRepository.save(report);
+        }
     }
 
     /*
@@ -116,7 +115,9 @@ public class ReportServiceImpl implements ReportService {
         if (isPostedByCurrentUser) {
             reportImage.setReport(report);
             return reportImageRepository.save(reportImage);
-        } else throw new AccessDeniedException("Không có quyền thêm ảnh vào phiếu báo cáo này!");
+        } else {
+            throw new AccessDeniedException("Không có quyền thêm ảnh vào phiếu báo cáo này!");
+        }
     }
 
     /**
@@ -130,6 +131,7 @@ public class ReportServiceImpl implements ReportService {
     public ReportPagingResponse helperGet(Specification<Report> spec, Pageable pageable) {
         Page<Report> page = reportRepository.findAll(spec, pageable);
         List<Report> reportEntities = page.getContent();
-        return new ReportPagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(), reportEntities);
+        return new ReportPagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(),
+                reportEntities);
     }
 }

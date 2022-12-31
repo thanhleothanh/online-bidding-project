@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class EndAuctionJob extends QuartzJobBean {
+
     @Autowired
     private AuctionRepository auctionRepository;
     @Autowired
@@ -32,9 +33,9 @@ public class EndAuctionJob extends QuartzJobBean {
             Integer auctionId = jobDataMap.getInt("auctionId");
             Auction auction = auctionRepository.findById(auctionId)
                     .orElseThrow(() -> new NotFoundException("Không tìm thấy auction với id này!"));
-            if (auction.getHighestPrice() == 0)
+            if (auction.getHighestPrice() == 0) {
                 auctionRepository.cancelAuction(auctionId);
-            else {
+            } else {
                 auctionRepository.endAuction(auctionId);
                 auctionRepository.insertWinner(auctionId);
                 //add legitmate score

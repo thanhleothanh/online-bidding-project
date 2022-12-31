@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidDto {
+
     private Integer id;
 
     @NotNull(message = "Thiếu thông tin giá bid!")

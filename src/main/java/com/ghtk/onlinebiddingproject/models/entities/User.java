@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "user")
 public class User {
+
     @Id
     @Column(name = "profile_id")
     private Integer id;

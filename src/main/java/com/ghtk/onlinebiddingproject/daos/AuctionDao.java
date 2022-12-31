@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class AuctionDao {
+
     private final EntityManager entityManager;
 
     public List<AuctionTopTrendingDto> getTopTrending() {

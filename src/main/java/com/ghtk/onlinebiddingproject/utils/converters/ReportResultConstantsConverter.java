@@ -12,7 +12,9 @@ public class ReportResultConstantsConverter implements AttributeConverter<Report
 
     @Override
     public Integer convertToDatabaseColumn(ReportResultConstants result) {
-        if (result == null) return null;
+        if (result == null) {
+            return null;
+        }
         return result.getResult();
     }
 

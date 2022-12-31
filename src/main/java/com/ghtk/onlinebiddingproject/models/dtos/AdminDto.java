@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDto {
+
     @NotNull(message = "thiếu thông tin tài khoản!")
     private Integer id;
 }

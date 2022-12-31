@@ -12,7 +12,9 @@ public class ReviewResultConstantsConverter implements AttributeConverter<Review
 
     @Override
     public Integer convertToDatabaseColumn(ReviewResultConstants result) {
-        if (result == null) return null;
+        if (result == null) {
+            return null;
+        }
         return result.getResult();
     }
 

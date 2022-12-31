@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemImageDto {
+
     private Integer id;
 
     @NotBlank(message = "ảnh sản phẩm không được để trống!")

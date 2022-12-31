@@ -55,6 +55,7 @@ public class Profile extends BaseEntity {
         this.bio = "";
         this.legitimateScore = 0;
     }
+
     public Profile(String username, String password, String name, String email, Role role) {
         this.username = username;
         this.password = password;

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "category")
 public class Category {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

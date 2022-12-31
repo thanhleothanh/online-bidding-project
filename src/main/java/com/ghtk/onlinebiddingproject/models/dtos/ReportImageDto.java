@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportImageDto {
+
     private Integer id;
 
     @NotBlank(message = "thiếu thông tin url ảnh!")

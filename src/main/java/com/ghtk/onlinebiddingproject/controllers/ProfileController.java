@@ -25,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/profiles")
 public class ProfileController {
+
     @Autowired
     private AuthServiceImpl authService;
     @Autowired

@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class AuctionPagingResponseDto {
+
     private Integer count;
     private Integer page;
     private Integer pageSize;

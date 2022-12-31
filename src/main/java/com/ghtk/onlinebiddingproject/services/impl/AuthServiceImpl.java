@@ -19,12 +19,6 @@ import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.AuthService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.JwtUtils;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -38,9 +32,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -66,8 +68,9 @@ public class AuthServiceImpl implements AuthService {
 
         if (profile.getStatus() == UserStatusConstants.INACTIVE) {
             VerificationToken verificationToken = verificationTokenRepository.findByProfile_Id(profile.getId());
-            if (verificationToken != null && verificationToken.getExpirationTime().isAfter(LocalDateTime.now()))
+            if (verificationToken != null && verificationToken.getExpirationTime().isAfter(LocalDateTime.now())) {
                 throw new AccessDeniedException("Tài khoản chưa được xác thực hãy vào mail ấn link để xác thực!");
+            }
             if (verificationToken != null && LocalDateTime.now().isAfter(verificationToken.getExpirationTime())) {
                 resendVerificationMail(profile, applicationUrl(request), garenateNewVerification(verificationToken));
                 throw new AccessDeniedException("Tài khoản chưa được xác thực chúng tôi đã gửi cho bạn một link khác!");
@@ -81,44 +84,48 @@ public class AuthServiceImpl implements AuthService {
         String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
 
         return new UserAuthResponse(
-            userDetails.getId(),
-            userDetails.getUsername(),
-            userDetails.getName(),
-            userDetails.getEmail(),
-            userDetails.getImageUrl(),
-            userDetails.getAuthorities().stream().findFirst().get().getAuthority(),
-            userDetails.getStatus(),
-            jwtToken
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getName(),
+                userDetails.getEmail(),
+                userDetails.getImageUrl(),
+                userDetails.getAuthorities().stream().findFirst().get().getAuthority(),
+                userDetails.getStatus(),
+                jwtToken
         );
     }
 
     @Override
     public UserAuthResponse signUp(UserSignup signupRequest, final HttpServletRequest request) {
-        if (profileRepository.existsByUsername(signupRequest.getUsername()))
+        if (profileRepository.existsByUsername(signupRequest.getUsername())) {
             throw new BadRequestException("Username đã được sử dụng!");
-        if (profileRepository.existsByEmail(signupRequest.getEmail()))
+        }
+        if (profileRepository.existsByEmail(signupRequest.getEmail())) {
             throw new BadRequestException("Email đã được sử dụng!");
-        if (signupRequest.getRole().getId().equals(1))
+        }
+        if (signupRequest.getRole().getId().equals(1)) {
             throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
+        }
 
         Role userRole = roleRepository.findById(signupRequest.getRole().getId()).get();
         Profile newUser = profileRepository.save(new Profile(signupRequest.getUsername(),
                 encoder.encode(signupRequest.getPassword()), signupRequest.getName(), signupRequest.getEmail(), userRole));
 
-        if (userRole.getId() == 1) profileRepository.insertAdmin(newUser.getId());
-        else {
+        if (userRole.getId() == 1) {
+            profileRepository.insertAdmin(newUser.getId());
+        } else {
             profileRepository.insertUser(newUser.getId());
             prepareSendMailVerification(newUser, request);
         }
         return new UserAuthResponse(
-            newUser.getId(),
-            newUser.getUsername(),
-            newUser.getName(),
-            newUser.getEmail(),
-            newUser.getImageUrl(),
-            newUser.getRole().getName(),
-            newUser.getStatus(),
-            null
+                newUser.getId(),
+                newUser.getUsername(),
+                newUser.getName(),
+                newUser.getEmail(),
+                newUser.getImageUrl(),
+                newUser.getRole().getName(),
+                newUser.getStatus(),
+                null
         );
     }
 
@@ -148,7 +155,6 @@ public class AuthServiceImpl implements AuthService {
     public ResponseCookie cleanJwtCookie() {
         return jwtUtils.getCleanJwtCookie();
     }
-
 
 
     @Override
@@ -212,13 +218,14 @@ public class AuthServiceImpl implements AuthService {
                 + ":" + request.getServerPort() + "/api/v1/auth/"
                 + request.getContextPath();
     }
+
     private void prepareSendMailVerification(Profile newUser, HttpServletRequest request) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken(newUser, token);
         verificationTokenRepository.save(verificationToken);
         String url = applicationUrl(request)
-            + "verificationSignup?token="
-            + token;
+                + "verificationSignup?token="
+                + token;
         sendMailVerification(newUser, url);
     }
 }

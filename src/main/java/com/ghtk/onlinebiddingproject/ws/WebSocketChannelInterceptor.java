@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
+
     static final String USERNAME_HEADER = "username";
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -31,8 +32,9 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         if (accessor.getCommand() == StompCommand.CONNECT) {
             String username = readUsernameHeader(accessor);
             UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
-            if (userDetails == null)
+            if (userDetails == null) {
                 throw new AccessDeniedException("Username not found in the database!");
+            }
             if (userDetails.getStatus().equals(UserStatusConstants.BANNED)) {
                 throw new AccessDeniedException("Tài khoản của bạn đã bị khoá!");
             }
@@ -51,13 +53,14 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         if (accessor == null) {
             throw new AuthenticationCredentialsNotFoundException("Fail to read headers.");
         }
-       return accessor;
+        return accessor;
     }
 
     private String readUsernameHeader(StompHeaderAccessor accessor) {
         final String username = accessor.getFirstNativeHeader(USERNAME_HEADER);
-        if (username == null || username.trim().isEmpty())
+        if (username == null || username.trim().isEmpty()) {
             throw new AuthenticationCredentialsNotFoundException("Username not found in header!");
+        }
         return username;
     }
 

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "report_image")
 public class ReportImage {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

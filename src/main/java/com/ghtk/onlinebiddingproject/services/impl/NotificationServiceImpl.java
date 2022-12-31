@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
+
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
@@ -42,10 +43,13 @@ public class NotificationServiceImpl implements NotificationService {
     public NotificationPagingResponse getMyNotifications(HttpHeaders headers) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         Page<Notification> page;
-        if (PaginationUtils.isPaginationRequested(headers))
-            page = notificationRepository.findByNotificationNotifieds_Profile_Id(userDetails.getId(), PaginationUtils.buildPageRequest(headers, Sort.by(Sort.Direction.DESC, "updatedAt")));
-        else
-            page = notificationRepository.findByNotificationNotifieds_Profile_Id(userDetails.getId(), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "updatedAt")));
+        if (PaginationUtils.isPaginationRequested(headers)) {
+            page = notificationRepository.findByNotificationNotifieds_Profile_Id(userDetails.getId(),
+                    PaginationUtils.buildPageRequest(headers, Sort.by(Sort.Direction.DESC, "updatedAt")));
+        } else {
+            page = notificationRepository.findByNotificationNotifieds_Profile_Id(userDetails.getId(),
+                    PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "updatedAt")));
+        }
         return new NotificationPagingResponse(
                 (int) page.getTotalElements(),
                 page.getNumber(),

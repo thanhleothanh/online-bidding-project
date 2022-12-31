@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 public class JobSchedulerServiceImpl implements JobSchedulerService {
+
     @Autowired
     private Scheduler scheduler;
 
@@ -26,7 +27,8 @@ public class JobSchedulerServiceImpl implements JobSchedulerService {
             scheduler.scheduleJob(jobDetail, trigger);
 
             //deleting scheduled job for auto set auction status to canceled if no admin approve
-            boolean deleted = scheduler.deleteJob(new JobKey(JobDetailBuilderUtils.getCancelAuctionJobDetailName(auction.getId()), JobDetailBuilderUtils.getCancelAuctionJobDetailGroup()));
+            boolean deleted = scheduler.deleteJob(
+                    new JobKey(JobDetailBuilderUtils.getCancelAuctionJobDetailName(auction.getId()), JobDetailBuilderUtils.getCancelAuctionJobDetailGroup()));
             log.info("deleted scheduled cancellation job: " + deleted);
         } catch (SchedulerException e) {
             log.error(e.getLocalizedMessage());

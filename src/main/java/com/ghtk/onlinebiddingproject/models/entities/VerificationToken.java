@@ -1,6 +1,9 @@
 package com.ghtk.onlinebiddingproject.models.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 @Setter
 @Table(name = "verification_token")
 public class VerificationToken {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -23,6 +23,7 @@ import java.util.List;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
+
     @Autowired
     private ProfileRepository profileRepository;
 
@@ -95,7 +96,8 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfilePagingResponse helperGet(Specification<Profile> spec, Pageable pageable) {
         Page<Profile> page = profileRepository.findAll(spec, pageable);
         List<Profile> profileEntities = page.getContent();
-        return new ProfilePagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(), profileEntities);
+        return new ProfilePagingResponse((int) page.getTotalElements(), page.getNumber(), page.getNumberOfElements(), page.getTotalPages(),
+                profileEntities);
     }
 }
 

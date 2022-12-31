@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationAuctionDto {
+
     private Integer id;
 
     @JsonIgnore

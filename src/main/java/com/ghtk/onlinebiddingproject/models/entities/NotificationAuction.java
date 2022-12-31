@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "notification_auction")
 public class NotificationAuction {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

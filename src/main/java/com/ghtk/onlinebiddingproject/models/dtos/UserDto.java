@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
+
     @NotNull(message = "thiếu thông tin tài khoản!")
     private Integer id;
 

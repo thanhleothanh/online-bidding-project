@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Table(name = "notification")
 public class Notification extends BaseEntity {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

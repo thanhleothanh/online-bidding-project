@@ -1,10 +1,14 @@
 package com.ghtk.onlinebiddingproject.services;
 
-import com.ghtk.onlinebiddingproject.models.entities.*;
+import com.ghtk.onlinebiddingproject.models.entities.Auction;
+import com.ghtk.onlinebiddingproject.models.entities.Notification;
+import com.ghtk.onlinebiddingproject.models.entities.Profile;
+import com.ghtk.onlinebiddingproject.models.entities.Report;
 import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponse;
 import org.springframework.http.HttpHeaders;
 
 public interface NotificationService {
+
     NotificationPagingResponse getMyNotifications(HttpHeaders headers);
 
     Notification createSubmitAuctionNotification(Auction auction);

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleDto {
+
     private Integer id;
 
     @NotBlank(message = "tên vai trò không được để trống!")

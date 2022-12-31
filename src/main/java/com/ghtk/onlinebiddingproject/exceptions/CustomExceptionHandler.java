@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(value = {BadRequestException.class})
     public ResponseEntity<Object> handleBadRequestException(BadRequestException e) {
         e.printStackTrace();
@@ -72,7 +73,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status,
+                                                               WebRequest request) {
         e.printStackTrace();
         List<String> errors = new ArrayList<>();
         for (ObjectError error : e.getBindingResult().getAllErrors()) {
@@ -84,7 +86,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatus status,
+                                                               WebRequest request) {
         e.printStackTrace();
         List<String> errors = new ArrayList<>();
         errors.add(e.getLocalizedMessage());

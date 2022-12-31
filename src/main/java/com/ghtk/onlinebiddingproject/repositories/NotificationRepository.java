@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer>, JpaSpecificationExecutor<Notification> {
+
     Page<Notification> findByNotificationNotifieds_Profile_Id(Integer id, Pageable pageable);
 
     Notification findByNotificationAuction_Auction_IdAndNotificationType(Integer id, String notificationType);

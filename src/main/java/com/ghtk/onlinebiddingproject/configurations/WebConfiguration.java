@@ -11,6 +11,7 @@ import java.util.List;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new SpecificationArgumentResolver());
@@ -18,6 +19,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000", "https://onlinebiddingproject.netlify.app", "http://20.172.145.151:80", "http://20.172.145.151:3000", "http://20.172.145.151:443", "https://20.172.145.151:80", "https://20.172.145.151:3000", "https://20.172.145.151:443").allowedMethods("GET", "POST", "PUT", "DELETE").allowCredentials(true).exposedHeaders("Set-Cookie");
+        registry.addMapping("/**").allowedOriginPatterns("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000",
+                        "https://onlinebiddingproject.netlify.app", "http://20.172.145.151:80", "http://20.172.145.151:3000", "http://20.172.145.151:443",
+                        "https://20.172.145.151:80", "https://20.172.145.151:3000", "https://20.172.145.151:443").allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true).exposedHeaders("Set-Cookie");
     }
 }

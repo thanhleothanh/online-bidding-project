@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `onlineBiddingProject`
 --
+CREATE DATABASE `onlineBiddingProject`;
+USE `onlineBiddingProject`;
 
 -- --------------------------------------------------------
 
@@ -46,10 +48,12 @@ INSERT INTO `admin` (`profile_id`) VALUES
 
 CREATE TABLE `auction` (
   `id` int NOT NULL,
+  `admin` int DEFAULT NULL,
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `status` int NOT NULL,
+  `result` int DEFAULT NULL,
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
   `price_start` double DEFAULT '0',
@@ -233,39 +237,6 @@ CREATE TABLE `notification` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `notification`
---
-
-INSERT INTO `notification` (`id`, `profile_id`, `notification_type`, `entity_type`, `created_at`, `updated_at`) VALUES
-(43, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:38:02', '2022-08-01 14:38:02'),
-(44, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
-(45, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-01 14:40:00'),
-(46, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:40:00', '2022-08-12 12:31:41'),
-(47, 8, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:41:30', '2022-08-01 14:41:30'),
-(48, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
-(49, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
-(50, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:43:00', '2022-08-01 14:43:00'),
-(51, 9, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:46:32', '2022-08-01 14:46:32'),
-(52, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
-(53, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:48:00', '2022-08-01 14:48:00'),
-(54, NULL, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:48:00', '2022-08-01 14:48:00'),
-(55, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 14:54:10', '2022-08-01 14:54:10'),
-(56, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
-(57, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 14:56:00', '2022-08-01 14:56:00'),
-(58, 13, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 14:56:00', '2022-08-01 15:07:49'),
-(59, 13, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-01 15:00:13', '2022-08-01 15:00:13'),
-(60, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
-(61, NULL, 'START_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-01 15:01:00'),
-(62, 10, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-01 15:01:00', '2022-08-10 21:50:40'),
-(63, 6, 'SUBMIT_AUCTION', 'AUCTION', '2022-08-12 11:58:08', '2022-08-12 11:58:08'),
-(64, 11, 'REVIEW_AUCTION', 'AUCTION', '2022-08-12 11:58:32', '2022-08-12 11:58:32'),
-(65, NULL, 'START_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:00'),
-(66, 8, 'NEW_BID_AUCTION', 'AUCTION', '2022-08-12 11:59:00', '2022-08-12 11:59:07'),
-(67, NULL, 'END_AUCTION', 'AUCTION', '2022-08-12 12:01:00', '2022-08-12 12:01:00'),
-(69, 6, 'CREATE_REPORT', 'REPORT', '2022-08-12 12:12:15', '2022-08-12 12:12:15');
-
 -- --------------------------------------------------------
 
 --
@@ -279,39 +250,6 @@ CREATE TABLE `notification_auction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `notification_auction`
---
-
-INSERT INTO `notification_auction` (`id`, `auction_id`, `notification_id`) VALUES
-(37, 92, 43),
-(38, 92, 44),
-(39, 92, 45),
-(40, 92, 46),
-(41, 93, 47),
-(42, 93, 48),
-(43, 93, 49),
-(44, 93, 50),
-(45, 94, 51),
-(46, 94, 52),
-(47, 94, 53),
-(48, 94, 54),
-(49, 95, 55),
-(50, 95, 56),
-(51, 95, 57),
-(52, 95, 58),
-(53, 96, 59),
-(54, 96, 60),
-(55, 96, 61),
-(56, 96, 62),
-(57, 97, 63),
-(58, 97, 64),
-(59, 97, 65),
-(60, 97, 66),
-(61, 97, 67);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `notification_notified`
 --
 
@@ -320,44 +258,6 @@ CREATE TABLE `notification_notified` (
   `notification_id` int NOT NULL,
   `profile_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `notification_notified`
---
-
-INSERT INTO `notification_notified` (`id`, `notification_id`, `profile_id`) VALUES
-(48, 43, 11),
-(49, 44, 6),
-(50, 45, 6),
-(51, 46, 6),
-(52, 47, 11),
-(53, 48, 8),
-(54, 49, 8),
-(55, 50, 8),
-(56, 51, 11),
-(57, 52, 9),
-(58, 53, 9),
-(59, 54, 9),
-(60, 55, 11),
-(61, 56, 6),
-(62, 57, 6),
-(63, 58, 6),
-(64, 59, 11),
-(65, 60, 13),
-(66, 61, 13),
-(67, 62, 13),
-(68, 62, 6),
-(69, 58, 13),
-(70, 62, 10),
-(71, 63, 11),
-(72, 64, 6),
-(73, 65, 6),
-(74, 66, 6),
-(75, 66, 8),
-(76, 67, 6),
-(77, 67, 8),
-(79, 46, 8),
-(80, 69, 11);
 
 -- --------------------------------------------------------
 
@@ -638,8 +538,10 @@ INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB
 
 CREATE TABLE `report` (
   `id` int NOT NULL,
+  `admin` int DEFAULT NULL,
   `user_reporter_id` int NOT NULL,
   `user_reported_id` int NOT NULL,
+  `result` int DEFAULT NULL,
   `auction_id` int DEFAULT NULL,
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -668,47 +570,6 @@ CREATE TABLE `report_image` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `report_result`
---
-
-CREATE TABLE `report_result` (
-  `id` int NOT NULL,
-  `admin_id` int NOT NULL,
-  `report_id` int NOT NULL,
-  `result` int NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `review_result`
---
-
-CREATE TABLE `review_result` (
-  `id` int NOT NULL,
-  `admin_id` int NOT NULL,
-  `auction_id` int NOT NULL,
-  `result` int NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `review_result`
---
-
-INSERT INTO `review_result` (`id`, `admin_id`, `auction_id`, `result`, `created_at`, `updated_at`) VALUES
-(34, 11, 92, 1, '2022-08-01 14:38:14', '2022-08-01 14:38:14'),
-(35, 11, 93, 1, '2022-08-01 14:41:51', '2022-08-01 14:41:51'),
-(36, 11, 94, 1, '2022-08-01 14:47:06', '2022-08-01 14:47:06'),
-(37, 11, 95, 1, '2022-08-01 14:54:27', '2022-08-01 14:54:27'),
-(38, 11, 96, 1, '2022-08-01 15:00:27', '2022-08-01 15:00:27'),
-(39, 11, 97, 1, '2022-08-12 11:58:32', '2022-08-12 11:58:32');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `role`
@@ -777,10 +638,8 @@ CREATE TABLE `winner` (
 --
 -- Dumping data for table `winner`
 --
-
 INSERT INTO `winner` (`id`, `bid_id`, `auction_id`) VALUES
 (680, 134, 97);
-
 --
 -- Indexes for dumped tables
 --
@@ -979,22 +838,6 @@ ALTER TABLE `report_image`
   ADD KEY `phieubaocao_id` (`report_id`);
 
 --
--- Indexes for table `report_result`
---
-ALTER TABLE `report_result`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `admin_id` (`admin_id`,`report_id`),
-  ADD KEY `phieubaocao_id` (`report_id`);
-
---
--- Indexes for table `review_result`
---
-ALTER TABLE `review_result`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `admin_id` (`admin_id`,`auction_id`),
-  ADD KEY `baidaugia_id` (`auction_id`);
-
---
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -1105,18 +948,6 @@ ALTER TABLE `report_image`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `report_result`
---
-ALTER TABLE `report_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `review_result`
---
-ALTER TABLE `review_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
@@ -1133,10 +964,6 @@ ALTER TABLE `verification_token`
 --
 ALTER TABLE `winner`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=681;
-
---
--- Constraints for dumped tables
---
 
 --
 -- Constraints for table `admin`
@@ -1253,20 +1080,6 @@ ALTER TABLE `report`
 --
 ALTER TABLE `report_image`
   ADD CONSTRAINT `report_image_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
--- Constraints for table `report_result`
---
-ALTER TABLE `report_result`
-  ADD CONSTRAINT `report_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `report_result_ibfk_2` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
--- Constraints for table `review_result`
---
-ALTER TABLE `review_result`
-  ADD CONSTRAINT `review_result_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`profile_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `review_result_ibfk_2` FOREIGN KEY (`auction_id`) REFERENCES `auction` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `user`

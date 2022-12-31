@@ -33,6 +33,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "api/v1/admin/auctions")
 public class AdminAuctionController {
+
     @Autowired
     private AuctionServiceImpl auctionService;
     @Autowired

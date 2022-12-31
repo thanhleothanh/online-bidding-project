@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class UserChangePassword {
+
     @NotBlank(message = "Password hiện tại không được để trống!")
     private String currentPassword;
 

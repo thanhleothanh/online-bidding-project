@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class AuctionRequestDto {
+
     private Integer id;
 
     @Size(max = 1000, message = "Mô tả không được quá 1000 ký tự!")

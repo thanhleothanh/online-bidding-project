@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportResultDto {
+
     private Integer id;
 
     @NotNull(message = "thiếu thông tin kết quả (REJECTED/ACCEPTED)!")

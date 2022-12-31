@@ -3,18 +3,15 @@ package com.ghtk.onlinebiddingproject.controllers;
 import com.ghtk.onlinebiddingproject.models.dtos.ReportResultDto;
 import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.entities.Report;
-import com.ghtk.onlinebiddingproject.models.entities.ReportResult;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponseDto;
 import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.ReportServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
-import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -30,21 +27,19 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "api/v1/admin/reports")
 public class AdminReportController {
+
     @Autowired
     private ReportServiceImpl reportService;
     @Autowired
     private NotificationServiceImpl notificationService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
     @Autowired
     private EntityToDtoConverter entityToDtoConverter;
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> adminGetReports(
-            @Join(path = "reportResult", alias = "rr")
             @And({
-                    @Spec(path = "rr.result", params = "result", spec = Equal.class),
+                    @Spec(path = "result", params = "result", spec = Equal.class),
             })
             Specification<Report> spec,
             Sort sort,
@@ -66,9 +61,8 @@ public class AdminReportController {
     @PostMapping("/{id}/results")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CommonResponse> adminJudgeReport(@PathVariable("id") int id, @Valid @RequestBody ReportResultDto reportResultDto) {
-        ReportResult reportResult = dtoToEntityConverter.convertToEntity(reportResultDto);
-        ReportResultDto dtoResponse = entityToDtoConverter.convertToDto(reportService.adminJudgeReport(id, reportResult));
-        CommonResponse response = new CommonResponse(true, "Success", dtoResponse, null);
+        reportService.adminJudgeReport(id, reportResultDto);
+        CommonResponse response = new CommonResponse(true, "Success", null, null);
 
         //send notification
         Report report = reportService.adminGetById(id);

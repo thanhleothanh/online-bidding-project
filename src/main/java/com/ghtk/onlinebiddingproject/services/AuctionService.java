@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import java.util.List;
 
 public interface AuctionService {
+
     AuctionPagingResponse get(Specification<Auction> spec, HttpHeaders headers, Sort sort);
 
     List<AuctionTopTrendingDto> getTopTrending();

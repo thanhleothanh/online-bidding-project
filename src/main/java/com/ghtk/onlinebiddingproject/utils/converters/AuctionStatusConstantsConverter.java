@@ -12,7 +12,9 @@ public class AuctionStatusConstantsConverter implements AttributeConverter<Aucti
 
     @Override
     public Integer convertToDatabaseColumn(AuctionStatusConstants status) {
-        if (status == null) return null;
+        if (status == null) {
+            return null;
+        }
         return status.getStatus();
     }
 

@@ -7,6 +7,7 @@ import com.ghtk.onlinebiddingproject.models.responses.ReportPagingResponse;
 import org.springframework.http.HttpHeaders;
 
 public class HttpHeadersUtils {
+
     public static HttpHeaders returnHttpHeaders(AuctionPagingResponse response) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(PagingHeadersConstants.COUNT.getProp(), String.valueOf(response.getCount()));

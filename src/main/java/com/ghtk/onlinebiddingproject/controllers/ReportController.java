@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "api/v1/reports")
 public class ReportController {
+
     @Autowired
     private ReportServiceImpl reportService;
     @Autowired

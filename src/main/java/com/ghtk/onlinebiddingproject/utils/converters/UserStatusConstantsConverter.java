@@ -12,7 +12,9 @@ public class UserStatusConstantsConverter implements AttributeConverter<UserStat
 
     @Override
     public Integer convertToDatabaseColumn(UserStatusConstants status) {
-        if (status == null) return null;
+        if (status == null) {
+            return null;
+        }
         return status.getStatus();
     }
 

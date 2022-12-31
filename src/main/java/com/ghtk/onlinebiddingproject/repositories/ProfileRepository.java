@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, Integer>, JpaSpecificationExecutor<Profile> {
+
     Optional<Profile> findByUsername(String username);
 
     boolean existsByUsername(String username);

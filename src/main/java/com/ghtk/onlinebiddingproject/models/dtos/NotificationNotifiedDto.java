@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationNotifiedDto {
+
     private Integer id;
 
     @JsonIgnore

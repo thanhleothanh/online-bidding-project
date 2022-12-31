@@ -2,7 +2,11 @@ package com.ghtk.onlinebiddingproject.models.entities;
 
 
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
-import lombok.*;
+import com.ghtk.onlinebiddingproject.constants.ReviewResultConstants;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,10 +19,15 @@ import java.util.List;
 @Setter
 @Table(name = "auction")
 public class Auction extends BaseEntity {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "admin", nullable = false)
+    private Admin admin;
 
     @Column(name = "description", nullable = true)
     private String description;
@@ -41,6 +50,10 @@ public class Auction extends BaseEntity {
     @Column(name = "status", nullable = false)
     private AuctionStatusConstants status;
 
+    @Column(name = "result", nullable = false)
+    private ReviewResultConstants result;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -54,9 +67,6 @@ public class Auction extends BaseEntity {
 
     @OneToOne(mappedBy = "auction", fetch = FetchType.LAZY)
     private Winner winner;
-
-    @OneToOne(mappedBy = "auction", fetch = FetchType.LAZY)
-    private ReviewResult reviewResult;
 
     @OneToMany(mappedBy = "auction", fetch = FetchType.LAZY)
     private List<Bid> bids;
