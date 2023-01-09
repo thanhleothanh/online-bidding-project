@@ -29,6 +29,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("https://auctiontime.netlify.app", "http://localhost", "http://127.0.0.1", "https://onlinebiddingproject.netlify.app", "http://20.172.145.151").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("https://auctiontime.netlify.app", "http://localhost:3000", "http://127.0.0.1:3000", "https://onlinebiddingproject.netlify.app", "http://20.172.145.151:80", "http://20.172.145.151:443", "http://20.172.145.151").withSockJS();
     }
 }
