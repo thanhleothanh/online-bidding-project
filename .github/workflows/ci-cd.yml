@@ -5,15 +5,10 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  JAVA_VERSION: '11'
-  MAVEN_VERSION: '3.8.5'
-  BUILD_FOLDER: 'target'
-
 jobs:
   ci-cd-pipeline:
     uses: thanhleothanh/github-workflows/.github/workflows/java-maven-workflow.yml@main
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      maven-version: ${{ env.MAVEN_VERSION }}
-      build-folder: ${{ env.BUILD_FOLDER }}
+      java-version: '11'
+      maven-version: '3.8.5'
+      build-folder: 'target'
