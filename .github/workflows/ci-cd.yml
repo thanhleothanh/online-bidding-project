@@ -1,0 +1,14 @@
+name: CI pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci-cd-pipeline:
+    uses: thanhleothanh/github-workflows/.github/workflows/java-maven-workflow.yml@main
+    with:
+      java-version: '11'
+      maven-version: '3.8.5'
+      build-folder: 'target'
