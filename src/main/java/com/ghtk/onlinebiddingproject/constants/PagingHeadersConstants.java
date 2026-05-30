@@ -1,16 +1,8 @@
 package com.ghtk.onlinebiddingproject.constants;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public enum PagingHeadersConstants {
-    PAGE_SIZE("page_size"),
-    PAGE("page"),
-    PAGE_TOTAL("page_total"),
-    COUNT("count");
-
-    private final String prop;
+public class PagingHeadersConstants {
+    public static final String TOTAL_PAGES = "X-Total-Pages";
+    public static final String CURRENT_PAGE = "X-Current-Page";
+    public static final String PAGE_SIZE = "X-Page-Size";
+    public static final String TOTAL_ELEMENTS = "X-Total-Elements";
 }

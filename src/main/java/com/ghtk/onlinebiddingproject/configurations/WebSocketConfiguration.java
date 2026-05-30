@@ -1,7 +1,6 @@
 package com.ghtk.onlinebiddingproject.configurations;
 
-import com.ghtk.onlinebiddingproject.ws.WebSocketChannelInterceptor;
-import lombok.RequiredArgsConstructor;
+import com.ghtk.onlinebiddingproject.adapter.out.websocket.WebSocketChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -11,9 +10,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-@RequiredArgsConstructor
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+
     private final WebSocketChannelInterceptor channelInterceptor;
+
+    public WebSocketConfiguration(WebSocketChannelInterceptor channelInterceptor) {
+        this.channelInterceptor = channelInterceptor;
+    }
 
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry) {

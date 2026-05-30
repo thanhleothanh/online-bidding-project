@@ -1,9 +1,8 @@
 package com.ghtk.onlinebiddingproject.configurations;
 
-import com.ghtk.onlinebiddingproject.security.AuthenticationEntryPointJwt;
-import com.ghtk.onlinebiddingproject.security.AuthenticationTokenFilter;
-import com.ghtk.onlinebiddingproject.security.UserDetailsServiceImpl;
-import com.ghtk.onlinebiddingproject.utils.JwtUtils;
+import com.ghtk.onlinebiddingproject.infrastructure.security.JwtAuthenticationEntryPoint;
+import com.ghtk.onlinebiddingproject.infrastructure.security.JwtAuthenticationFilter;
+import com.ghtk.onlinebiddingproject.infrastructure.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,33 +29,27 @@ import java.util.List;
 )
 public class WebSecurityConfiguration {
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/webjars/**",
-            // other public endpoints
             "/api/v1/auctions",
             "/api/v1/auctions/topTrending",
+            "/api/v1/categories",
             "/api/v1/auth/**",
             "/ws/**",
     };
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthenticationEntryPointJwt authenticationEntryPointJwt;
-    private final JwtUtils jwtUtils;
+    private final JwtAuthenticationEntryPoint authenticationEntryPointJwt;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService,
-                                     AuthenticationEntryPointJwt authenticationEntryPointJwt,
-                                     JwtUtils jwtUtils) {
+                                     JwtAuthenticationEntryPoint authenticationEntryPointJwt,
+                                     JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
         this.authenticationEntryPointJwt = authenticationEntryPointJwt;
-        this.jwtUtils = jwtUtils;
-    }
-
-    @Bean
-    public AuthenticationTokenFilter authenticationJwtTokenFilter() {
-        return new AuthenticationTokenFilter(jwtUtils, userDetailsService);
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -94,7 +87,7 @@ public class WebSecurityConfiguration {
                         .anyRequest().authenticated()
                 );
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

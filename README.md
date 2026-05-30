@@ -22,7 +22,51 @@ A full-stack online auction/bidding platform built with Spring Boot 3.2 and Java
 
 ## Architecture Summary
 
-The project follows a bounded-context architecture with six core contexts:
+The project follows **Hexagonal Architecture (Ports & Adapters)** with Domain-Driven Design bounded contexts:
+
+### Hexagonal Architecture Structure
+
+```
+src/main/java/com/ghtk/onlinebiddingproject/
+├── adapter/                    # Adapters (driving & driven)
+│   ├── in/                     # Driving adapters (REST controllers, WebSocket)
+│   │   ├── admin/              # Admin REST controllers
+│   │   ├── auth/               # Auth REST controllers
+│   │   ├── auction/            # Auction REST controllers
+│   │   ├── item/               # Item REST controllers
+│   │   ├── notification/       # Notification REST controllers
+│   │   └── report/             # Report REST controllers
+│   └── out/                    # Driven adapters (database, external services)
+│       ├── cloudinary/         # Cloudinary image storage adapter
+│       ├── email/              # Email service adapter
+│       ├── repository/         # Repository implementations
+│       └── websocket/          # WebSocket adapter
+├── application/                # Application services (use cases)
+│   ├── impl/                   # Service implementations
+│   └── port/                   # Application ports (interfaces)
+├── domain/                     # Domain layer (business logic)
+│   ├── event/                  # Domain events
+│   ├── model/                  # Domain models (entities, value objects)
+│   │   ├── auction/            # Auction context
+│   │   ├── auth/               # Auth context
+│   │   ├── item/               # Item context
+│   │   ├── notification/       # Notification context
+│   │   ├── report/             # Report context
+│   │   └── shared/             # Shared value objects (Money)
+│   ├── port/                   # Domain ports (interfaces)
+│   └── service/                # Domain services
+└── infrastructure/             # Infrastructure layer
+    ├── config/                 # Configuration classes
+    ├── events/                 # Event publisher implementation
+    ├── quartz/                 # Quartz job scheduling
+    ├── security/               # Security utilities
+    ├── util/                   # Utility classes
+    └── websocket/              # WebSocket configuration
+```
+
+### Bounded Contexts
+
+The project has six core bounded contexts:
 
 - **Auth** — Registration, login, JWT cookies, email verification
 - **Auction** — Full auction lifecycle with Quartz-scheduled state transitions
@@ -186,9 +230,57 @@ DRAFT → PENDING → QUEUED → OPENING → ENDED
 5. **ENDED** — Automatically when `timeEnd` arrives; highest bidder wins
 6. **CANCELED** — Admin rejects, no approval before `timeStart`, or no bids received
 
+## Testing
+
+### Unit Tests
+
+Unit tests are pure Java tests with no Spring context. They use in-memory implementations of ports for fast execution.
+
+```bash
+# Run all unit tests
+mvn test
+
+# Run tests for a specific context
+mvn test -Dtest="com.ghtk.onlinebiddingproject.domain.model.auction.*"
+mvn test -Dtest="com.ghtk.onlinebiddingproject.application.impl.*"
+```
+
+### Integration Tests
+
+Integration tests use Testcontainers with MySQL for database testing.
+
+```bash
+# Run integration tests
+mvn verify -Dspring.profiles.active=integration
+
+# Run specific integration test
+mvn verify -Dtest="com.ghtk.onlinebiddingproject.adapter.in.auction.AuctionControllerIT"
+```
+
+### Test Structure
+
+- **Domain tests**: Pure unit tests for entities, value objects, and domain services
+- **Application tests**: Unit tests for application services with in-memory port implementations
+- **Adapter tests**: Integration tests for REST controllers and repository implementations
+- **Infrastructure tests**: Integration tests for security, WebSocket, and Quartz configurations
+
+### Running Tests with Docker
+
+```bash
+# Start test database
+docker-compose -f docker-compose.test.yml up -d
+
+# Run all tests
+mvn verify
+
+# Stop test database
+docker-compose -f docker-compose.test.yml down
+```
+
 ## Documentation
 
 - Context Map: `.docs/contexts/CONTEXT-MAP.md`
 - Bounded Contexts: `.docs/contexts/`
 - Architecture Decision Records: `.docs/adrs/`
 - PRD: `.docs/prds/0001-PRD-java17-migration.md`
+- Hexagonal DDD Refactoring ADR: `.docs/adrs/0011-hexagonal-ddd-refactoring.md`
