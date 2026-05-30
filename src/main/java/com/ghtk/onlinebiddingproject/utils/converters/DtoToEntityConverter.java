@@ -5,16 +5,16 @@ import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.requests.AuctionRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.BidRequestDto;
 import com.ghtk.onlinebiddingproject.models.requests.ItemRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DtoToEntityConverter {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public Auction convertToEntity(AuctionDto auctionDto) throws ParseException {
         return modelMapper.map(auctionDto, Auction.class);

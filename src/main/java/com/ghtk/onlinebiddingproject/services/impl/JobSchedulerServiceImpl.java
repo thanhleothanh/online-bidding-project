@@ -4,15 +4,15 @@ import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import com.ghtk.onlinebiddingproject.services.JobSchedulerService;
 import com.ghtk.onlinebiddingproject.utils.JobDetailBuilderUtils;
 import lombok.extern.log4j.Log4j2;
+import lombok.RequiredArgsConstructor;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class JobSchedulerServiceImpl implements JobSchedulerService {
-    @Autowired
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
 
     @Override
     public void startAuctionScheduler(Auction auction) {

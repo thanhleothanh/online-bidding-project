@@ -15,8 +15,8 @@ import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
+import lombok.RequiredArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
@@ -25,19 +25,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/v1/admin/reports")
+@RequiredArgsConstructor
 public class AdminReportController {
-    @Autowired
-    private ReportServiceImpl reportService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final ReportServiceImpl reportService;
+    private final NotificationServiceImpl notificationService;
+    private final DtoToEntityConverter dtoToEntityConverter;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -3,17 +3,17 @@ package com.ghtk.onlinebiddingproject.events.listeners;
 import com.ghtk.onlinebiddingproject.events.SignupCompleteEvent;
 import com.ghtk.onlinebiddingproject.models.entities.Profile;
 import com.ghtk.onlinebiddingproject.services.impl.AuthServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class SignupCompleteEventListener implements ApplicationListener<SignupCompleteEvent> {
 
-    @Autowired
-    private AuthServiceImpl authService;
+    private final AuthServiceImpl authService;
 
     @Override
     public void onApplicationEvent(SignupCompleteEvent event) {

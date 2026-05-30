@@ -18,8 +18,8 @@ import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.GreaterThan;
 import net.kaczmarzyk.spring.data.jpa.domain.LessThan;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import lombok.RequiredArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
@@ -28,19 +28,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/v1/admin/auctions")
+@RequiredArgsConstructor
 public class AdminAuctionController {
-    @Autowired
-    private AuctionServiceImpl auctionService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
-    @Autowired
-    private JobSchedulerServiceImpl jobSchedulerService;
+    private final AuctionServiceImpl auctionService;
+    private final NotificationServiceImpl notificationService;
+    private final EntityToDtoConverter entityToDtoConverter;
+    private final JobSchedulerServiceImpl jobSchedulerService;
 
     /*
      * Get auctions api cho admin

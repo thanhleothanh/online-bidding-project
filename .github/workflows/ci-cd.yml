@@ -9,6 +9,6 @@ jobs:
   ci-cd-pipeline:
     uses: thanhleothanh/github-workflows/.github/workflows/java-maven-workflow.yml@main
     with:
-      java-version: '11'
+      java-version: '17'
       maven-version: '3.8.5'
       build-folder: 'target'

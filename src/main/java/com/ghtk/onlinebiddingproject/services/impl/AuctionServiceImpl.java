@@ -17,7 +17,7 @@ import com.ghtk.onlinebiddingproject.services.AuctionService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.DtoToEntityUtils;
 import com.ghtk.onlinebiddingproject.utils.PaginationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,19 +34,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AuctionServiceImpl implements AuctionService {
-    @Autowired
-    private AuctionRepository auctionRepository;
-    @Autowired
-    private WinnerRepository winnerRepository;
-    @Autowired
-    private ReviewResultRepository reviewResultRepository;
-    @Autowired
-    private ItemServiceImpl itemService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private AuctionDao auctionDao;
+    private final AuctionRepository auctionRepository;
+    private final WinnerRepository winnerRepository;
+    private final ReviewResultRepository reviewResultRepository;
+    private final ItemServiceImpl itemService;
+    private final NotificationServiceImpl notificationService;
+    private final AuctionDao auctionDao;
 
     @Override
     public AuctionPagingResponse get(Specification<Auction> spec, HttpHeaders headers, Sort sort) {

@@ -11,7 +11,7 @@ import com.ghtk.onlinebiddingproject.services.ProfileService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.DtoToEntityUtils;
 import com.ghtk.onlinebiddingproject.utils.PaginationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
-    @Autowired
-    private ProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
 
 
     @Override

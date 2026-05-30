@@ -13,7 +13,7 @@ import com.ghtk.onlinebiddingproject.repositories.UserRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.BidService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -24,17 +24,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BidServiceImpl implements BidService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BidRepository bidRepository;
-    @Autowired
-    private AuctionRepository auctionRepository;
-    @Autowired
-    private AuctionUserServiceImpl auctionUserService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
+    private final UserRepository userRepository;
+    private final BidRepository bidRepository;
+    private final AuctionRepository auctionRepository;
+    private final AuctionUserServiceImpl auctionUserService;
+    private final NotificationServiceImpl notificationService;
 
     @Override
     public List<Bid> getBidsByAuctionId(Integer auctionId) {

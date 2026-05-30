@@ -4,8 +4,8 @@ import com.ghtk.onlinebiddingproject.models.dtos.ItemImageDto;
 import com.ghtk.onlinebiddingproject.models.entities.Auction;
 import lombok.Data;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Data

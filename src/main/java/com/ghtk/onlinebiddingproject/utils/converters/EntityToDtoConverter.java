@@ -3,17 +3,17 @@ package com.ghtk.onlinebiddingproject.utils.converters;
 import com.ghtk.onlinebiddingproject.models.dtos.*;
 import com.ghtk.onlinebiddingproject.models.entities.*;
 import com.ghtk.onlinebiddingproject.models.responses.*;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class EntityToDtoConverter {
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public AuctionDto convertToDto(Auction auction) {
         return modelMapper.map(auction, AuctionDto.class);

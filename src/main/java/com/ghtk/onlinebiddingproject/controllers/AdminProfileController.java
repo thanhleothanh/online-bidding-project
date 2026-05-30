@@ -10,8 +10,8 @@ import com.ghtk.onlinebiddingproject.utils.HttpHeadersUtils;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import lombok.RequiredArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
@@ -20,15 +20,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/v1/admin/profiles")
+@RequiredArgsConstructor
 public class AdminProfileController {
-    @Autowired
-    private ProfileServiceImpl profileService;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final ProfileServiceImpl profileService;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('ADMIN')")

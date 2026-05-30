@@ -12,31 +12,26 @@ import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponse
 import com.ghtk.onlinebiddingproject.models.responses.NotificationPagingResponseDto;
 import com.ghtk.onlinebiddingproject.services.impl.*;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/profiles")
+@RequiredArgsConstructor
 public class ProfileController {
-    @Autowired
-    private AuthServiceImpl authService;
-    @Autowired
-    private ProfileServiceImpl profileService;
-    @Autowired
-    private AuctionServiceImpl auctionService;
-    @Autowired
-    private AuctionUserServiceImpl auctionUserService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final AuthServiceImpl authService;
+    private final ProfileServiceImpl profileService;
+    private final AuctionServiceImpl auctionService;
+    private final AuctionUserServiceImpl auctionUserService;
+    private final NotificationServiceImpl notificationService;
+    private final EntityToDtoConverter entityToDtoConverter;
 
 
     @GetMapping("/myProfile")

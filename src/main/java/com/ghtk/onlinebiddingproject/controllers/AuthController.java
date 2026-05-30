@@ -7,7 +7,7 @@ import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.models.responses.UserAuthResponse;
 import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
 import com.ghtk.onlinebiddingproject.services.impl.AuthServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -15,16 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    @Autowired
-    private AuthServiceImpl authService;
-    @Autowired
-    private ProfileRepository profileRepository;
+    private final AuthServiceImpl authService;
+    private final ProfileRepository profileRepository;
 
     @PostMapping("/login")
     public ResponseEntity<CommonResponse> loginUser(@Valid @RequestBody UserLogin loginRequest, HttpServletRequest request) {

@@ -12,7 +12,7 @@ import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.ReportService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.PaginationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,17 +26,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private ProfileServiceImpl profileService;
-    @Autowired
-    private ReportRepository reportRepository;
-    @Autowired
-    private ReportResultRepository reportResultRepository;
-    @Autowired
-    private ReportImageRepository reportImageRepository;
+    private final NotificationServiceImpl notificationService;
+    private final ProfileServiceImpl profileService;
+    private final ReportRepository reportRepository;
+    private final ReportResultRepository reportResultRepository;
+    private final ReportImageRepository reportImageRepository;
 
     @Override
     @Transactional(rollbackFor = {SQLException.class})

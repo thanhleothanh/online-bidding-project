@@ -15,8 +15,8 @@ import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.ItemService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.DtoToEntityUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,15 +26,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-    @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private AuctionRepository auctionRepository;
-    @Autowired
-    private ItemImageRepository itemImageRepository;
-    @Autowired
-    private Cloudinary cloudinary;
+    private final ItemRepository itemRepository;
+    private final AuctionRepository auctionRepository;
+    private final ItemImageRepository itemImageRepository;
+    private final Cloudinary cloudinary;
 
     @Override
     public Item getById(Integer id) {

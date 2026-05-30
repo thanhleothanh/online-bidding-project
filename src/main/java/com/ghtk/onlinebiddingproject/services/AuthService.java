@@ -8,7 +8,7 @@ import com.ghtk.onlinebiddingproject.models.requests.UserSignup;
 import com.ghtk.onlinebiddingproject.models.responses.UserAuthResponse;
 import org.springframework.http.ResponseCookie;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface AuthService {
 

@@ -10,25 +10,22 @@ import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import com.ghtk.onlinebiddingproject.services.impl.ReportServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/v1/reports")
+@RequiredArgsConstructor
 public class ReportController {
-    @Autowired
-    private ReportServiceImpl reportService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final ReportServiceImpl reportService;
+    private final NotificationServiceImpl notificationService;
+    private final DtoToEntityConverter dtoToEntityConverter;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('USER')")

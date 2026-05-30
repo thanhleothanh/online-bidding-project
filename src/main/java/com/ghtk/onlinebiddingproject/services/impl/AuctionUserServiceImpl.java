@@ -9,18 +9,17 @@ import com.ghtk.onlinebiddingproject.repositories.AuctionUserRepository;
 import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.AuctionUserService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AuctionUserServiceImpl implements AuctionUserService {
-    @Autowired
-    private AuctionUserRepository auctionUserRepository;
-    @Autowired
-    private NotificationServiceImpl notificationService;
+    private final AuctionUserRepository auctionUserRepository;
+    private final NotificationServiceImpl notificationService;
 
     @Override
     public List<Auction> getMyInterestedAuctions() {

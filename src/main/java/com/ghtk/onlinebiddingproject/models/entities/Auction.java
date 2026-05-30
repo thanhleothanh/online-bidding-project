@@ -4,7 +4,7 @@ package com.ghtk.onlinebiddingproject.models.entities;
 import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 

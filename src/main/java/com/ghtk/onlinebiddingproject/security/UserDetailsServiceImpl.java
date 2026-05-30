@@ -2,16 +2,16 @@ package com.ghtk.onlinebiddingproject.security;
 
 import com.ghtk.onlinebiddingproject.models.entities.Profile;
 import com.ghtk.onlinebiddingproject.repositories.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    private ProfileRepository userRepository;
+    private final ProfileRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

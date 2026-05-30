@@ -8,19 +8,18 @@ import com.ghtk.onlinebiddingproject.services.impl.NotificationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobDataMap;
+import lombok.RequiredArgsConstructor;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class StartAuctionJob extends QuartzJobBean {
-    @Autowired
-    private AuctionRepository auctionRepository;
-    @Autowired
-    private NotificationServiceImpl notificationService;
+    private final AuctionRepository auctionRepository;
+    private final NotificationServiceImpl notificationService;
 
     @Override
     protected void executeInternal(@NotNull JobExecutionContext context) throws JobExecutionException {

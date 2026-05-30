@@ -9,23 +9,21 @@ import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.ItemServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.converters.DtoToEntityConverter;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/v1/items")
+@RequiredArgsConstructor
 public class ItemController {
-    @Autowired
-    private ItemServiceImpl itemService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final ItemServiceImpl itemService;
+    private final DtoToEntityConverter dtoToEntityConverter;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('USER')")

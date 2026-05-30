@@ -5,7 +5,7 @@ import com.ghtk.onlinebiddingproject.models.entities.Category;
 import com.ghtk.onlinebiddingproject.models.responses.CommonResponse;
 import com.ghtk.onlinebiddingproject.services.impl.CategoryServiceImpl;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,12 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryServiceImpl categoryService;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final CategoryServiceImpl categoryService;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @GetMapping("/")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")

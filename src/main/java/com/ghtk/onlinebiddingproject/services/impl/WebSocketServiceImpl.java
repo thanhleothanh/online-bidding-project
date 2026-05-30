@@ -6,18 +6,17 @@ import com.ghtk.onlinebiddingproject.models.entities.Notification;
 import com.ghtk.onlinebiddingproject.models.entities.Profile;
 import com.ghtk.onlinebiddingproject.services.WebSocketService;
 import com.ghtk.onlinebiddingproject.utils.converters.EntityToDtoConverter;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class WebSocketServiceImpl implements WebSocketService {
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final EntityToDtoConverter entityToDtoConverter;
 
     @Override
     @SneakyThrows

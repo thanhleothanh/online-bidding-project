@@ -8,7 +8,7 @@ import com.ghtk.onlinebiddingproject.security.UserDetailsImpl;
 import com.ghtk.onlinebiddingproject.services.NotificationService;
 import com.ghtk.onlinebiddingproject.utils.CurrentUserUtils;
 import com.ghtk.onlinebiddingproject.utils.PaginationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,21 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
-    @Autowired
-    private ProfileRepository profileRepository;
-    @Autowired
-    private AuctionUserRepository auctionUserRepository;
-    @Autowired
-    private NotificationRepository notificationRepository;
-    @Autowired
-    private NotificationAuctionRepository notificationAuctionRepository;
-    @Autowired
-    private NotificationReportRepository notificationReportRepository;
-    @Autowired
-    private NotificationNotifiedRepository notificationNotifiedRepository;
-    @Autowired
-    private WebSocketServiceImpl webSocketService;
+    private final ProfileRepository profileRepository;
+    private final AuctionUserRepository auctionUserRepository;
+    private final NotificationRepository notificationRepository;
+    private final NotificationAuctionRepository notificationAuctionRepository;
+    private final NotificationReportRepository notificationReportRepository;
+    private final NotificationNotifiedRepository notificationNotifiedRepository;
+    private final WebSocketServiceImpl webSocketService;
 
     // get 10 latest notifications by userId
     @Override

@@ -3,7 +3,7 @@ package com.ghtk.onlinebiddingproject.models.requests;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 public class UserChangePassword {

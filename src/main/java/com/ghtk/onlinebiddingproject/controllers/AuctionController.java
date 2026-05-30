@@ -21,8 +21,8 @@ import net.kaczmarzyk.spring.data.jpa.domain.GreaterThan;
 import net.kaczmarzyk.spring.data.jpa.domain.LessThan;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
+import lombok.RequiredArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
@@ -31,26 +31,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/auctions")
+@RequiredArgsConstructor
 public class AuctionController {
-    @Autowired
-    private WebSocketServiceImpl webSocketService;
-    @Autowired
-    private NotificationServiceImpl notificationService;
-    @Autowired
-    private AuctionServiceImpl auctionService;
-    @Autowired
-    private BidServiceImpl bidService;
-    @Autowired
-    private DtoToEntityConverter dtoToEntityConverter;
-    @Autowired
-    private EntityToDtoConverter entityToDtoConverter;
-    @Autowired
-    private JobSchedulerServiceImpl jobSchedulerService;
+    private final WebSocketServiceImpl webSocketService;
+    private final NotificationServiceImpl notificationService;
+    private final AuctionServiceImpl auctionService;
+    private final BidServiceImpl bidService;
+    private final DtoToEntityConverter dtoToEntityConverter;
+    private final EntityToDtoConverter entityToDtoConverter;
+    private final JobSchedulerServiceImpl jobSchedulerService;
 
     /*
      * Get auctions api cho Home Screen
