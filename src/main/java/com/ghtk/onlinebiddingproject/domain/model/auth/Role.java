@@ -1,7 +1,12 @@
 package com.ghtk.onlinebiddingproject.domain.model.auth;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@EqualsAndHashCode
+@ToString
 public final class Role {
 
     private static final Role ADMIN = new Role(1, "ADMIN");
@@ -27,14 +32,6 @@ public final class Role {
         return new Role(id, name);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public boolean isAdmin() {
         return "ADMIN".equals(name);
     }
@@ -43,21 +40,4 @@ public final class Role {
         return "USER".equals(name);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) && Objects.equals(name, role.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Role{id=" + id + ", name='" + name + "'}";
-    }
 }

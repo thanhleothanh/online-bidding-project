@@ -1,9 +1,13 @@
 package com.ghtk.onlinebiddingproject.domain.model.report;
 
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+@Setter
+@EqualsAndHashCode(of = "id")
 public class Report {
 
     private Integer id;
@@ -45,31 +49,12 @@ public class Report {
         images.add(image);
     }
 
-    public List<ReportImage> getImages() {
-        return List.copyOf(images);
-    }
-
-    public void setResult(ReportResult result) {
-        this.result = result;
-    }
-
     public Integer getId() { return id; }
     public String getDescription() { return description; }
     public Integer getReporterId() { return reporterId; }
     public Integer getReportedId() { return reportedId; }
     public Integer getAuctionId() { return auctionId; }
     public ReportResult getResult() { return result; }
+    public List<ReportImage> getImages() { return List.copyOf(images); }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Report report = (Report) o;
-        return Objects.equals(id, report.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

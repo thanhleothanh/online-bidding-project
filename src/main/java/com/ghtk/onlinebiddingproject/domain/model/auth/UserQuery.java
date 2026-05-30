@@ -1,5 +1,14 @@
 package com.ghtk.onlinebiddingproject.domain.model.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserQuery {
 
     private UserStatus status;
@@ -7,34 +16,12 @@ public class UserQuery {
     private String sortBy;
     private String direction;
 
-    private UserQuery() {}
-
     public static Builder builder() {
         return new Builder();
     }
 
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSortBy() {
-        return sortBy;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
     public static class Builder {
-        private final UserQuery query;
-
-        private Builder() {
-            this.query = new UserQuery();
-        }
+        private final UserQuery query = new UserQuery();
 
         public Builder status(UserStatus status) {
             query.status = status;

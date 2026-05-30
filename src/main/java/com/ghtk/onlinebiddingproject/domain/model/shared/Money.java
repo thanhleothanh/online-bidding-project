@@ -1,9 +1,15 @@
 package com.ghtk.onlinebiddingproject.domain.model.shared;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Objects;
 
+@EqualsAndHashCode
+@ToString
+@Getter
 public class Money implements Comparable<Money> {
 
     private final BigDecimal amount;
@@ -25,10 +31,6 @@ public class Money implements Comparable<Money> {
 
     public static Money zero() {
         return new Money(BigDecimal.ZERO);
-    }
-
-    public BigDecimal amount() {
-        return amount;
     }
 
     public boolean isGreaterThan(Money other) {
@@ -56,21 +58,4 @@ public class Money implements Comparable<Money> {
         return this.amount.compareTo(other.amount);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Money money = (Money) o;
-        return Objects.equals(amount, money.amount);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount);
-    }
-
-    @Override
-    public String toString() {
-        return amount.toString();
-    }
 }

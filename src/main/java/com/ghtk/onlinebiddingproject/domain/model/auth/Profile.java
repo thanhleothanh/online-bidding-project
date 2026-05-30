@@ -1,8 +1,16 @@
 package com.ghtk.onlinebiddingproject.domain.model.auth;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(of = {"id", "username", "name"})
 public class Profile {
 
     private Integer id;
@@ -70,85 +78,4 @@ public class Profile {
         return status.canAuthenticate();
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public Integer getLegitimateScore() {
-        return legitimateScore;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setLegitimateScore(Integer legitimateScore) {
-        this.legitimateScore = legitimateScore;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Profile profile = (Profile) o;
-        return Objects.equals(id, profile.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Profile{id=" + id + ", username='" + username + "', name='" + name + "'}";
-    }
 }

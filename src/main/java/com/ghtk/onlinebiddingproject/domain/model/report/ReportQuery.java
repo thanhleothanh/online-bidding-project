@@ -1,5 +1,14 @@
 package com.ghtk.onlinebiddingproject.domain.model.report;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReportQuery {
 
     private Integer reporterId;
@@ -9,16 +18,7 @@ public class ReportQuery {
     private String sortBy;
     private String direction;
 
-    private ReportQuery() {}
-
     public static Builder builder() { return new Builder(); }
-
-    public Integer getReporterId() { return reporterId; }
-    public Integer getReportedId() { return reportedId; }
-    public Integer getAuctionId() { return auctionId; }
-    public ReportResultStatus getStatus() { return status; }
-    public String getSortBy() { return sortBy; }
-    public String getDirection() { return direction; }
 
     public static class Builder {
         private final ReportQuery query = new ReportQuery();

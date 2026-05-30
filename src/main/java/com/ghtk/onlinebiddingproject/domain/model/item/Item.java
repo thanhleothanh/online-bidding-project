@@ -1,9 +1,13 @@
 package com.ghtk.onlinebiddingproject.domain.model.item;
 
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+@Setter
+@EqualsAndHashCode(of = "id")
 public class Item {
 
     private Integer id;
@@ -64,56 +68,11 @@ public class Item {
         return !images.isEmpty();
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public Integer getAmount() { return amount; }
+    public Integer getAuctionId() { return auctionId; }
+    public List<ItemImage> getImages() { return List.copyOf(images); }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public Integer getAuctionId() {
-        return auctionId;
-    }
-
-    public List<ItemImage> getImages() {
-        return List.copyOf(images);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public void setAuctionId(Integer auctionId) {
-        this.auctionId = auctionId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return Objects.equals(id, item.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

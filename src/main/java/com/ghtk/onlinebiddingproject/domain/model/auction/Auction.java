@@ -1,10 +1,15 @@
 package com.ghtk.onlinebiddingproject.domain.model.auction;
 
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
 public class Auction {
 
     private Integer id;
@@ -127,35 +132,4 @@ public class Auction {
         return this.itemId != null;
     }
 
-    public Integer getId() { return id; }
-    public String getDescription() { return description; }
-    public LocalDateTime getTimeStart() { return timeStart; }
-    public LocalDateTime getTimeEnd() { return timeEnd; }
-    public Money getPriceStart() { return priceStart; }
-    public Money getPriceStep() { return priceStep; }
-    public Money getHighestPrice() { return highestPrice; }
-    public AuctionStatus getStatus() { return status; }
-    public Integer getOwnerId() { return ownerId; }
-    public Integer getCategoryId() { return categoryId; }
-    public Integer getItemId() { return itemId; }
-
-    public void setHighestPrice(Money highestPrice) { this.highestPrice = highestPrice; }
-
-    public void setDescription(String description) { this.description = description; }
-    public void setTimeStart(LocalDateTime timeStart) { this.timeStart = timeStart; }
-    public void setTimeEnd(LocalDateTime timeEnd) { this.timeEnd = timeEnd; }
-    public void setStatus(AuctionStatus status) { this.status = status; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Auction auction = (Auction) o;
-        return Objects.equals(id, auction.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

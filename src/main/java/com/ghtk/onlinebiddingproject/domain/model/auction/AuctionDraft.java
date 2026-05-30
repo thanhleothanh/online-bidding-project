@@ -1,7 +1,12 @@
 package com.ghtk.onlinebiddingproject.domain.model.auction;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@AllArgsConstructor
 public class AuctionDraft {
 
     private final String description;
@@ -12,22 +17,4 @@ public class AuctionDraft {
     private final Integer categoryId;
     private final Integer itemId;
 
-    public AuctionDraft(String description, LocalDateTime timeStart, LocalDateTime timeEnd,
-                       double priceStart, double priceStep, Integer categoryId, Integer itemId) {
-        this.description = description;
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
-        this.priceStart = priceStart;
-        this.priceStep = priceStep;
-        this.categoryId = categoryId;
-        this.itemId = itemId;
-    }
-
-    public String getDescription() { return description; }
-    public LocalDateTime getTimeStart() { return timeStart; }
-    public LocalDateTime getTimeEnd() { return timeEnd; }
-    public double getPriceStart() { return priceStart; }
-    public double getPriceStep() { return priceStep; }
-    public Integer getCategoryId() { return categoryId; }
-    public Integer getItemId() { return itemId; }
 }

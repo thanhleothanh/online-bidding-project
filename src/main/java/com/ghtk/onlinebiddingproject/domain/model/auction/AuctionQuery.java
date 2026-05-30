@@ -1,5 +1,14 @@
 package com.ghtk.onlinebiddingproject.domain.model.auction;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuctionQuery {
 
     private Integer ownerId;
@@ -9,19 +18,9 @@ public class AuctionQuery {
     private String sortBy;
     private String direction;
 
-    private AuctionQuery() {
-    }
-
     public static Builder builder() {
         return new Builder();
     }
-
-    public Integer getOwnerId() { return ownerId; }
-    public AuctionStatus getStatus() { return status; }
-    public String getDescription() { return description; }
-    public Integer getCategoryId() { return categoryId; }
-    public String getSortBy() { return sortBy; }
-    public String getDirection() { return direction; }
 
     public static class Builder {
         private final AuctionQuery query = new AuctionQuery();

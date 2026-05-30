@@ -5,9 +5,6 @@ import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import com.ghtk.onlinebiddingproject.domain.model.auction.*;
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AuctionMapper {
 
     private AuctionMapper() {
@@ -40,9 +37,9 @@ public class AuctionMapper {
         entity.setDescription(domain.getDescription());
         entity.setTimeStart(domain.getTimeStart());
         entity.setTimeEnd(domain.getTimeEnd());
-        entity.setPriceStart(domain.getPriceStart().amount());
-        entity.setPriceStep(domain.getPriceStep().amount());
-        entity.setHighestPrice(domain.getHighestPrice().amount());
+        entity.setPriceStart(domain.getPriceStart().getAmount());
+        entity.setPriceStep(domain.getPriceStep().getAmount());
+        entity.setHighestPrice(domain.getHighestPrice().getAmount());
         entity.setStatus(toEntityStatus(domain.getStatus()));
         entity.setOwnerId(domain.getOwnerId());
         entity.setCategoryId(domain.getCategoryId());
@@ -65,7 +62,7 @@ public class AuctionMapper {
         if (domain == null) return null;
         BidEntity entity = new BidEntity();
         entity.setId(domain.getId());
-        entity.setPrice(domain.getPrice().amount());
+        entity.setPrice(domain.getPrice().getAmount());
         entity.setUserId(domain.getUserId());
         entity.setAuctionId(domain.getAuctionId());
         entity.setBidTime(domain.getBidTime());

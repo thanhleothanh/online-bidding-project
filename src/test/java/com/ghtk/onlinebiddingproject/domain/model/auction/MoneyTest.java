@@ -10,13 +10,13 @@ class MoneyTest {
     @Test
     void shouldCreateMoney() {
         Money money = Money.of(100.50);
-        assertEquals(100.50, money.amount().doubleValue());
+        assertEquals(100.50, money.getAmount().doubleValue());
     }
 
     @Test
     void shouldCreateZeroMoney() {
         Money money = Money.zero();
-        assertEquals(0, money.amount().doubleValue());
+        assertEquals(0, money.getAmount().doubleValue());
     }
 
     @Test
