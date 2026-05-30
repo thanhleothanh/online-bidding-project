@@ -1,6 +1,6 @@
 package com.ghtk.onlinebiddingproject.infrastructure;
 
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
+import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
 import com.ghtk.onlinebiddingproject.infrastructure.security.UserDetailsImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ public class TestSecurityConfig {
                     annotation.username(),
                     annotation.username() + "@test.com",
                     "https://example.com/image.jpg",
-                    UserStatusConstants.ACTIVE,
+                    UserStatus.ACTIVE,
                     List.of(new SimpleGrantedAuthority(annotation.role()))
             );
 
@@ -61,7 +61,7 @@ public class TestSecurityConfig {
                     annotation.username(),
                     annotation.username() + "@test.com",
                     "https://example.com/image.jpg",
-                    UserStatusConstants.ACTIVE,
+                    UserStatus.ACTIVE,
                     List.of(new SimpleGrantedAuthority(annotation.role()))
             );
 

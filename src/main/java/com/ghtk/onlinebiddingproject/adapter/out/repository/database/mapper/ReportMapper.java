@@ -3,7 +3,6 @@ package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportImageEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportResultEntity;
-import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import com.ghtk.onlinebiddingproject.domain.model.report.Report;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportImage;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportResult;
@@ -44,7 +43,7 @@ public class ReportMapper {
         if (entity == null) return null;
         return new ReportResult(
                 entity.getId(),
-                toDomainStatus(entity.getStatus()),
+                entity.getStatus(),
                 entity.getAdminId(),
                 entity.getReportId()
         );
@@ -54,7 +53,7 @@ public class ReportMapper {
         if (domain == null) return null;
         ReportResultEntity entity = new ReportResultEntity();
         entity.setId(domain.getId());
-        entity.setStatus(toEntityStatus(domain.getStatus()));
+        entity.setStatus(domain.getStatus());
         entity.setAdminId(domain.getAdminId());
         entity.setReportId(domain.getReportId());
         return entity;
@@ -79,19 +78,5 @@ public class ReportMapper {
         return entity;
     }
 
-    private static ReportResultStatus toDomainStatus(ReportResultConstants status) {
-        if (status == null) return ReportResultStatus.REJECTED;
-        return switch (status) {
-            case ACCEPTED -> ReportResultStatus.ACCEPTED;
-            case REJECTED -> ReportResultStatus.REJECTED;
-        };
-    }
 
-    private static ReportResultConstants toEntityStatus(ReportResultStatus status) {
-        if (status == null) return ReportResultConstants.REJECTED;
-        return switch (status) {
-            case ACCEPTED -> ReportResultConstants.ACCEPTED;
-            case REJECTED -> ReportResultConstants.REJECTED;
-        };
-    }
 }

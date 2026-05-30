@@ -1,15 +1,14 @@
 package com.ghtk.onlinebiddingproject.infrastructure.security;
 
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.ProfileJpaRepository;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ProfileEntity;
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.ProfileJpaRepository;
+import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
+import java.util.List;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -35,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 profile.getName(),
                 profile.getEmail(),
                 profile.getImageUrl(),
-                profile.getStatus() != null ? profile.getStatus() : UserStatusConstants.INACTIVE,
+                profile.getStatus() != null ? profile.getStatus() : UserStatus.INACTIVE,
                 authorities
         );
     }

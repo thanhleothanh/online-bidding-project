@@ -1,14 +1,12 @@
 package com.ghtk.onlinebiddingproject.infrastructure.security;
 
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
+import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
+import java.util.Collection;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
+@Getter
 public class UserDetailsImpl implements UserDetails {
 
     private final Integer id;
@@ -17,11 +15,11 @@ public class UserDetailsImpl implements UserDetails {
     private final String name;
     private final String email;
     private final String imageUrl;
-    private final UserStatusConstants status;
+    private final UserStatus status;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Integer id, String username, String password, String name, String email,
-                           String imageUrl, UserStatusConstants status,
+                           String imageUrl, UserStatus status,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -33,43 +31,9 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public UserStatusConstants getStatus() {
-        return status;
-    }
-
-    public boolean isSuspended() {
-        return status == UserStatusConstants.SUSPENDED;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -79,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return status != UserStatusConstants.BANNED;
+        return !status.isBanned();
     }
 
     @Override
@@ -89,6 +53,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return status == UserStatusConstants.ACTIVE;
+        return status.isActive();
     }
 }

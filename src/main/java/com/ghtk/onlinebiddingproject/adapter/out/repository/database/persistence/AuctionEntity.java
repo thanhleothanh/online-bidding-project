@@ -1,6 +1,6 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence;
 
-import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
+import com.ghtk.onlinebiddingproject.domain.model.auction.AuctionStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class AuctionEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private AuctionStatusConstants status;
+    private AuctionStatus status;
 
     @Column(name = "owner_id", nullable = false)
     private Integer ownerId;

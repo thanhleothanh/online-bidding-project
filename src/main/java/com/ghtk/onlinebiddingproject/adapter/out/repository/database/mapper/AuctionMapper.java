@@ -1,7 +1,6 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
-import com.ghtk.onlinebiddingproject.constants.AuctionStatusConstants;
 import com.ghtk.onlinebiddingproject.domain.model.auction.*;
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
 
@@ -19,7 +18,7 @@ public class AuctionMapper {
                 entity.getTimeEnd(),
                 Money.of(entity.getPriceStart()),
                 Money.of(entity.getPriceStep()),
-                toDomainStatus(entity.getStatus()),
+                entity.getStatus(),
                 entity.getOwnerId(),
                 entity.getCategoryId(),
                 entity.getItemId()
@@ -40,7 +39,7 @@ public class AuctionMapper {
         entity.setPriceStart(domain.getPriceStart().getAmount());
         entity.setPriceStep(domain.getPriceStep().getAmount());
         entity.setHighestPrice(domain.getHighestPrice().getAmount());
-        entity.setStatus(toEntityStatus(domain.getStatus()));
+        entity.setStatus(domain.getStatus());
         entity.setOwnerId(domain.getOwnerId());
         entity.setCategoryId(domain.getCategoryId());
         entity.setItemId(domain.getItemId());
@@ -102,27 +101,5 @@ public class AuctionMapper {
         return entity;
     }
 
-    private static AuctionStatus toDomainStatus(AuctionStatusConstants status) {
-        if (status == null) return AuctionStatus.DRAFT;
-        return switch (status) {
-            case DRAFT -> AuctionStatus.DRAFT;
-            case PENDING -> AuctionStatus.PENDING;
-            case QUEUED -> AuctionStatus.QUEUED;
-            case OPENING -> AuctionStatus.OPENING;
-            case ENDED -> AuctionStatus.ENDED;
-            case CANCELED -> AuctionStatus.CANCELED;
-        };
-    }
 
-    private static AuctionStatusConstants toEntityStatus(AuctionStatus status) {
-        if (status == null) return AuctionStatusConstants.DRAFT;
-        return switch (status) {
-            case DRAFT -> AuctionStatusConstants.DRAFT;
-            case PENDING -> AuctionStatusConstants.PENDING;
-            case QUEUED -> AuctionStatusConstants.QUEUED;
-            case OPENING -> AuctionStatusConstants.OPENING;
-            case ENDED -> AuctionStatusConstants.ENDED;
-            case CANCELED -> AuctionStatusConstants.CANCELED;
-        };
-    }
 }

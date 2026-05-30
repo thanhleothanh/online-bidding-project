@@ -1,6 +1,6 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence;
 
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
+import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class ProfileEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserStatusConstants status;
+    private UserStatus status;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)

@@ -1,6 +1,6 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence;
 
-import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
+import com.ghtk.onlinebiddingproject.domain.model.report.ReportResultStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class ReportResultEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ReportResultConstants status;
+    private ReportResultStatus status;
 
     @Column(name = "admin_id", nullable = false)
     private Integer adminId;

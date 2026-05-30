@@ -3,7 +3,6 @@ package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ProfileEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.RoleEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.VerificationTokenEntity;
-import com.ghtk.onlinebiddingproject.constants.UserStatusConstants;
 import com.ghtk.onlinebiddingproject.domain.model.auth.Profile;
 import com.ghtk.onlinebiddingproject.domain.model.auth.Role;
 import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
@@ -24,7 +23,7 @@ public class AuthMapper {
                 entity.getEmail(),
                 toDomain(entity.getRole())
         );
-        profile.setStatus(toDomainStatus(entity.getStatus()));
+        profile.setStatus(entity.getStatus());
         profile.setBio(entity.getBio());
         profile.setImageUrl(entity.getImageUrl());
         profile.setLegitimateScore(entity.getLegitimateScore() != null ? entity.getLegitimateScore() : 0);
@@ -42,7 +41,7 @@ public class AuthMapper {
         entity.setBio(domain.getBio());
         entity.setImageUrl(domain.getImageUrl());
         entity.setLegitimateScore(domain.getLegitimateScore());
-        entity.setStatus(toEntityStatus(domain.getStatus()));
+        entity.setStatus(domain.getStatus());
         entity.setRole(toEntity(domain.getRole()));
         return entity;
     }
@@ -80,23 +79,5 @@ public class AuthMapper {
         return entity;
     }
 
-    private static UserStatus toDomainStatus(UserStatusConstants status) {
-        if (status == null) return UserStatus.INACTIVE;
-        return switch (status) {
-            case ACTIVE -> UserStatus.ACTIVE;
-            case INACTIVE -> UserStatus.INACTIVE;
-            case SUSPENDED -> UserStatus.SUSPENDED;
-            case BANNED -> UserStatus.BANNED;
-        };
-    }
 
-    private static UserStatusConstants toEntityStatus(UserStatus status) {
-        if (status == null) return UserStatusConstants.INACTIVE;
-        return switch (status) {
-            case ACTIVE -> UserStatusConstants.ACTIVE;
-            case INACTIVE -> UserStatusConstants.INACTIVE;
-            case SUSPENDED -> UserStatusConstants.SUSPENDED;
-            case BANNED -> UserStatusConstants.BANNED;
-        };
-    }
 }

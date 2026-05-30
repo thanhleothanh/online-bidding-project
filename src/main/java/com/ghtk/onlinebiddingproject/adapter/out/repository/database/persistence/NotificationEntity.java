@@ -20,7 +20,7 @@ public class NotificationEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private com.ghtk.onlinebiddingproject.constants.NotificationTypeConstants type;
+    private com.ghtk.onlinebiddingproject.domain.model.notification.NotificationType type;
 
     @Column(nullable = false)
     private String message;

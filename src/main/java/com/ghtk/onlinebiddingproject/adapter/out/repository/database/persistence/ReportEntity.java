@@ -1,6 +1,5 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence;
 
-import com.ghtk.onlinebiddingproject.constants.ReportResultConstants;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
