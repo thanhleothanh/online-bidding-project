@@ -26,6 +26,7 @@ public class VerificationTokenEntity {
     @Column(nullable = false)
     private LocalDateTime expirationTime;
 
-    @Column(name = "profile_id", nullable = false)
-    private Integer profileId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private ProfileEntity profile;
 }

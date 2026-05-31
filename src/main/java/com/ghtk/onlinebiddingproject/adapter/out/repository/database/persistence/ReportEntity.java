@@ -22,17 +22,19 @@ public class ReportEntity {
 
     private String description;
 
-    @Column(name = "user_reporter_id", nullable = false)
-    private Integer reporterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_reporter_id", nullable = false)
+    private UserEntity reporter;
 
-    @Column(name = "user_reported_id", nullable = false)
-    private Integer reportedId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_reported_id", nullable = false)
+    private UserEntity reported;
 
-    @Column(name = "auction_id")
-    private Integer auctionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auction_id")
+    private AuctionEntity auction;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "report_id", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "report", fetch = FetchType.LAZY)
     private ReportResultEntity resultEntity;
 
     @Column(name = "created_at", updatable = false)

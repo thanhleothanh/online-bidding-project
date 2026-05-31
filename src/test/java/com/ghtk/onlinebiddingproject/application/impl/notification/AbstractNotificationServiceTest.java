@@ -31,7 +31,7 @@ public abstract class AbstractNotificationServiceTest {
 
         assertNotNull(notification.getId());
         assertEquals(NotificationType.SUBMIT_AUCTION, notification.getType());
-        assertEquals(1, notification.getAuctionId());
+        assertTrue(notification.getAuctionIds().contains(1));
         assertTrue(notification.getRecipients().contains(2));
     }
 
@@ -41,7 +41,7 @@ public abstract class AbstractNotificationServiceTest {
 
         assertNotNull(notification.getId());
         assertEquals(NotificationType.CREATE_REPORT, notification.getType());
-        assertEquals(10, notification.getReportId());
+        assertTrue(notification.getReportIds().contains(10));
         assertTrue(notification.getRecipients().contains(3));
     }
 

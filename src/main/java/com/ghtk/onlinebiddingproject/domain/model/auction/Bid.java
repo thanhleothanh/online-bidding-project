@@ -16,7 +16,7 @@ public class Bid {
     private Money price;
     private Integer userId;
     private Integer auctionId;
-    private LocalDateTime bidTime;
+    private LocalDateTime createdAt;
 
     public static Bid create(Auction auction, Integer userId, Money amount) {
         BiddingRulesService.validateBid(auction, userId, amount);

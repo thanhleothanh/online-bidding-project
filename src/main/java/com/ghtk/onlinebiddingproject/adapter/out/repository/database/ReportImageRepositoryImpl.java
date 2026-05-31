@@ -1,10 +1,12 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database;
 
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper.ReportMapper;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportImageEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.ReportImageJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportImage;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportImageRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +16,19 @@ import java.util.Optional;
 public class ReportImageRepositoryImpl implements ReportImageRepository {
 
     private final ReportImageJpaRepository reportImageJpaRepository;
+    private final EntityManager entityManager;
 
-    public ReportImageRepositoryImpl(ReportImageJpaRepository reportImageJpaRepository) {
+    public ReportImageRepositoryImpl(ReportImageJpaRepository reportImageJpaRepository, EntityManager entityManager) {
         this.reportImageJpaRepository = reportImageJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
     public ReportImage save(ReportImage image) {
-        ReportImageEntity entity = new ReportImageEntity();
-        entity.setId(image.getId());
-        entity.setImageUrl(image.getImageUrl());
-        entity.setPublicId(image.getPublicId());
+        ReportEntity reportEntity = image.getReportId() != null ?
+                entityManager.getReference(ReportEntity.class, image.getReportId()) : null;
+        ReportImageEntity entity = ReportMapper.toEntity(image, reportEntity);
         ReportImageEntity saved = reportImageJpaRepository.save(entity);
         return ReportMapper.toDomain(saved);
     }

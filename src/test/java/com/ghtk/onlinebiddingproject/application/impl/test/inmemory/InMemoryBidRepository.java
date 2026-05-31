@@ -25,7 +25,7 @@ public class InMemoryBidRepository implements BidRepository {
     public Bid save(Bid bid) {
         if (bid.getId() == null) {
             int id = nextId.getAndIncrement();
-            Bid newBid = new Bid(id, bid.getPrice(), bid.getUserId(), bid.getAuctionId(), bid.getBidTime());
+            Bid newBid = new Bid(id, bid.getPrice(), bid.getUserId(), bid.getAuctionId(), bid.getCreatedAt());
             bids.put(id, newBid);
             return newBid;
         }

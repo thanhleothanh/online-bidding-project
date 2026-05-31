@@ -6,6 +6,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.
 import com.ghtk.onlinebiddingproject.domain.model.auction.Auction;
 import com.ghtk.onlinebiddingproject.domain.model.auction.AuctionQuery;
 import com.ghtk.onlinebiddingproject.domain.model.auction.AuctionRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class AuctionRepositoryImpl implements AuctionRepository {
 
     private final AuctionJpaRepository auctionJpaRepository;
+    private final EntityManager entityManager;
 
-    public AuctionRepositoryImpl(AuctionJpaRepository auctionJpaRepository) {
+    public AuctionRepositoryImpl(AuctionJpaRepository auctionJpaRepository, EntityManager entityManager) {
         this.auctionJpaRepository = auctionJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class AuctionRepositoryImpl implements AuctionRepository {
     @Override
     @Transactional
     public Auction save(Auction auction) {
-        AuctionEntity entity = AuctionMapper.toEntity(auction);
+        AuctionEntity entity = AuctionMapper.toEntity(auction, entityManager);
         AuctionEntity saved = auctionJpaRepository.save(entity);
         return AuctionMapper.toDomain(saved);
     }
@@ -65,7 +68,7 @@ public class AuctionRepositoryImpl implements AuctionRepository {
             List<Predicate> predicates = new ArrayList<>();
 
             if (query.getUserId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("userId"), query.getUserId()));
+                predicates.add(criteriaBuilder.equal(root.get("user").get("profile").get("id"), query.getUserId()));
             }
             if (query.getStatus() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), query.getStatus()));
@@ -77,7 +80,7 @@ public class AuctionRepositoryImpl implements AuctionRepository {
                 ));
             }
             if (query.getCategoryId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("categoryId"), query.getCategoryId()));
+                predicates.add(criteriaBuilder.equal(root.get("category").get("id"), query.getCategoryId()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

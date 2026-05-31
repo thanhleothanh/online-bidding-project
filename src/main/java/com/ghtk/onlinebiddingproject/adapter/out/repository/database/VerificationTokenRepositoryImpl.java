@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.VerificationTokenJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auth.VerificationToken;
 import com.ghtk.onlinebiddingproject.domain.model.auth.VerificationTokenRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class VerificationTokenRepositoryImpl implements VerificationTokenRepository {
 
     private final VerificationTokenJpaRepository verificationTokenJpaRepository;
+    private final EntityManager entityManager;
 
-    public VerificationTokenRepositoryImpl(VerificationTokenJpaRepository verificationTokenJpaRepository) {
+    public VerificationTokenRepositoryImpl(VerificationTokenJpaRepository verificationTokenJpaRepository, EntityManager entityManager) {
         this.verificationTokenJpaRepository = verificationTokenJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class VerificationTokenRepositoryImpl implements VerificationTokenReposit
     @Override
     @Transactional
     public VerificationToken save(VerificationToken verificationToken) {
-        VerificationTokenEntity entity = AuthMapper.toEntity(verificationToken);
+        VerificationTokenEntity entity = AuthMapper.toEntity(verificationToken, entityManager);
         VerificationTokenEntity saved = verificationTokenJpaRepository.save(entity);
         return AuthMapper.toDomain(saved);
     }

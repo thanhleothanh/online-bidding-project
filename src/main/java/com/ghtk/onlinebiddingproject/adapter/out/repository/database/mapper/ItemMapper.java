@@ -1,9 +1,11 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.AuctionEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ItemEntity;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ItemImageEntity;
 import com.ghtk.onlinebiddingproject.domain.model.item.Item;
 import com.ghtk.onlinebiddingproject.domain.model.item.ItemImage;
+import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +28,19 @@ public class ItemMapper {
                 entity.getName(),
                 entity.getDescription(),
                 entity.getAmount(),
-                entity.getAuctionId(),
+                entity.getAuction().getId(),
                 images
         );
     }
 
-    public static ItemEntity toEntity(Item domain) {
+    public static ItemEntity toEntity(Item domain, EntityManager em) {
         if (domain == null) return null;
         ItemEntity entity = new ItemEntity();
         entity.setId(domain.getId());
         entity.setName(domain.getName());
         entity.setDescription(domain.getDescription());
         entity.setAmount(domain.getAmount());
-        entity.setAuctionId(domain.getAuctionId());
+        entity.setAuction(em.getReference(AuctionEntity.class, domain.getAuctionId()));
         return entity;
     }
 

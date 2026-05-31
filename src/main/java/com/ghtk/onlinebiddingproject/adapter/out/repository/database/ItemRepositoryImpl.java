@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.ItemJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.item.Item;
 import com.ghtk.onlinebiddingproject.domain.model.item.ItemRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class ItemRepositoryImpl implements ItemRepository {
 
     private final ItemJpaRepository itemJpaRepository;
+    private final EntityManager entityManager;
 
-    public ItemRepositoryImpl(ItemJpaRepository itemJpaRepository) {
+    public ItemRepositoryImpl(ItemJpaRepository itemJpaRepository, EntityManager entityManager) {
         this.itemJpaRepository = itemJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     @Transactional
     public Item save(Item item) {
-        ItemEntity entity = ItemMapper.toEntity(item);
+        ItemEntity entity = ItemMapper.toEntity(item, entityManager);
         ItemEntity saved = itemJpaRepository.save(entity);
         return ItemMapper.toDomain(saved);
     }

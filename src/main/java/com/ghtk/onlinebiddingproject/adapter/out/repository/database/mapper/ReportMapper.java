@@ -1,15 +1,10 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportEntity;
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportImageEntity;
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportResultEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
 import com.ghtk.onlinebiddingproject.domain.model.report.Report;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportImage;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportResult;
-import com.ghtk.onlinebiddingproject.domain.model.report.ReportResultStatus;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.EntityManager;
 
 public class ReportMapper {
 
@@ -21,52 +16,47 @@ public class ReportMapper {
         Report report = new Report(
                 entity.getId(),
                 entity.getDescription(),
-                entity.getReporterId(),
-                entity.getReportedId(),
-                entity.getAuctionId()
+                entity.getReporter().getId(),
+                entity.getReported().getId(),
+                entity.getAuction() != null ? entity.getAuction().getId() : null
         );
         if (entity.getResultEntity() != null) {
-            report.setResult(toDomain(entity.getResultEntity()));
+            report.setResult(toDomainResult(entity.getResultEntity()));
         }
         return report;
     }
 
-    public static ReportEntity toEntity(Report domain) {
+    public static ReportEntity toEntity(Report domain, EntityManager em) {
         if (domain == null) return null;
         ReportEntity entity = new ReportEntity();
         entity.setId(domain.getId());
         entity.setDescription(domain.getDescription());
-        entity.setReporterId(domain.getReporterId());
-        entity.setReportedId(domain.getReportedId());
-        entity.setAuctionId(domain.getAuctionId());
-        if (domain.getResult() != null) {
-            entity.setResultEntity(toEntityResult(domain.getResult()));
+        entity.setReporter(em.getReference(UserEntity.class, domain.getReporterId()));
+        entity.setReported(em.getReference(UserEntity.class, domain.getReportedId()));
+        if (domain.getAuctionId() != null) {
+            entity.setAuction(em.getReference(AuctionEntity.class, domain.getAuctionId()));
         }
         return entity;
     }
 
-    public static ReportResult toDomain(ReportResultEntity entity) {
+    public static ReportResult toDomainResult(ReportResultEntity entity) {
         if (entity == null) return null;
         return new ReportResult(
                 entity.getId(),
-                entity.getStatus(),
-                entity.getAdminId(),
-                entity.getReportId()
+                entity.getResult(),
+                entity.getAdmin().getId(),
+                entity.getReport().getId()
         );
     }
 
-    public static ReportResultEntity toEntity(ReportResult domain) {
+    public static ReportResultEntity toEntityResult(ReportResult domain, EntityManager em) {
         if (domain == null) return null;
         ReportResultEntity entity = new ReportResultEntity();
         entity.setId(domain.getId());
-        entity.setStatus(domain.getStatus());
-        entity.setAdminId(domain.getAdminId());
-        entity.setReportId(domain.getReportId());
+        entity.setResult(domain.getStatus());
+        entity.setAdmin(em.getReference(AdminEntity.class, domain.getAdminId()));
+        entity.setReport(em.getReference(ReportEntity.class, domain.getReportId()));
         return entity;
-    }
-
-    public static ReportResultEntity toEntityResult(ReportResult domain) {
-        return toEntity(domain);
     }
 
     public static ReportImage toDomain(ReportImageEntity entity) {
@@ -78,15 +68,13 @@ public class ReportMapper {
         );
     }
 
-    public static ReportImageEntity toEntity(ReportImage domain, Integer reportId) {
+    public static ReportImageEntity toEntity(ReportImage domain, ReportEntity reportEntity) {
         if (domain == null) return null;
         ReportImageEntity entity = new ReportImageEntity();
         entity.setId(domain.getId());
         entity.setImageUrl(domain.getImageUrl());
         entity.setPublicId(domain.getPublicId());
-        entity.setReportId(reportId);
+        entity.setReport(reportEntity);
         return entity;
     }
-
-
 }

@@ -27,6 +27,8 @@ public class AuthMapper {
         profile.setBio(entity.getBio());
         profile.setImageUrl(entity.getImageUrl());
         profile.setLegitimateScore(entity.getLegitimateScore() != null ? entity.getLegitimateScore() : 0);
+        profile.setCreatedAt(entity.getCreatedAt());
+        profile.setUpdatedAt(entity.getUpdatedAt());
         return profile;
     }
 
@@ -43,6 +45,8 @@ public class AuthMapper {
         entity.setLegitimateScore(domain.getLegitimateScore());
         entity.setStatus(domain.getStatus());
         entity.setRole(toEntity(domain.getRole()));
+        entity.setCreatedAt(domain.getCreatedAt());
+        entity.setUpdatedAt(domain.getUpdatedAt());
         return entity;
     }
 
@@ -63,19 +67,19 @@ public class AuthMapper {
         if (entity == null) return null;
         return new VerificationToken(
                 entity.getId(),
-                entity.getProfileId(),
+                entity.getProfile().getId(),
                 entity.getToken(),
                 entity.getExpirationTime()
         );
     }
 
-    public static VerificationTokenEntity toEntity(VerificationToken domain) {
+    public static VerificationTokenEntity toEntity(VerificationToken domain, jakarta.persistence.EntityManager em) {
         if (domain == null) return null;
         VerificationTokenEntity entity = new VerificationTokenEntity();
         entity.setId(domain.getId());
         entity.setToken(domain.getToken());
         entity.setExpirationTime(domain.getExpirationTime());
-        entity.setProfileId(domain.getProfileId());
+        entity.setProfile(em.getReference(ProfileEntity.class, domain.getProfileId()));
         return entity;
     }
 

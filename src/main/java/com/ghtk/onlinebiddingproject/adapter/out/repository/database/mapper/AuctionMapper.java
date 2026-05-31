@@ -3,6 +3,7 @@ package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
 import com.ghtk.onlinebiddingproject.domain.model.auction.*;
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
+import jakarta.persistence.EntityManager;
 
 public class AuctionMapper {
 
@@ -19,9 +20,9 @@ public class AuctionMapper {
                 Money.of(entity.getPriceStart()),
                 Money.of(entity.getPriceStep()),
                 entity.getStatus(),
-                entity.getUserId(),
-                entity.getCategoryId(),
-                null
+                entity.getUser().getId(),
+                entity.getCategory() != null ? entity.getCategory().getId() : null,
+                entity.getItem() != null ? entity.getItem().getId() : null
         );
         if (entity.getHighestPrice() != null) {
             auction.setHighestPrice(Money.of(entity.getHighestPrice()));
@@ -29,7 +30,7 @@ public class AuctionMapper {
         return auction;
     }
 
-    public static AuctionEntity toEntity(Auction domain) {
+    public static AuctionEntity toEntity(Auction domain, EntityManager em) {
         if (domain == null) return null;
         AuctionEntity entity = new AuctionEntity();
         entity.setId(domain.getId());
@@ -38,10 +39,10 @@ public class AuctionMapper {
         entity.setTimeEnd(domain.getTimeEnd());
         entity.setPriceStart(domain.getPriceStart().getAmount());
         entity.setPriceStep(domain.getPriceStep().getAmount());
-        entity.setHighestPrice(domain.getHighestPrice().getAmount());
+        entity.setHighestPrice(domain.getHighestPrice() != null ? domain.getHighestPrice().getAmount() : null);
         entity.setStatus(domain.getStatus());
-        entity.setUserId(domain.getOwnerId());
-        entity.setCategoryId(domain.getCategoryId());
+        entity.setUser(em.getReference(UserEntity.class, domain.getOwnerId()));
+        entity.setCategory(domain.getCategoryId() != null ? em.getReference(CategoryEntity.class, domain.getCategoryId()) : null);
         return entity;
     }
 
@@ -50,20 +51,19 @@ public class AuctionMapper {
         return new Bid(
                 entity.getId(),
                 Money.of(entity.getPrice()),
-                entity.getUserId(),
-                entity.getAuctionId(),
-                entity.getBidTime()
+                entity.getUser().getId(),
+                entity.getAuction().getId(),
+                entity.getCreatedAt()
         );
     }
 
-    public static BidEntity toEntity(Bid domain) {
+    public static BidEntity toEntity(Bid domain, EntityManager em) {
         if (domain == null) return null;
         BidEntity entity = new BidEntity();
         entity.setId(domain.getId());
         entity.setPrice(domain.getPrice().getAmount());
-        entity.setUserId(domain.getUserId());
-        entity.setAuctionId(domain.getAuctionId());
-        entity.setBidTime(domain.getBidTime());
+        entity.setUser(em.getReference(UserEntity.class, domain.getUserId()));
+        entity.setAuction(em.getReference(AuctionEntity.class, domain.getAuctionId()));
         return entity;
     }
 
@@ -71,19 +71,17 @@ public class AuctionMapper {
         if (entity == null) return null;
         return new Winner(
                 entity.getId(),
-                entity.getBidId(),
-                entity.getAuctionId(),
-                entity.getUserId()
+                entity.getBid().getId(),
+                entity.getAuction().getId()
         );
     }
 
-    public static WinnerEntity toEntity(Winner domain) {
+    public static WinnerEntity toEntity(Winner domain, EntityManager em) {
         if (domain == null) return null;
         WinnerEntity entity = new WinnerEntity();
         entity.setId(domain.getId());
-        entity.setBidId(domain.getBidId());
-        entity.setAuctionId(domain.getAuctionId());
-        entity.setUserId(domain.getUserId());
+        entity.setBid(em.getReference(BidEntity.class, domain.getBidId()));
+        entity.setAuction(em.getReference(AuctionEntity.class, domain.getAuctionId()));
         return entity;
     }
 

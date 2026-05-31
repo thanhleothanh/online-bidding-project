@@ -7,6 +7,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.NotificationNotifiedJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.notification.Notification;
 import com.ghtk.onlinebiddingproject.domain.model.notification.NotificationRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +20,14 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     private final NotificationJpaRepository notificationJpaRepository;
     private final NotificationNotifiedJpaRepository notificationNotifiedJpaRepository;
+    private final EntityManager entityManager;
 
     public NotificationRepositoryImpl(NotificationJpaRepository notificationJpaRepository,
-                                      NotificationNotifiedJpaRepository notificationNotifiedJpaRepository) {
+                                      NotificationNotifiedJpaRepository notificationNotifiedJpaRepository,
+                                      EntityManager entityManager) {
         this.notificationJpaRepository = notificationJpaRepository;
         this.notificationNotifiedJpaRepository = notificationNotifiedJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     @Override
     @Transactional
     public Notification save(Notification notification) {
-        NotificationEntity entity = NotificationMapper.toEntity(notification);
+        NotificationEntity entity = NotificationMapper.toEntity(notification, entityManager);
         NotificationEntity saved = notificationJpaRepository.save(entity);
 
         for (Integer recipientId : notification.getRecipients()) {
@@ -49,7 +53,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             notificationNotifiedJpaRepository.save(notifiedEntity);
         }
 
-        return NotificationMapper.toDomain(saved);
+        Notification result = NotificationMapper.toDomain(saved);
+        loadRecipients(result);
+        return result;
     }
 
     @Override

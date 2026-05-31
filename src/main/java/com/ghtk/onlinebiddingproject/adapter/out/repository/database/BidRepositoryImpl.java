@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.BidJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auction.Bid;
 import com.ghtk.onlinebiddingproject.domain.model.auction.BidRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class BidRepositoryImpl implements BidRepository {
 
     private final BidJpaRepository bidJpaRepository;
+    private final EntityManager entityManager;
 
-    public BidRepositoryImpl(BidJpaRepository bidJpaRepository) {
+    public BidRepositoryImpl(BidJpaRepository bidJpaRepository, EntityManager entityManager) {
         this.bidJpaRepository = bidJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class BidRepositoryImpl implements BidRepository {
     @Override
     @Transactional
     public Bid save(Bid bid) {
-        BidEntity entity = AuctionMapper.toEntity(bid);
+        BidEntity entity = AuctionMapper.toEntity(bid, entityManager);
         BidEntity saved = bidJpaRepository.save(entity);
         return AuctionMapper.toDomain(saved);
     }

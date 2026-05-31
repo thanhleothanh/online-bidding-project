@@ -64,7 +64,7 @@ class AuctionLifecycleServiceTest {
 
         Optional<Winner> winner = winnerRepository.findByAuctionId(auction.getId());
         assertTrue(winner.isPresent());
-        assertEquals(3, winner.get().getUserId());
+        assertEquals(2, winner.get().getBidId());
     }
 
     @Test
@@ -113,6 +113,6 @@ class AuctionLifecycleServiceTest {
 
         Optional<Winner> winner = lifecycleService.getWinner(auction.getId());
         assertTrue(winner.isPresent());
-        assertEquals(2, winner.get().getUserId());
+        assertEquals(1, winner.get().getBidId());
     }
 }

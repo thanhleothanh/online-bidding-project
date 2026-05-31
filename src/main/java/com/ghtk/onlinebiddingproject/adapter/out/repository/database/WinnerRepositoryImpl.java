@@ -5,6 +5,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence
 import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.WinnerJpaRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auction.Winner;
 import com.ghtk.onlinebiddingproject.domain.model.auction.WinnerRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,15 +16,17 @@ import java.util.Optional;
 public class WinnerRepositoryImpl implements WinnerRepository {
 
     private final WinnerJpaRepository winnerJpaRepository;
+    private final EntityManager entityManager;
 
-    public WinnerRepositoryImpl(WinnerJpaRepository winnerJpaRepository) {
+    public WinnerRepositoryImpl(WinnerJpaRepository winnerJpaRepository, EntityManager entityManager) {
         this.winnerJpaRepository = winnerJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
     public Winner save(Winner winner) {
-        WinnerEntity entity = AuctionMapper.toEntity(winner);
+        WinnerEntity entity = AuctionMapper.toEntity(winner, entityManager);
         WinnerEntity saved = winnerJpaRepository.save(entity);
         return AuctionMapper.toDomain(saved);
     }

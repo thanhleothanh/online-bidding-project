@@ -24,6 +24,7 @@ public class ReportImageEntity {
     @Column(name = "public_id")
     private String publicId;
 
-    @Column(name = "report_id", nullable = false)
-    private Integer reportId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id", nullable = false)
+    private ReportEntity report;
 }

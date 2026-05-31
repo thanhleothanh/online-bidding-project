@@ -17,46 +17,58 @@ public class Notification {
 
     private Integer id;
     private NotificationType type;
-    private String message;
-    private LocalDateTime createdAt;
-    private Integer auctionId;
-    private Integer reportId;
+    private String entityType;
+    private Integer senderProfileId;
     private final List<Integer> recipientIds;
+    private final List<Integer> auctionIds;
+    private final List<Integer> reportIds;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Notification(Integer id, NotificationType type, String message, LocalDateTime createdAt) {
+    public Notification(Integer id, NotificationType type, String entityType, Integer senderProfileId, LocalDateTime createdAt) {
         this.id = id;
         this.type = type;
-        this.message = message;
+        this.entityType = entityType;
+        this.senderProfileId = senderProfileId;
         this.createdAt = createdAt;
         this.recipientIds = new ArrayList<>();
+        this.auctionIds = new ArrayList<>();
+        this.reportIds = new ArrayList<>();
     }
 
-    public static Notification create(NotificationType type, String message) {
-        return new Notification(null, type, message, LocalDateTime.now());
-    }
-
-    public void linkToAuction(Integer auctionId) {
-        this.auctionId = auctionId;
-    }
-
-    public void linkToReport(Integer reportId) {
-        this.reportId = reportId;
+    public static Notification create(NotificationType type, String entityType, Integer senderProfileId) {
+        return new Notification(null, type, entityType, senderProfileId, LocalDateTime.now());
     }
 
     public void addRecipient(Integer profileId) {
         recipientIds.add(profileId);
     }
 
+    public void linkToAuction(Integer auctionId) {
+        auctionIds.add(auctionId);
+    }
+
+    public void linkToReport(Integer reportId) {
+        reportIds.add(reportId);
+    }
+
     public List<Integer> getRecipients() {
         return List.copyOf(recipientIds);
     }
 
-    public boolean hasAuctionLink() {
-        return auctionId != null;
+    public List<Integer> getAuctionIds() {
+        return List.copyOf(auctionIds);
     }
 
-    public boolean hasReportLink() {
-        return reportId != null;
+    public List<Integer> getReportIds() {
+        return List.copyOf(reportIds);
     }
 
+    public boolean hasAuctionLinks() {
+        return !auctionIds.isEmpty();
+    }
+
+    public boolean hasReportLinks() {
+        return !reportIds.isEmpty();
+    }
 }

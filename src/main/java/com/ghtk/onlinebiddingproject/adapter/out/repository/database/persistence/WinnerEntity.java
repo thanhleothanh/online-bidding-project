@@ -18,12 +18,11 @@ public class WinnerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "bid_id", nullable = false)
-    private Integer bidId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bid_id", nullable = false)
+    private BidEntity bid;
 
-    @Column(name = "auction_id", nullable = false)
-    private Integer auctionId;
-
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auction_id", nullable = false)
+    private AuctionEntity auction;
 }

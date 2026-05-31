@@ -18,7 +18,7 @@ public class InMemoryWinnerRepository implements WinnerRepository {
     public Winner save(Winner winner) {
         if (winner.getId() == null) {
             int id = nextId.getAndIncrement();
-            Winner newWinner = new Winner(id, winner.getBidId(), winner.getAuctionId(), winner.getUserId());
+            Winner newWinner = new Winner(id, winner.getBidId(), winner.getAuctionId());
             winners.put(id, newWinner);
             return newWinner;
         }
@@ -35,8 +35,6 @@ public class InMemoryWinnerRepository implements WinnerRepository {
 
     @Override
     public List<Winner> findByUserId(Integer userId) {
-        return winners.values().stream()
-                .filter(w -> w.getUserId().equals(userId))
-                .collect(Collectors.toList());
+        return List.of();
     }
 }

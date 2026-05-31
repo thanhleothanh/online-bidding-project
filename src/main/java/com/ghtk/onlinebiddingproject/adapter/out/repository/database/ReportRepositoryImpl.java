@@ -6,6 +6,7 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.
 import com.ghtk.onlinebiddingproject.domain.model.report.Report;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportQuery;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class ReportRepositoryImpl implements ReportRepository {
 
     private final ReportJpaRepository reportJpaRepository;
+    private final EntityManager entityManager;
 
-    public ReportRepositoryImpl(ReportJpaRepository reportJpaRepository) {
+    public ReportRepositoryImpl(ReportJpaRepository reportJpaRepository, EntityManager entityManager) {
         this.reportJpaRepository = reportJpaRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class ReportRepositoryImpl implements ReportRepository {
     @Override
     @Transactional
     public Report save(Report report) {
-        ReportEntity entity = ReportMapper.toEntity(report);
+        ReportEntity entity = ReportMapper.toEntity(report, entityManager);
         ReportEntity saved = reportJpaRepository.save(entity);
         return ReportMapper.toDomain(saved);
     }
@@ -65,13 +68,13 @@ public class ReportRepositoryImpl implements ReportRepository {
             List<Predicate> predicates = new ArrayList<>();
 
             if (query.getReporterId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("reporterId"), query.getReporterId()));
+                predicates.add(criteriaBuilder.equal(root.get("reporter").get("id"), query.getReporterId()));
             }
             if (query.getReportedId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("reportedId"), query.getReportedId()));
+                predicates.add(criteriaBuilder.equal(root.get("reported").get("id"), query.getReportedId()));
             }
             if (query.getAuctionId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("auctionId"), query.getAuctionId()));
+                predicates.add(criteriaBuilder.equal(root.get("auction").get("id"), query.getAuctionId()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

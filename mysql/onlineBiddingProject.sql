@@ -49,7 +49,7 @@ CREATE TABLE `auction` (
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `status` int NOT NULL,
+  `status` varchar(50) NOT NULL,
   `time_start` datetime NOT NULL,
   `time_end` datetime NOT NULL,
   `price_start` double DEFAULT '0',
@@ -246,7 +246,7 @@ CREATE TABLE `profile` (
   `bio` varchar(10000) DEFAULT NULL,
   `legitimate_score` int NOT NULL DEFAULT '0',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `status` int NOT NULL,
+  `status` varchar(50) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `image_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `role_id` int NOT NULL,
@@ -259,13 +259,13 @@ CREATE TABLE `profile` (
 --
 
 INSERT INTO `profile` (`id`, `username`, `password`, `bio`, `legitimate_score`, `name`, `status`, `email`, `image_url`, `role_id`, `created_at`, `updated_at`) VALUES
-(6, 'nguoidung1', '$2a$10$dYlSRalQ1PpbzCS3yvuEt.NRmlnqTvJ5cLuK6IiTT2E2S9NagM..e', 'https://www.facebook.com/leothanhng/', 1, 'thanhthanh', 2, 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-08-12 12:01:00'),
-(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
-(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
-(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', NULL, 0, 'nguoidung', 2, NULL, NULL, 2, '2022-07-06 13:54:14', '2022-08-10 21:51:52'),
-(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', '', 0, 'adminadmin', 2, NULL, NULL, 1, '2022-07-06 22:38:52', '2022-08-11 15:11:30'),
-(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', NULL, 0, 'thanhthanh', 2, NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
-(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', NULL, 0, 'thanhthanh', 2, 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-08-11 16:02:02');
+(6, 'nguoidung1', '$2a$10$dYlSRalQ1PpbzCS3yvuEt.NRmlnqTvJ5cLuK6IiTT2E2S9NagM..e', 'https://www.facebook.com/leothanhng/', 1, 'thanhthanh', 'ACTIVE', 'thanhthanhthanh@gmail.com', NULL, 2, '2022-07-05 14:08:36', '2022-08-12 12:01:00'),
+(8, 'nguoidung3', '$2a$10$2s/6CA8LQnptxgaLslGQrupfBbf8LdKGQXaC9kS0Cxe4pjj8Qu7GK', NULL, 0, 'nguoidung', 'ACTIVE', NULL, NULL, 2, '2022-07-06 12:08:27', '2022-07-06 12:08:27'),
+(9, 'nguoidung4', '$2a$10$5cebCC/r0VADhNvcT7MluOgXmzYTAOCyLxmPjr7owOh.reR6JA1Mu', NULL, 0, 'nguoidung', 'ACTIVE', NULL, NULL, 2, '2022-07-06 13:52:04', '2022-07-06 13:52:04'),
+(10, 'nguoidung5', '$2a$10$DU4mDl6z.rh/tGUZWHvQQe5uMaQwM5WcdJzY5oaRLsllaVXPlq2hm', NULL, 0, 'nguoidung', 'ACTIVE', NULL, NULL, 2, '2022-07-06 13:54:14', '2022-08-10 21:51:52'),
+(11, 'adminadmin', '$2a$10$n7rgvfnOhz8MesOsHpHwJ.Djuz4/ohBXg1pV7RonC683erIQHsu8m', '', 0, 'adminadmin', 'ACTIVE', NULL, NULL, 1, '2022-07-06 22:38:52', '2022-08-11 15:11:30'),
+(12, 'nguoidung', '$2a$10$xpqqLaxYLxRB79mMlLOBTu8XthDx6h2fhO.dWGq2MDF0kHCgXV6L2', NULL, 0, 'thanhthanh', 'ACTIVE', NULL, NULL, 2, '2022-07-08 23:19:15', '2022-07-08 23:19:15'),
+(13, 'thanhng260588', '$2a$10$pUd9A3Sf16Z8VdS6lWRO0.yMAxuOjONINLz69Ua27SzQSczgO6klm', NULL, 0, 'thanhthanh', 'ACTIVE', 'thanhng260588@gmail.com', NULL, 2, '2022-07-25 09:50:40', '2022-08-11 16:02:02');
 
 -- --------------------------------------------------------
 
@@ -506,7 +506,7 @@ CREATE TABLE `report_result` (
   `id` int NOT NULL,
   `admin_id` int NOT NULL,
   `report_id` int NOT NULL,
-  `result` int NOT NULL,
+  `result` varchar(50) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -521,7 +521,7 @@ CREATE TABLE `review_result` (
   `id` int NOT NULL,
   `admin_id` int NOT NULL,
   `auction_id` int NOT NULL,
-  `result` int NOT NULL,
+  `result` varchar(50) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "report_result")
 @NoArgsConstructor
@@ -19,13 +21,32 @@ public class ReportResultEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private ReportResultStatus status;
+    @Column(name = "result", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ReportResultStatus result;
 
-    @Column(name = "admin_id", nullable = false)
-    private Integer adminId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private AdminEntity admin;
 
-    @Column(name = "report_id", nullable = false)
-    private Integer reportId;
+    @OneToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private ReportEntity report;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

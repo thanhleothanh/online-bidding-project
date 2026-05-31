@@ -20,7 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification createAuctionNotification(Integer auctionId, NotificationType type, Integer recipientId) {
-        Notification notification = Notification.create(type, type.name() + " for auction " + auctionId);
+        Notification notification = Notification.create(type, "AUCTION", null);
         notification.linkToAuction(auctionId);
         notification.addRecipient(recipientId);
         Notification saved = notificationRepository.save(notification);
@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification createReportNotification(Integer reportId, NotificationType type, Integer recipientId) {
-        Notification notification = Notification.create(type, type.name() + " for report " + reportId);
+        Notification notification = Notification.create(type, "REPORT", null);
         notification.linkToReport(reportId);
         notification.addRecipient(recipientId);
         Notification saved = notificationRepository.save(notification);

@@ -18,9 +18,11 @@ public class NotificationReportEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "notification_id", nullable = false)
-    private Integer notificationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notification_id", nullable = false)
+    private NotificationEntity notification;
 
-    @Column(name = "report_id", nullable = false)
-    private Integer reportId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id", nullable = false)
+    private ReportEntity report;
 }

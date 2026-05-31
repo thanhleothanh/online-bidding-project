@@ -12,5 +12,12 @@ public class ReportImage {
     private Integer id;
     private String imageUrl;
     private String publicId;
+    private Integer reportId;
+
+    public ReportImage(Integer id, String imageUrl, String publicId) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.publicId = publicId;
+    }
 
 }

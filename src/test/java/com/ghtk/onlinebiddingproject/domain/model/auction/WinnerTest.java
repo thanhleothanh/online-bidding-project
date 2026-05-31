@@ -24,6 +24,7 @@ class WinnerTest {
     @Test
     void shouldDetermineWinnerWithBids() {
         Auction auction = createOpeningAuction();
+        auction.setId(1);
         Bid bid1 = new Bid(1, Money.of(1500.0), 2, 1, LocalDateTime.now());
         Bid bid2 = new Bid(2, Money.of(2000.0), 3, 1, LocalDateTime.now());
 
@@ -31,7 +32,7 @@ class WinnerTest {
 
         assertNotNull(winner);
         assertEquals(2, winner.getBidId());
-        assertEquals(3, winner.getUserId());
+        assertEquals(1, winner.getAuctionId());
     }
 
     @Test
@@ -55,12 +56,13 @@ class WinnerTest {
     @Test
     void shouldDetermineWinnerWithSingleBid() {
         Auction auction = createOpeningAuction();
+        auction.setId(1);
         Bid bid = new Bid(1, Money.of(1500.0), 2, 1, LocalDateTime.now());
 
         Winner winner = Winner.determine(auction, List.of(bid));
 
         assertNotNull(winner);
         assertEquals(1, winner.getBidId());
-        assertEquals(2, winner.getUserId());
+        assertEquals(1, winner.getAuctionId());
     }
 }

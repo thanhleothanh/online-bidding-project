@@ -18,9 +18,11 @@ public class NotificationAuctionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "notification_id", nullable = false)
-    private Integer notificationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notification_id", nullable = false)
+    private NotificationEntity notification;
 
-    @Column(name = "auction_id", nullable = false)
-    private Integer auctionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auction_id", nullable = false)
+    private AuctionEntity auction;
 }

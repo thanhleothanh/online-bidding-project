@@ -15,7 +15,6 @@ public class Winner {
     private Integer id;
     private Integer bidId;
     private Integer auctionId;
-    private Integer userId;
 
     public static Winner determine(Auction auction, List<Bid> bids) {
         if (bids == null || bids.isEmpty()) {
@@ -27,7 +26,7 @@ public class Winner {
         if (highestBid == null) {
             return null;
         }
-        return new Winner(null, highestBid.getId(), auction.getId(), highestBid.getUserId());
+        return new Winner(null, highestBid.getId(), auction.getId());
     }
 
 }

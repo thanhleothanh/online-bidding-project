@@ -23,9 +23,14 @@ public class InMemoryNotificationRepository implements NotificationRepository {
     public Notification save(Notification notification) {
         if (notification.getId() == null) {
             int id = nextId.getAndIncrement();
-            Notification newNotif = new Notification(id, notification.getType(), notification.getMessage(), notification.getCreatedAt());
-            if (notification.getAuctionId() != null) newNotif.linkToAuction(notification.getAuctionId());
-            if (notification.getReportId() != null) newNotif.linkToReport(notification.getReportId());
+            Notification newNotif = new Notification(id, notification.getType(), notification.getEntityType(),
+                    notification.getSenderProfileId(), notification.getCreatedAt());
+            for (Integer auctionId : notification.getAuctionIds()) {
+                newNotif.linkToAuction(auctionId);
+            }
+            for (Integer reportId : notification.getReportIds()) {
+                newNotif.linkToReport(reportId);
+            }
             for (Integer recipientId : notification.getRecipients()) {
                 newNotif.addRecipient(recipientId);
             }
@@ -46,24 +51,24 @@ public class InMemoryNotificationRepository implements NotificationRepository {
     @Override
     public List<Notification> findByAuctionId(Integer auctionId) {
         return notifications.values().stream()
-                .filter(n -> auctionId.equals(n.getAuctionId()))
+                .filter(n -> n.getAuctionIds().contains(auctionId))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Notification> findByReportId(Integer reportId) {
         return notifications.values().stream()
-                .filter(n -> reportId.equals(n.getReportId()))
+                .filter(n -> n.getReportIds().contains(reportId))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteByAuctionId(Integer auctionId) {
-        notifications.values().removeIf(n -> auctionId.equals(n.getAuctionId()));
+        notifications.values().removeIf(n -> n.getAuctionIds().contains(auctionId));
     }
 
     @Override
     public void deleteByReportId(Integer reportId) {
-        notifications.values().removeIf(n -> reportId.equals(n.getReportId()));
+        notifications.values().removeIf(n -> n.getReportIds().contains(reportId));
     }
 }
