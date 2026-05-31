@@ -22,14 +22,18 @@ public class ReportEntity {
 
     private String description;
 
-    @Column(name = "reporter_id", nullable = false)
+    @Column(name = "user_reporter_id", nullable = false)
     private Integer reporterId;
 
-    @Column(name = "reported_id", nullable = false)
+    @Column(name = "user_reported_id", nullable = false)
     private Integer reportedId;
 
     @Column(name = "auction_id")
     private Integer auctionId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "report_id", insertable = false, updatable = false)
+    private ReportResultEntity resultEntity;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -1,8 +1,8 @@
 package com.ghtk.onlinebiddingproject.domain.service;
 
-import com.ghtk.onlinebiddingproject.application.impl.inmemory.InMemoryAuctionRepository;
-import com.ghtk.onlinebiddingproject.application.impl.inmemory.InMemoryBidRepository;
-import com.ghtk.onlinebiddingproject.application.impl.inmemory.InMemoryWinnerRepository;
+import com.ghtk.onlinebiddingproject.application.impl.test.inmemory.InMemoryAuctionRepository;
+import com.ghtk.onlinebiddingproject.application.impl.test.inmemory.InMemoryBidRepository;
+import com.ghtk.onlinebiddingproject.application.impl.test.inmemory.InMemoryWinnerRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auction.*;
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
 import org.junit.jupiter.api.BeforeEach;

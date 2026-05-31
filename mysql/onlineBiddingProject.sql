@@ -653,7 +653,7 @@ ALTER TABLE `item`
 --
 ALTER TABLE `item_image`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `sanpham_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `notification`

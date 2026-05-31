@@ -20,7 +20,7 @@ public class ReportResultEntity {
     private Integer id;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private ReportResultStatus status;
 
     @Column(name = "admin_id", nullable = false)

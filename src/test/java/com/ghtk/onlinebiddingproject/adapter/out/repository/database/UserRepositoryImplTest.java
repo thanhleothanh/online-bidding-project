@@ -1,11 +1,10 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database;
 
-import com.ghtk.onlinebiddingproject.infrastructure.BaseIntegrationTest;
+import com.ghtk.onlinebiddingproject.infrastructure.IntegrationDatabaseTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Tag;
 
-@Tag("integration-tests")
-public class UserRepositoryImplTest extends BaseIntegrationTest {
+@IntegrationDatabaseTest
+public class UserRepositoryImplTest {
 
     @Test
     void contextLoads() {

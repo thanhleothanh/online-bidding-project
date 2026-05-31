@@ -25,6 +25,9 @@ public class ReportMapper {
                 entity.getReportedId(),
                 entity.getAuctionId()
         );
+        if (entity.getResultEntity() != null) {
+            report.setResult(toDomain(entity.getResultEntity()));
+        }
         return report;
     }
 
@@ -36,6 +39,9 @@ public class ReportMapper {
         entity.setReporterId(domain.getReporterId());
         entity.setReportedId(domain.getReportedId());
         entity.setAuctionId(domain.getAuctionId());
+        if (domain.getResult() != null) {
+            entity.setResultEntity(toEntityResult(domain.getResult()));
+        }
         return entity;
     }
 
@@ -57,6 +63,10 @@ public class ReportMapper {
         entity.setAdminId(domain.getAdminId());
         entity.setReportId(domain.getReportId());
         return entity;
+    }
+
+    public static ReportResultEntity toEntityResult(ReportResult domain) {
+        return toEntity(domain);
     }
 
     public static ReportImage toDomain(ReportImageEntity entity) {

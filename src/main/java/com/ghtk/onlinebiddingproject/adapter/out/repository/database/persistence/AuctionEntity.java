@@ -40,17 +40,14 @@ public class AuctionEntity {
     private BigDecimal highestPrice;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private AuctionStatus status;
 
-    @Column(name = "owner_id", nullable = false)
-    private Integer ownerId;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     @Column(name = "category_id")
     private Integer categoryId;
-
-    @Column(name = "item_id")
-    private Integer itemId;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

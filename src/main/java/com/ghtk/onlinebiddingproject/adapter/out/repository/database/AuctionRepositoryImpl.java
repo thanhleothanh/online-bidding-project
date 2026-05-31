@@ -64,8 +64,8 @@ public class AuctionRepositoryImpl implements AuctionRepository {
         return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (query.getOwnerId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("ownerId"), query.getOwnerId()));
+            if (query.getUserId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("userId"), query.getUserId()));
             }
             if (query.getStatus() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), query.getStatus()));

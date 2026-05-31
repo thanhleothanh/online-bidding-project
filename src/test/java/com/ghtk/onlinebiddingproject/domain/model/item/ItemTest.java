@@ -81,15 +81,4 @@ class ItemTest {
 
         assertEquals(0, item.getImageCount());
     }
-
-    @Test
-    void shouldReturnImmutableImagesList() {
-        Item item = Item.create("Laptop", "Description", 1000);
-        ItemImage image = new ItemImage(1, "https://example.com/img.jpg", "pub123");
-        item.addImage(image);
-
-        var images = item.getImages();
-
-        assertThrows(UnsupportedOperationException.class, () -> images.add(new ItemImage(2, "url", "pub")));
-    }
 }

@@ -62,9 +62,6 @@ public class Auction {
         if (this.status != AuctionStatus.DRAFT) {
             throw new IllegalStateException("Can only submit draft auctions for review");
         }
-        if (this.itemId == null) {
-            throw new IllegalStateException("Auction must have an item to submit for review");
-        }
         this.status = AuctionStatus.PENDING;
     }
 

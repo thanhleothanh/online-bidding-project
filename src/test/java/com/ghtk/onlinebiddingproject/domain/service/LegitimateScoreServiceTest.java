@@ -1,6 +1,6 @@
 package com.ghtk.onlinebiddingproject.domain.service;
 
-import com.ghtk.onlinebiddingproject.application.impl.inmemory.InMemoryUserRepository;
+import com.ghtk.onlinebiddingproject.application.impl.test.inmemory.InMemoryUserRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auth.Profile;
 import com.ghtk.onlinebiddingproject.domain.model.auth.Role;
 import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;

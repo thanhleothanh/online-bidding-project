@@ -19,9 +19,9 @@ public class AuctionMapper {
                 Money.of(entity.getPriceStart()),
                 Money.of(entity.getPriceStep()),
                 entity.getStatus(),
-                entity.getOwnerId(),
+                entity.getUserId(),
                 entity.getCategoryId(),
-                entity.getItemId()
+                null
         );
         if (entity.getHighestPrice() != null) {
             auction.setHighestPrice(Money.of(entity.getHighestPrice()));
@@ -40,9 +40,8 @@ public class AuctionMapper {
         entity.setPriceStep(domain.getPriceStep().getAmount());
         entity.setHighestPrice(domain.getHighestPrice().getAmount());
         entity.setStatus(domain.getStatus());
-        entity.setOwnerId(domain.getOwnerId());
+        entity.setUserId(domain.getOwnerId());
         entity.setCategoryId(domain.getCategoryId());
-        entity.setItemId(domain.getItemId());
         return entity;
     }
 

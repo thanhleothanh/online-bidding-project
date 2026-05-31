@@ -38,7 +38,7 @@ public class ProfileEntity {
     private Integer legitimateScore;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
 
     @ManyToOne

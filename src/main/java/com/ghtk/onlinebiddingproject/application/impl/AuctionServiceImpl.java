@@ -5,7 +5,6 @@ import com.ghtk.onlinebiddingproject.domain.event.AuctionApprovedEvent;
 import com.ghtk.onlinebiddingproject.domain.event.AuctionCreatedEvent;
 import com.ghtk.onlinebiddingproject.domain.event.EventPublisher;
 import com.ghtk.onlinebiddingproject.domain.model.auction.*;
-import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getMyAuctions(Integer userId, AuctionStatus status) {
-        return auctionRepository.find(AuctionQuery.builder().ownerId(userId).status(status).build());
+        return auctionRepository.find(AuctionQuery.builder().userId(userId).status(status).build());
     }
 
     @Override
@@ -58,7 +57,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getAuctionsByUserId(Integer userId) {
-        return auctionRepository.find(AuctionQuery.builder().ownerId(userId).build());
+        return auctionRepository.find(AuctionQuery.builder().userId(userId).build());
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface ProfileJpaRepository extends JpaRepository<ProfileEntity, Integ
     boolean existsByEmail(String email);
 
     @Modifying
-    @Query(value = "INSERT INTO user (id) VALUES (:profileId)", nativeQuery = true)
+    @Query(value = "INSERT INTO user (profile_id) VALUES (:profileId)", nativeQuery = true)
     void insertUser(@Param("profileId") Integer profileId);
 
     @Modifying

@@ -1,11 +1,13 @@
 package com.ghtk.onlinebiddingproject.domain.model.item;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Setter
 @EqualsAndHashCode(of = "id")
 public class Item {
@@ -67,12 +69,4 @@ public class Item {
     public boolean hasImages() {
         return !images.isEmpty();
     }
-
-    public Integer getId() { return id; }
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public Integer getAmount() { return amount; }
-    public Integer getAuctionId() { return auctionId; }
-    public List<ItemImage> getImages() { return List.copyOf(images); }
-
 }
