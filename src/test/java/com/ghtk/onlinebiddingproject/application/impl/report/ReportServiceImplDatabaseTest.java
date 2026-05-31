@@ -1,15 +1,18 @@
 package com.ghtk.onlinebiddingproject.application.impl.report;
 
-import com.ghtk.onlinebiddingproject.domain.model.auth.Profile;
-import com.ghtk.onlinebiddingproject.domain.model.auth.Role;
 import com.ghtk.onlinebiddingproject.domain.model.auth.UserRepository;
-import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportRepository;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportResultRepository;
-import com.ghtk.onlinebiddingproject.infrastructure.IntegrationDatabaseTest;
+import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
-@IntegrationDatabaseTest
+@SpringBootTest
+@ActiveProfiles("test")
+@Tag("integration-tests")
+@Sql(scripts = "classpath:sql/seed-report-full.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class ReportServiceImplDatabaseTest extends AbstractReportServiceTest {
 
     @Autowired
@@ -30,15 +33,6 @@ class ReportServiceImplDatabaseTest extends AbstractReportServiceTest {
 
     @Override
     protected void setUpData() {
-        Profile reporter = new Profile(1, "reporter", "pass", "Reporter", "reporter@test.com", Role.user());
-        reporter.setStatus(UserStatus.ACTIVE);
-        userRepository.save(reporter);
-        userRepository.insertUser(1);
-
-        Profile reported = new Profile(2, "reported", "pass", "Reported", "reported@test.com", Role.user());
-        reported.setStatus(UserStatus.ACTIVE);
-        reported.setLegitimateScore(10);
-        userRepository.save(reported);
-        userRepository.insertUser(2);
+        // seed-roles.sql already has the required data
     }
 }

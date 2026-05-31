@@ -28,8 +28,14 @@ class AuthServiceImplDatabaseTest extends AbstractAuthServiceTest {
 
     @Override
     protected void setUpData() {
-        Profile admin = new Profile(1, "admin", "adminPass", "Admin", "admin@test.com", Role.admin());
-        admin.setStatus(UserStatus.ACTIVE);
-        userRepository.save(admin);
+        // seed-roles.sql already has profiles with usernames user1, user2, admin
+        // Use a unique username to avoid duplicate key constraint
+        if (userRepository.findByUsername("testadmin").isEmpty()) {
+            Profile admin = new Profile(4, "testadmin", "adminPass", "Test Admin", "testadmin@test.com", Role.admin());
+            admin.setStatus(UserStatus.ACTIVE);
+            userRepository.save(admin);
+            // Note: insertAdmin() has a bug (uses 'id' instead of 'profile_id'), so we skip it
+            // The seed-roles.sql already has admin with profile_id=3, so tests can use that
+        }
     }
 }

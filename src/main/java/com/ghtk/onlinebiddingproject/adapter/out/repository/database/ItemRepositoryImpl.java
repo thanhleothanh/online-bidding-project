@@ -6,11 +6,10 @@ import com.ghtk.onlinebiddingproject.adapter.out.repository.database.springdata.
 import com.ghtk.onlinebiddingproject.domain.model.item.Item;
 import com.ghtk.onlinebiddingproject.domain.model.item.ItemRepository;
 import jakarta.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class ItemRepositoryImpl implements ItemRepository {
@@ -24,6 +23,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Item> findById(Integer id) {
         return itemJpaRepository.findById(id).map(ItemMapper::toDomain);
     }
@@ -43,6 +43,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Item> findByAuctionId(Integer auctionId) {
         return itemJpaRepository.findByAuctionId(auctionId).stream()
                 .map(ItemMapper::toDomain)

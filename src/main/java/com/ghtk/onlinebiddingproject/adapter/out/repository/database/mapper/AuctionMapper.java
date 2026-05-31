@@ -1,7 +1,14 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
-import com.ghtk.onlinebiddingproject.domain.model.auction.*;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.AuctionEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.BidEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.CategoryEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.UserEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.WinnerEntity;
+import com.ghtk.onlinebiddingproject.domain.model.auction.Auction;
+import com.ghtk.onlinebiddingproject.domain.model.auction.Bid;
+import com.ghtk.onlinebiddingproject.domain.model.auction.Category;
+import com.ghtk.onlinebiddingproject.domain.model.auction.Winner;
 import com.ghtk.onlinebiddingproject.domain.model.shared.Money;
 import jakarta.persistence.EntityManager;
 
@@ -32,8 +39,16 @@ public class AuctionMapper {
 
     public static AuctionEntity toEntity(Auction domain, EntityManager em) {
         if (domain == null) return null;
-        AuctionEntity entity = new AuctionEntity();
-        entity.setId(domain.getId());
+        AuctionEntity entity;
+        if (domain.getId() != null) {
+            entity = em.find(AuctionEntity.class, domain.getId());
+            if (entity == null) {
+                entity = new AuctionEntity();
+                entity.setId(domain.getId());
+            }
+        } else {
+            entity = new AuctionEntity();
+        }
         entity.setDescription(domain.getDescription());
         entity.setTimeStart(domain.getTimeStart());
         entity.setTimeEnd(domain.getTimeEnd());

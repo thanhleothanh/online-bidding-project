@@ -1,10 +1,14 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.AuctionEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.NotificationAuctionEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.NotificationEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.NotificationReportEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ProfileEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportEntity;
 import com.ghtk.onlinebiddingproject.domain.model.notification.Notification;
 import com.ghtk.onlinebiddingproject.domain.model.notification.NotificationType;
 import jakarta.persistence.EntityManager;
-
 import java.util.List;
 
 public class NotificationMapper {
@@ -38,8 +42,17 @@ public class NotificationMapper {
 
     public static NotificationEntity toEntity(Notification domain, EntityManager em) {
         if (domain == null) return null;
-        NotificationEntity entity = new NotificationEntity();
-        entity.setId(domain.getId());
+        NotificationEntity entity;
+        if (domain.getId() != null) {
+            entity = em.find(NotificationEntity.class, domain.getId());
+            if (entity == null) {
+                entity = new NotificationEntity();
+                entity.setId(domain.getId());
+            }
+        } else {
+            entity = new NotificationEntity();
+            entity.setId(domain.getId());
+        }
         entity.setNotificationType(domain.getType().name());
         entity.setEntityType(domain.getEntityType());
         if (domain.getSenderProfileId() != null) {
@@ -48,6 +61,7 @@ public class NotificationMapper {
         entity.setCreatedAt(domain.getCreatedAt());
         entity.setUpdatedAt(domain.getUpdatedAt());
 
+        entity.getAuctionLinks().clear();
         for (Integer auctionId : domain.getAuctionIds()) {
             NotificationAuctionEntity link = new NotificationAuctionEntity();
             link.setNotification(entity);
@@ -55,6 +69,7 @@ public class NotificationMapper {
             entity.getAuctionLinks().add(link);
         }
 
+        entity.getReportLinks().clear();
         for (Integer reportId : domain.getReportIds()) {
             NotificationReportEntity link = new NotificationReportEntity();
             link.setNotification(entity);

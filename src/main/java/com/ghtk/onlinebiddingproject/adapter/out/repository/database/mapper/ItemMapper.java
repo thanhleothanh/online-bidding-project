@@ -35,8 +35,16 @@ public class ItemMapper {
 
     public static ItemEntity toEntity(Item domain, EntityManager em) {
         if (domain == null) return null;
-        ItemEntity entity = new ItemEntity();
-        entity.setId(domain.getId());
+        ItemEntity entity;
+        if (domain.getId() != null) {
+            entity = em.find(ItemEntity.class, domain.getId());
+            if (entity == null) {
+                entity = new ItemEntity();
+                entity.setId(domain.getId());
+            }
+        } else {
+            entity = new ItemEntity();
+        }
         entity.setName(domain.getName());
         entity.setDescription(domain.getDescription());
         entity.setAmount(domain.getAmount());

@@ -1,6 +1,11 @@
 package com.ghtk.onlinebiddingproject.adapter.out.repository.database.mapper;
 
-import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.*;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.AdminEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.AuctionEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportImageEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.ReportResultEntity;
+import com.ghtk.onlinebiddingproject.adapter.out.repository.database.persistence.UserEntity;
 import com.ghtk.onlinebiddingproject.domain.model.report.Report;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportImage;
 import com.ghtk.onlinebiddingproject.domain.model.report.ReportResult;
@@ -28,8 +33,16 @@ public class ReportMapper {
 
     public static ReportEntity toEntity(Report domain, EntityManager em) {
         if (domain == null) return null;
-        ReportEntity entity = new ReportEntity();
-        entity.setId(domain.getId());
+        ReportEntity entity;
+        if (domain.getId() != null) {
+            entity = em.find(ReportEntity.class, domain.getId());
+            if (entity == null) {
+                entity = new ReportEntity();
+                entity.setId(domain.getId());
+            }
+        } else {
+            entity = new ReportEntity();
+        }
         entity.setDescription(domain.getDescription());
         entity.setReporter(em.getReference(UserEntity.class, domain.getReporterId()));
         entity.setReported(em.getReference(UserEntity.class, domain.getReportedId()));

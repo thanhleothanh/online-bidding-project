@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.ghtk.onlinebiddingproject.domain.event.EventPublisher;
-import com.ghtk.onlinebiddingproject.domain.model.auth.Profile;
-import com.ghtk.onlinebiddingproject.domain.model.auth.Role;
-import com.ghtk.onlinebiddingproject.domain.model.auth.UserRepository;
-import com.ghtk.onlinebiddingproject.domain.model.auth.UserStatus;
 import com.ghtk.onlinebiddingproject.domain.model.auction.Auction;
 import com.ghtk.onlinebiddingproject.domain.model.auction.AuctionDraft;
 import com.ghtk.onlinebiddingproject.domain.model.auction.AuctionRepository;
@@ -16,7 +12,6 @@ import com.ghtk.onlinebiddingproject.domain.model.auction.BidRepository;
 import com.ghtk.onlinebiddingproject.domain.model.auction.WinnerRepository;
 import com.ghtk.onlinebiddingproject.infrastructure.IntegrationDatabaseTest;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,9 +26,6 @@ class AuctionServiceImplDatabaseTest extends AbstractAuctionServiceTest {
 
     @Autowired
     private WinnerRepository autWinnerRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private EventPublisher autEventPublisher;
@@ -53,20 +45,6 @@ class AuctionServiceImplDatabaseTest extends AbstractAuctionServiceTest {
                 LocalDateTime.now().plusDays(7),
                 1000.0, 100.0, 1, 1);
         return Auction.create(draft, ownerId);
-    }
-
-    private void seedUser(Integer id) {
-        Profile user = new Profile(id, "user" + id, "pass", "User" + id, "user" + id + "@test.com", Role.user());
-        user.setStatus(UserStatus.ACTIVE);
-        userRepository.save(user);
-        userRepository.insertUser(id);
-    }
-
-    @BeforeEach
-    void seedUsers() {
-        seedUser(1);
-        seedUser(2);
-        seedUser(3);
     }
 
     @Test
