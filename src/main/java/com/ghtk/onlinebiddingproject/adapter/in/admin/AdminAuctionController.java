@@ -66,36 +66,4 @@ public class AdminAuctionController {
         auctionService.adminDelete(id);
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping("/reports")
-    public ResponseEntity<List<Report>> listReports(
-            @RequestParam(required = false) Integer reporterId,
-            @RequestParam(required = false) Integer reportedId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        ReportQuery query = ReportQuery.builder()
-                .reporterId(reporterId)
-                .reportedId(reportedId)
-                .build();
-        return ResponseEntity.ok(reportService.getAll(query, page, size));
-    }
-
-    @GetMapping("/reports/{id}")
-    public ResponseEntity<Report> getReport(@PathVariable Integer id) {
-        return ResponseEntity.ok(reportService.adminGetById(id));
-    }
-
-    @PostMapping("/reports/{id}/results")
-    public ResponseEntity<Report> judgeReport(
-            @PathVariable Integer id,
-            @RequestBody AdminReportJudgeRequestDto dto) {
-        Integer adminId = CurrentUserUtils.getCurrentUserId();
-        return ResponseEntity.ok(reportService.adminJudge(id, dto.status(), adminId));
-    }
-
-    @DeleteMapping("/reports/{id}")
-    public ResponseEntity<Void> deleteReport(@PathVariable Integer id) {
-        reportService.adminDelete(id);
-        return ResponseEntity.ok().build();
-    }
 }

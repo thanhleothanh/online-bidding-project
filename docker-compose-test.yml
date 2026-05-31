@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql-test:
+    image: mysql:8.0.36
+    container_name: mysql-test
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/onlineBiddingProject.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptest"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

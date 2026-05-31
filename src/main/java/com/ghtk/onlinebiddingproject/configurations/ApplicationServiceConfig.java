@@ -15,6 +15,7 @@ import com.ghtk.onlinebiddingproject.application.port.JwtPort;
 import com.ghtk.onlinebiddingproject.application.port.MailPort;
 import com.ghtk.onlinebiddingproject.domain.port.WebSocketPort;
 import com.ghtk.onlinebiddingproject.domain.service.AuctionLifecycleService;
+import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -74,5 +75,10 @@ public class ApplicationServiceConfig {
                                                           BidRepository bidRepository,
                                                           WinnerRepository winnerRepository) {
         return new AuctionLifecycleService(auctionRepository, bidRepository, winnerRepository);
+    }
+
+    @Bean
+    public JobSchedulerService jobSchedulerService(Scheduler scheduler) {
+        return new JobSchedulerServiceImpl(scheduler);
     }
 }
