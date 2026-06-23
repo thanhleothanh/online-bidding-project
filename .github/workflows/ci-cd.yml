@@ -10,4 +10,3 @@ jobs:
     uses: thanhleothanh/github-workflows/.github/workflows/maven-workflow.yml@main
     with:
       java-version: '11'
-      build-folder: 'target'
